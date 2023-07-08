@@ -116,7 +116,7 @@ function MainScreen ({offersCount}: OffersData): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {Array(offersCount).map((counter: number) => (<OfferCard key={counter}/>))}
+                {Array.from(Array(offersCount).keys()).map((counter: number) => (<OfferCard key={counter}/>))}
               </div>
             </section>
             <div className="cities__right-section">
