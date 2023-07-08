@@ -97,7 +97,7 @@ function MainEmptyScreen(): JSX.Element {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
 export default MainEmptyScreen;

@@ -65,7 +65,7 @@ function FavoritiesEmptyScreen(): JSX.Element {
         </a>
       </footer>
     </div>
-  )
+  );
 }
 
 export default FavoritiesEmptyScreen;

@@ -1,7 +1,7 @@
-import OfferCard from "../../components/offer-card/offer-card"
+import OfferCard from '../../components/offer-card/offer-card';
 
 type OffersData = {
-  offersCount: number
+  offersCount: number;
 }
 
 function MainScreen ({offersCount}: OffersData): JSX.Element {
@@ -116,7 +116,7 @@ function MainScreen ({offersCount}: OffersData): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                  {[...Array(offersCount)].map(counter => <OfferCard key={counter}/>)}
+                {Array(offersCount).map((counter: number) => (<OfferCard key={counter}/>))}
               </div>
             </section>
             <div className="cities__right-section">
@@ -126,7 +126,7 @@ function MainScreen ({offersCount}: OffersData): JSX.Element {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
-export default MainScreen
+export default MainScreen;

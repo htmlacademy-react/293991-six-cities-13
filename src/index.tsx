@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(
 
 const Data = {
   offersCount: 5
-}
+};
 
 root.render(
   <React.StrictMode>
