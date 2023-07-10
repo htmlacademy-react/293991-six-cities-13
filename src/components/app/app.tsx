@@ -1,4 +1,4 @@
-import MainScreen from '../../pages/main/main-screen';
+import MainPage from '../../pages/main-page/main-page';
 
 type OffersData = {
   offersCount: number;
@@ -6,7 +6,7 @@ type OffersData = {
 
 function App({offersCount}: OffersData): JSX.Element {
   return (
-    <MainScreen offersCount={offersCount}/>
+    <MainPage offersCount={offersCount}/>
   );
 }
 

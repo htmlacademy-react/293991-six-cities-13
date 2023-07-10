@@ -7,12 +7,10 @@ const root = ReactDOM.createRoot(
 );
 
 
-const Data = {
-  offersCount: 5
-};
+const OFFERSCOUNT = 5;
 
 root.render(
   <React.StrictMode>
-    <App offersCount={Data.offersCount}/>
+    <App offersCount={OFFERSCOUNT}/>
   </React.StrictMode>
 );
