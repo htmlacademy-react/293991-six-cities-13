@@ -1,12 +1,27 @@
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import FavoritiesPage from '../../pages/favorities-page/favorities-page';
+import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
+import OfferPage from '../../pages/offer-page/offer-page';
+import NotFound from '../not-found/not-found';
 
-type OffersData = {
+type OffersDataProps = {
   offersCount: number;
 }
 
-function App({offersCount}: OffersData): JSX.Element {
+function App({offersCount}: OffersDataProps): JSX.Element {
   return (
-    <MainPage offersCount={offersCount}/>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route index element={<MainPage offersCount={offersCount}/>}/>
+          <Route path="login" element={<LoginPage/>}/>
+          <Route path="favorites" element={<FavoritiesPage/>}/>
+          <Route path="offer/:id" element={<OfferPage/>}/>
+          <Route path="*" element={<NotFound/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
