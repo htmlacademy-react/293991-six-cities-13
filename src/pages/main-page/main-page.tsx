@@ -1,10 +1,10 @@
 import OfferCard from '../../components/offer-card/offer-card';
 
-type OffersData = {
+type OffersDataProps = {
   offersCount: number;
 }
 
-function MainPage ({offersCount}: OffersData): JSX.Element {
+function MainPage ({offersCount}: OffersDataProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
