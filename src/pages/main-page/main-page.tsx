@@ -1,10 +1,11 @@
 import OfferCard from '../../components/offer-card/offer-card';
 
-type OffersDataProps = {
+type MainPageProps = {
   offersCount: number;
 }
 
-function MainPage ({offersCount}: OffersDataProps): JSX.Element {
+function MainPage ({offersCount}: MainPageProps): JSX.Element {
+  const generateOffers = () => new Array(offersCount).fill(null).map((_, index) => (<OfferCard key={index}/>))
 
   return (
     <div className="page page--gray page--main">
@@ -116,7 +117,7 @@ function MainPage ({offersCount}: OffersDataProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {[...Array(offersCount).keys()].map((counter: number) => (<OfferCard key={counter}/>))}
+                {generateOffers()}
               </div>
             </section>
             <div className="cities__right-section">

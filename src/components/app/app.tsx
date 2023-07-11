@@ -5,11 +5,11 @@ import MainPage from '../../pages/main-page/main-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFound from '../not-found/not-found';
 
-type OffersDataProps = {
+type AppProps = {
   offersCount: number;
 }
 
-function App({offersCount}: OffersDataProps): JSX.Element {
+function App({offersCount}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
