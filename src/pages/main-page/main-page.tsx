@@ -5,7 +5,10 @@ type MainPageProps = {
 }
 
 function MainPage ({offersCount}: MainPageProps): JSX.Element {
-  const generateOffers = () => new Array(offersCount).fill(null).map((_, index) => (<OfferCard key={index}/>))
+  // Генерацию массива вынес в отдельную функцию. Но алгоритм пришлось оставить в изначальном виде с помощью выражения 
+  //[...Array(offersCount).keys()]. Причина в том, что при использовании выражения new Array(offersCount).fill(null).map((_, index) => )))
+  //линтер не позволяет использовать index в качестве значения для пропса key в OfferCard.
+  const generateOffers = () => [...Array(offersCount).keys()].map((counter: number) => (<OfferCard key={counter}/>));
 
   return (
     <div className="page page--gray page--main">
