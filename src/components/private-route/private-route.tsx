@@ -1,12 +1,12 @@
 import { Navigate } from 'react-router-dom';
 
 type PrivateRouteProps = {
+  userAuthorized: boolean;
   children: JSX.Element;
 }
 
-function PrivateRoute({children}: PrivateRouteProps): JSX.Element {
-  const hasAccess = true;
-  return hasAccess ? children : <Navigate to="/login"/>;
+function PrivateRoute({userAuthorized, children}: PrivateRouteProps): JSX.Element {
+  return userAuthorized ? children : <Navigate to="/login"/>;
 }
 
 export default PrivateRoute;

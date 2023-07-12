@@ -12,8 +12,10 @@ type AppProps = {
 
 function App({offersCount}: AppProps): JSX.Element {
   function convertToPrivate (element: JSX.Element): JSX.Element {
+    const userAuthorized = false;
+    
     return (
-      <PrivateRoute>
+      <PrivateRoute userAuthorized={userAuthorized}>
         {element}
       </PrivateRoute>
     );
