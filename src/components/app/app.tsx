@@ -5,7 +5,7 @@ import MainPage from '../../pages/main-page/main-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 type AppProps = {
   offersCount: number;
@@ -13,9 +13,8 @@ type AppProps = {
 
 function App({offersCount}: AppProps): JSX.Element {
   function convertToPrivate (element: JSX.Element): JSX.Element {
-    const userAuthorized = false;
     return (
-      <PrivateRoute userAuthorized={userAuthorized}>
+      <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
         {element}
       </PrivateRoute>
     );
