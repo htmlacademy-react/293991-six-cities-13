@@ -3,8 +3,9 @@ import FavoritiesPage from '../../pages/favorities-page/favorities-page';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
 import OfferPage from '../../pages/offer-page/offer-page';
-import NotFound from '../not-found/not-found';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
+import {AppRoute} from '../../const';
 
 type AppProps = {
   offersCount: number;
@@ -23,12 +24,12 @@ function App({offersCount}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
+        <Route path={AppRoute.Root}>
           <Route index element={<MainPage offersCount={offersCount}/>}/>
-          <Route path="login" element={<LoginPage/>}/>
-          <Route path="favorites" element={convertToPrivate(<FavoritiesPage/>)}/>
-          <Route path="offer/:id" element={<OfferPage/>}/>
-          <Route path="*" element={<NotFound/>}/>
+          <Route path={AppRoute.Login} element={<LoginPage/>}/>
+          <Route path={AppRoute.Favorites} element={convertToPrivate(<FavoritiesPage/>)}/>
+          <Route path={AppRoute.Offer} element={<OfferPage/>}/>
+          <Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
