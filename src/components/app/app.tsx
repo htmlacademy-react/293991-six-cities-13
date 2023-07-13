@@ -6,6 +6,7 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import {AppRoute} from '../../const';
 import RequireAuth from '../require-auth/require-auth';
+import { HelmetProvider } from 'react-helmet-async';
 
 type AppProps = {
   offersCount: number;
@@ -13,17 +14,19 @@ type AppProps = {
 
 function App({offersCount}: AppProps): JSX.Element {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={AppRoute.Root} element={<MainPage offersCount={offersCount}/>}/>
-        <Route path={AppRoute.Login} element={<LoginPage/>}/>
-        <Route element={<RequireAuth/>}>
-          <Route path={AppRoute.Favorites} element={<FavoritiesPage/>}/>
-        </Route>
-        <Route path={AppRoute.Offer} element={<OfferPage/>}/>
-        <Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
-      </Routes>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path={AppRoute.Root} element={<MainPage offersCount={offersCount}/>}/>
+          <Route path={AppRoute.Login} element={<LoginPage/>}/>
+          <Route element={<RequireAuth/>}>
+            <Route path={AppRoute.Favorites} element={<FavoritiesPage/>}/>
+          </Route>
+          <Route path={AppRoute.Offer} element={<OfferPage/>}/>
+          <Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
