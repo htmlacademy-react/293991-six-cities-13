@@ -1,13 +1,21 @@
+import { Helmet } from 'react-helmet-async';
 import OfferCard from '../../components/offer-card/offer-card';
 
-type OffersData = {
+type MainPageProps = {
   offersCount: number;
 }
 
-function MainPage ({offersCount}: OffersData): JSX.Element {
+function MainPage ({offersCount}: MainPageProps): JSX.Element {
+  // Генерацию массива вынес в отдельную функцию. Но алгоритм пришлось оставить в изначальном виде с помощью выражения
+  //[...Array(offersCount).keys()]. Причина в том, что при использовании выражения new Array(offersCount).fill(null).map((_, index) => )))
+  //линтер не позволяет использовать index в качестве значения для пропса key в OfferCard.
+  const generateOffers = () => [...Array(offersCount).keys()].map((counter: number) => (<OfferCard key={counter}/>));
 
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>Welcom to 6 cities!</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -116,7 +124,7 @@ function MainPage ({offersCount}: OffersData): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {[...Array(offersCount).keys()].map((counter: number) => (<OfferCard key={counter}/>))}
+                {generateOffers()}
               </div>
             </section>
             <div className="cities__right-section">
