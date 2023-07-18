@@ -24,7 +24,7 @@ function App({offersDetail, offersShort}: AppProps): JSX.Element {
           <Route element={<RequireAuth/>}>
             <Route path={AppRoute.Favorites} element={<FavoritiesPage/>}/>
           </Route>
-          <Route path={AppRoute.Offer} element={<OfferPage/>}/>
+          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offersDetail={offersDetail}/>}/>
           <Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
         </Routes>
       </BrowserRouter>

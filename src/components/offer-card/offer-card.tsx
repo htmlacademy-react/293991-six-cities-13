@@ -5,12 +5,13 @@ import offerCardPremium from "../offer-card-premium/offer-card-premium";
 
 type OfferCardProps = {
   offerShort: OfferShort;
+  onMouseEnterHandler: () => void;
 }
 
-function OfferCard({offerShort}: OfferCardProps): JSX.Element {
+function OfferCard({offerShort, onMouseEnterHandler}: OfferCardProps): JSX.Element {
 
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseEnter={onMouseEnterHandler}>
       {offerShort.isPremium && offerCardPremium()}
       <div className="cities__image-wrapper place-card__image-wrapper">
       <Link to={`${AppRoute.Offer}/${offerShort.id}`}>

@@ -11,3 +11,5 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN'
 }
+
+export const PARAGRAPH_MAX_LEN = 150

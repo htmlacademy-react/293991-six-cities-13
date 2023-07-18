@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { OfferDetail, OfferShort } from '../../types/offer';
+import { OfferShort } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
 
 type MainPageProps = {

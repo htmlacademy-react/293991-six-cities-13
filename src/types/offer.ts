@@ -19,6 +19,7 @@ export type OfferShort = OfferBase & {
 }
 
 export type OfferDetail = OfferBase & {
+  description: string;
   images: string[];
   goods: string[];
   host: Host;
