@@ -7,8 +7,10 @@ type ImageListProps = {
 
 function ImagesList({offerDetail}: ImageListProps):JSX.Element {
   return (
-    <div className="offer__gallery">
-      {offerDetail.images.map((imageSrc: string) => (<OfferImage key={imageSrc} imageSrc={imageSrc}/>))}
+    <div className="offer__gallery-container container">
+      <div className="offer__gallery">
+        {offerDetail.images.map((imageSrc: string) => (<OfferImage key={imageSrc} imageSrc={imageSrc}/>))}
+      </div>
     </div>
   );
 }

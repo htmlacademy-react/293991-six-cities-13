@@ -25,7 +25,7 @@ function OfferHost({offerDetail}: OfferHostProps):JSX.Element {
         {offerDetail.host.isPro && <span className="offer__user-status">Pro</span>}
       </div>
       <div className="offer__description">
-        {paragraphs.map((paragrap: string) => <p className="offer__text" key={getRandomKey()}>{paragrap}</p>)}
+        {paragraphs.map((paragraph: string) => <p className="offer__text" key={getRandomKey()}>{paragraph}</p>)}
       </div>
     </div>
   );

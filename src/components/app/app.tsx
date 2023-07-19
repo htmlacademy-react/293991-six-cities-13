@@ -8,13 +8,17 @@ import {AppRoute} from '../../const';
 import RequireAuth from '../require-auth/require-auth';
 import { HelmetProvider } from 'react-helmet-async';
 import { OfferDetail, OfferShort } from '../../types/offer';
+import { Review } from '../../types/offer-review';
+import { offersFavorities } from '../../mocks/offers-favorities';
 
 type AppProps = {
   offersDetail: OfferDetail[];
   offersShort: OfferShort[];
+  reviews: Review[];
+  offersFavorities: OfferShort[];
 }
 
-function App({offersDetail, offersShort}: AppProps): JSX.Element {
+function App({offersDetail, offersShort, reviews}: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -22,9 +26,9 @@ function App({offersDetail, offersShort}: AppProps): JSX.Element {
           <Route path={AppRoute.Root} element={<MainPage offersShort={offersShort}/>}/>
           <Route path={AppRoute.Login} element={<LoginPage/>}/>
           <Route element={<RequireAuth/>}>
-            <Route path={AppRoute.Favorites} element={<FavoritiesPage/>}/>
+            <Route path={AppRoute.Favorites} element={<FavoritiesPage offersFavorities={offersFavorities}/>}/>
           </Route>
-          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offersDetail={offersDetail}/>}/>
+          <Route path={AppRoute.Offer} element={<OfferPage offersDetail={offersDetail} reviews={reviews}/>}/>
           <Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
         </Routes>
       </BrowserRouter>

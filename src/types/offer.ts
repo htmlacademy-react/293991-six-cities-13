@@ -1,5 +1,5 @@
 import { City } from "./city";
-import { Host } from "./host";
+import { Person } from "./person";
 import { Location } from "./location";
 
 export type OfferBase = {
@@ -22,7 +22,7 @@ export type OfferDetail = OfferBase & {
   description: string;
   images: string[];
   goods: string[];
-  host: Host;
+  host: Person;
   bedrooms: number;
   maxAdults: number;
 }

@@ -1,6 +1,6 @@
 import { PARAGRAPH_MAX_LEN } from "../const";
 
-export function ConvertRatingToWidthPerc(rating: number): string {
+export function convertRatingToWidthPerc(rating: number): string {
   return `${rating / 5 * 100}%`
 }
 
@@ -41,4 +41,15 @@ export function splitLongTextIntoParagraphs(text: string): string[] {
 
 export function getRandomKey(): number {
   return Math.round(Math.random() * 100000000)
+}
+
+export function convertToYYYYMMDD(fullDateTime: string): string {
+  const newDT = new Date(fullDateTime)
+  return newDT.toISOString().split('T')[0]
+}
+
+export function convertToMonthYYYY(fullDateTime: string): string {
+  const newDT = new Date(fullDateTime)
+  const month = newDT.toLocaleString('default', { month: 'long' });
+  return `${month} ${newDT.getFullYear()}`
 }

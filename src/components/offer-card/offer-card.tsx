@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, generatePath } from "react-router-dom";
 import { AppRoute } from "../../const";
 import { OfferShort } from "../../types/offer";
 import offerCardPremium from "../offer-card-premium/offer-card-premium";
@@ -14,7 +14,7 @@ function OfferCard({offerShort, onMouseEnterHandler}: OfferCardProps): JSX.Eleme
     <article className="cities__card place-card" onMouseEnter={onMouseEnterHandler}>
       {offerShort.isPremium && offerCardPremium()}
       <div className="cities__image-wrapper place-card__image-wrapper">
-      <Link to={`${AppRoute.Offer}/${offerShort.id}`}>
+      <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>
         <img
               className="place-card__image"
               src={offerShort.previewImage}
@@ -51,7 +51,7 @@ function OfferCard({offerShort, onMouseEnterHandler}: OfferCardProps): JSX.Eleme
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}/${offerShort.id}`}>{offerShort.title}</Link>
+          <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>{offerShort.title}</Link>
         </h2>
         <p className="place-card__type">{offerShort.type}</p>
       </div>
