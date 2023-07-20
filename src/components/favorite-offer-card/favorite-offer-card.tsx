@@ -1,13 +1,13 @@
-import { Link, generatePath } from "react-router-dom";
-import { OfferShort } from "../../types/offer";
-import { capitalizeFirstLetter, convertRatingToWidthPerc } from "../../utils/utils";
-import { AppRoute } from "../../const";
+import { Link, generatePath } from 'react-router-dom';
+import { TOfferShort } from '../../types/offer';
+import { capitalizeFirstLetter, convertRatingToWidthPerc } from '../../utils/utils';
+import { AppRoute } from '../../const';
 
-type FavoriteOfferCardProps = {
-  offer: OfferShort;
+type TFavoriteOfferCardProps = {
+  offer: TOfferShort;
 }
 
-function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
+function FavoriteOfferCard({offer}: TFavoriteOfferCardProps): JSX.Element {
   return (
     <article className="favorites__card place-card">
       {
@@ -61,7 +61,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
         <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
       </div>
     </article>
-  )
+  );
 }
 
 export default FavoriteOfferCard;

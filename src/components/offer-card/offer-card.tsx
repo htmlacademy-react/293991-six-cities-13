@@ -1,28 +1,28 @@
-import { Link, generatePath } from "react-router-dom";
-import { AppRoute } from "../../const";
-import { OfferShort } from "../../types/offer";
-import offerCardPremium from "../offer-card-premium/offer-card-premium";
+import { Link, generatePath } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { TOfferShort } from '../../types/offer';
+import offerCardPremium from '../offer-card-premium/offer-card-premium';
 
-type OfferCardProps = {
-  offerShort: OfferShort;
+type TOfferCardProps = {
+  offerShort: TOfferShort;
   onMouseEnterHandler: () => void;
 }
 
-function OfferCard({offerShort, onMouseEnterHandler}: OfferCardProps): JSX.Element {
+function OfferCard({offerShort, onMouseEnterHandler}: TOfferCardProps): JSX.Element {
 
   return (
     <article className="cities__card place-card" onMouseEnter={onMouseEnterHandler}>
       {offerShort.isPremium && offerCardPremium()}
       <div className="cities__image-wrapper place-card__image-wrapper">
-      <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>
-        <img
-              className="place-card__image"
-              src={offerShort.previewImage}
-              width={260}
-              height={200}
-              alt="Place image"
-            />
-      </Link>
+        <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>
+          <img
+            className="place-card__image"
+            src={offerShort.previewImage}
+            width={260}
+            height={200}
+            alt="Place image"
+          />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

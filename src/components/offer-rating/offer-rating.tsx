@@ -1,11 +1,11 @@
-import { OfferDetail } from "../../types/offer";
-import { convertRatingToWidthPerc } from "../../utils/utils";
+import { TOfferDetail } from '../../types/offer';
+import { convertRatingToWidthPerc } from '../../utils/utils';
 
-type OfferRatingProps = {
-  offerDetail: OfferDetail;
+type TOfferRatingProps = {
+  offerDetail: TOfferDetail;
 }
 
-function OfferRating({offerDetail}: OfferRatingProps): JSX.Element {
+function OfferRating({offerDetail}: TOfferRatingProps): JSX.Element {
   return (
     <div className="offer__rating rating">
       <div className="offer__stars rating__stars">
@@ -14,7 +14,7 @@ function OfferRating({offerDetail}: OfferRatingProps): JSX.Element {
       </div>
       <span className="offer__rating-value rating__value">{offerDetail.rating}</span>
     </div>
-  )
+  );
 }
 
 export default OfferRating;

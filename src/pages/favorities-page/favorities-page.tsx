@@ -1,15 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '../../components/page-header/page-header';
-import { OfferShort } from '../../types/offer';
-import FavoriteLocationCity from '../../components/favorities-location-city/favorities-location-city';
+import { TOfferShort } from '../../types/offer';
 import FavoritiesList from '../../components/favorities-list/favorities-list';
 
 type FavoritiesPageProps = {
-  offersFavorities: OfferShort[];
+  offersFavorities: TOfferShort[];
 }
 
 function FavoritiesPage({offersFavorities}: FavoritiesPageProps): JSX.Element {
-  const cities = Array.from(new Set(offersFavorities.map((offer: OfferShort) => offer.city.name)))
+  const cities = Array.from(new Set(offersFavorities.map((offer: TOfferShort) => offer.city.name)));
 
   return (
     <div className="page">

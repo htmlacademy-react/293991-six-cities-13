@@ -1,4 +1,4 @@
-
+import { AppRoute } from '../../const';
 
 function PageHeader(): JSX.Element {
   return (
@@ -6,7 +6,7 @@ function PageHeader(): JSX.Element {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link" href="main.html">
+            <a className="header__logo-link" href={AppRoute.Root}>
               <img
                 className="header__logo"
                 src="img/logo.svg"
@@ -39,8 +39,8 @@ function PageHeader(): JSX.Element {
           </nav>
         </div>
       </div>
-    </header>    
-  )
+    </header>
+  );
 }
 
 export default PageHeader;

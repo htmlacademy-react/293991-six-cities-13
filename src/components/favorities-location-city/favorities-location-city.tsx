@@ -1,8 +1,8 @@
-type FavoriteLocationCityProps = {
+type TFavoriteLocationCityProps = {
   city: string;
 }
 
-function FavoriteLocationCity({city}: FavoriteLocationCityProps):JSX.Element {
+function FavoriteLocationCity({city}: TFavoriteLocationCityProps):JSX.Element {
   return (
     <div className="favorites__locations locations locations--current">
       <div className="locations__item">
@@ -11,7 +11,7 @@ function FavoriteLocationCity({city}: FavoriteLocationCityProps):JSX.Element {
         </a>
       </div>
     </div>
-  )
+  );
 }
 
 export default FavoriteLocationCity;

@@ -1,8 +1,8 @@
-type InsideItemProps = {
+type TInsideItemProps = {
   goodItem: string;
 }
 
-function OfferGood({goodItem}: InsideItemProps): JSX.Element {
+function OfferGood({goodItem}: TInsideItemProps): JSX.Element {
   return (
     <li className="offer__inside-item">{goodItem}</li>
   );

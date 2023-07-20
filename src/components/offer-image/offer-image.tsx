@@ -1,8 +1,8 @@
-type OfferImageProps = {
+type TOfferImageProps = {
   imageSrc: string;
 }
 
-function OfferImage({imageSrc}: OfferImageProps):JSX.Element {
+function OfferImage({imageSrc}: TOfferImageProps):JSX.Element {
   return (
     <div className="offer__image-wrapper">
       <img
@@ -11,7 +11,7 @@ function OfferImage({imageSrc}: OfferImageProps):JSX.Element {
         alt="Photo studio"
       />
     </div>
-  )
+  );
 }
 
 export default OfferImage;

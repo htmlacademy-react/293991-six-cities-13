@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { OfferDetail } from '../../types/offer';
+import { TOfferDetail } from '../../types/offer';
 import { Navigate, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import ImagesList from '../../components/offer-images-list/offer-images-list';
@@ -12,22 +12,22 @@ import OfferHeader from '../../components/offer-header/offer-header';
 import PageHeader from '../../components/page-header/page-header';
 import OfferReview from '../../components/offer-review/offer-review';
 import NearPlaces from '../../components/near-places/near-places';
-import OfferMap from '../../components/offer-map/offer-map';
-import { Review } from '../../types/offer-review';
+import TOfferMap from '../../components/offer-map/offer-map';
+import { TReview } from '../../types/offer-review';
 
 type OfferPageProps = {
-  offersDetail: OfferDetail[];
-  reviews: Review[];
+  offersDetail: TOfferDetail[];
+  reviews: TReview[];
 }
 
 function OfferPage({offersDetail, reviews}: OfferPageProps): JSX.Element {
   const { id } = useParams();
-  const offerDetail = offersDetail.find((offer: OfferDetail) => offer.id === id) as OfferDetail
+  const offerDetail = offersDetail.find((offer: TOfferDetail) => offer.id === id) as TOfferDetail;
   if (offerDetail === undefined) {
-    <Navigate to={AppRoute.NotFound}/>
+    <Navigate to={AppRoute.NotFound}/>;
   }
 
-  const review = reviews.find((review: Review) => review.offerId === id) as Review
+  const review = reviews.find((rv: TReview) => rv.offerId === id) as TReview;
 
   return (
     <div className="page">
@@ -46,10 +46,10 @@ function OfferPage({offersDetail, reviews}: OfferPageProps): JSX.Element {
               <OfferPrice offerDetail={offerDetail}/>
               <OfferGoodsList offerDetail={offerDetail}/>
               <OfferHost offerDetail={offerDetail}/>
-              {review && <OfferReview comments={review.comments}/>}
+              <OfferReview comments={review.comments}/>
             </div>
           </div>
-          <OfferMap/>
+          <TOfferMap/>
         </section>
         <NearPlaces/>
       </main>

@@ -1,11 +1,11 @@
-import { OfferDetail } from "../../types/offer";
-import { capitalizeFirstLetter } from "../../utils/utils";
+import { TOfferDetail } from '../../types/offer';
+import { capitalizeFirstLetter } from '../../utils/utils';
 
-type OfferFeaturesProps = {
-  offerDetail: OfferDetail;
+type TOfferFeaturesProps = {
+  offerDetail: TOfferDetail;
 }
 
-function OfferFeatures({offerDetail}: OfferFeaturesProps): JSX.Element {
+function OfferFeatures({offerDetail}: TOfferFeaturesProps): JSX.Element {
   return (
     <ul className="offer__features">
       <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(offerDetail.type)}</li>
@@ -16,7 +16,7 @@ function OfferFeatures({offerDetail}: OfferFeaturesProps): JSX.Element {
         Max {offerDetail.maxAdults} adults
       </li>
     </ul>
-  )
+  );
 }
 
 export default OfferFeatures;

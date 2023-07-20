@@ -1,14 +1,14 @@
-import { OfferDetail } from "../../types/offer";
+import { TOfferDetail } from '../../types/offer';
 
-type OfferHeaderProps = {
-  offerDetail: OfferDetail;
+type TOfferHeaderProps = {
+  offerDetail: TOfferDetail;
 }
 
-function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
+function OfferHeader({offerDetail}: TOfferHeaderProps):JSX.Element {
   return (
     <>
       {
-        offerDetail.isPremium && 
+        offerDetail.isPremium &&
         <div className="offer__mark">
           <span>Premium</span>
         </div>
@@ -25,7 +25,7 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
         </button>
       </div>
     </>
-  )
+  );
 }
 
 export default OfferHeader;

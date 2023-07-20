@@ -1,28 +1,28 @@
-import { City } from "./city";
-import { Person } from "./person";
-import { Location } from "./location";
+import { TCity } from './city';
+import { TPerson } from './person';
+import { TLocation } from './location';
 
-export type OfferBase = {
+export type TOfferBase = {
   id: string;
   title: string;
-  type: string,
+  type: string;
   price: number;
-  city: City;
-  location: Location;
+  city: TCity;
+  location: TLocation;
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
 }
 
-export type OfferShort = OfferBase & {
+export type TOfferShort = TOfferBase & {
   previewImage: string;
 }
 
-export type OfferDetail = OfferBase & {
+export type TOfferDetail = TOfferBase & {
   description: string;
   images: string[];
   goods: string[];
-  host: Person;
+  host: TPerson;
   bedrooms: number;
   maxAdults: number;
 }

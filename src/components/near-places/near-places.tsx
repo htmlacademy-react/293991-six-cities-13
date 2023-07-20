@@ -144,7 +144,7 @@ function NearPlaces(): JSX.Element {
         </div>
       </section>
     </div>
-  )
+  );
 }
 
 export default NearPlaces;

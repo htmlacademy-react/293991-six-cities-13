@@ -1,12 +1,12 @@
-import { Comment } from "../../types/offer-review";
-import { convertRatingToWidthPerc, getRandomKey, convertToYYYYMMDD, splitLongTextIntoParagraphs, convertToMonthYYYY } from "../../utils/utils";
+import { TComment } from '../../types/offer-review';
+import { convertRatingToWidthPerc, getRandomKey, convertToYYYYMMDD, splitLongTextIntoParagraphs, convertToMonthYYYY } from '../../utils/utils';
 
-type OfferReviewCommentProps = {
-  comment: Comment;
+type TOfferReviewCommentProps = {
+  comment: TComment;
 }
 
-function OfferReviewComment({comment}: OfferReviewCommentProps): JSX.Element {
-  const paragraphs = splitLongTextIntoParagraphs(comment.comment)
+function OfferReviewComment({comment}: TOfferReviewCommentProps): JSX.Element {
+  const paragraphs = splitLongTextIntoParagraphs(comment.comment);
 
   return (
     <li className="reviews__item">
@@ -34,8 +34,8 @@ function OfferReviewComment({comment}: OfferReviewCommentProps): JSX.Element {
           {convertToMonthYYYY(comment.date)}
         </time>
       </div>
-    </li>    
-  )
+    </li>
+  );
 }
 
 export default OfferReviewComment;

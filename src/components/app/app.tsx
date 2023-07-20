@@ -7,18 +7,17 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import {AppRoute} from '../../const';
 import RequireAuth from '../require-auth/require-auth';
 import { HelmetProvider } from 'react-helmet-async';
-import { OfferDetail, OfferShort } from '../../types/offer';
-import { Review } from '../../types/offer-review';
-import { offersFavorities } from '../../mocks/offers-favorities';
+import { TOfferDetail, TOfferShort } from '../../types/offer';
+import { TReview } from '../../types/offer-review';
 
-type AppProps = {
-  offersDetail: OfferDetail[];
-  offersShort: OfferShort[];
-  reviews: Review[];
-  offersFavorities: OfferShort[];
+type TAppProps = {
+  offersDetail: TOfferDetail[];
+  offersShort: TOfferShort[];
+  reviews: TReview[];
+  offersFavorities: TOfferShort[];
 }
 
-function App({offersDetail, offersShort, reviews}: AppProps): JSX.Element {
+function App({offersDetail, offersShort, reviews, offersFavorities}: TAppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
