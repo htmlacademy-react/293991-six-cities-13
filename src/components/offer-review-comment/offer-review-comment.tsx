@@ -1,12 +1,14 @@
-import { TComment } from '../../types/offer-review';
-import { convertRatingToWidthPerc, getRandomKey, convertToYYYYMMDD, splitLongTextIntoParagraphs, convertToMonthYYYY } from '../../utils/utils';
+import { format } from 'date-fns';
+import { Comment } from '../../types/offer-review';
+import { convertRatingToWidthPerc, getRandomKey, splitLongTextIntoParagraphs } from '../../utils/utils';
 
-type TOfferReviewCommentProps = {
-  comment: TComment;
+type OfferReviewCommentProps = {
+  comment: Comment;
 }
 
-function OfferReviewComment({comment}: TOfferReviewCommentProps): JSX.Element {
+function OfferReviewComment({comment}: OfferReviewCommentProps): JSX.Element {
   const paragraphs = splitLongTextIntoParagraphs(comment.comment);
+  const newDT = new Date(comment.date);
 
   return (
     <li className="reviews__item">
@@ -30,8 +32,8 @@ function OfferReviewComment({comment}: TOfferReviewCommentProps): JSX.Element {
           </div>
         </div>
         {paragraphs.map((paragraph: string) => <p className="reviews__text" key={getRandomKey()}>{paragraph}</p>)}
-        <time className="reviews__time" dateTime={convertToYYYYMMDD(comment.date)}>
-          {convertToMonthYYYY(comment.date)}
+        <time className="reviews__time" dateTime={format(newDT, 'yyyy-MM-dd')}>
+          {format(newDT, 'LLLL yyyy')}
         </time>
       </div>
     </li>

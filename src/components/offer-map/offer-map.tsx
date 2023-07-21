@@ -1,7 +1,7 @@
-function TOfferMap():JSX.Element {
+function OfferMap():JSX.Element {
   return (
     <section className="offer__map map" />
   );
 }
 
-export default TOfferMap;
+export default OfferMap;

@@ -1,11 +1,11 @@
-import { TOfferDetail } from '../../types/offer';
+import { OfferDetail } from '../../types/offer';
 import OfferImage from '../offer-image/offer-image';
 
-type TImageListProps = {
-  offerDetail: TOfferDetail;
+type ImageListProps = {
+  offerDetail: OfferDetail;
 }
 
-function ImagesList({offerDetail}: TImageListProps):JSX.Element {
+function ImagesList({offerDetail}: ImageListProps):JSX.Element {
   return (
     <div className="offer__gallery-container container">
       <div className="offer__gallery">

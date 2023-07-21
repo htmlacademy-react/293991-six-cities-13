@@ -1,6 +1,6 @@
-import { TLocation } from './location';
+import { Location } from './location';
 
-export type TCity = {
+export type City = {
   name: string;
-  location: TLocation;
+  location: Location;
 }

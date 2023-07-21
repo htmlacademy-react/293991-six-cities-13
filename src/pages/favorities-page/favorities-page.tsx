@@ -1,14 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '../../components/page-header/page-header';
-import { TOfferShort } from '../../types/offer';
+import { OfferShort } from '../../types/offer';
 import FavoritiesList from '../../components/favorities-list/favorities-list';
+import { groupOffersByCity } from '../../utils/utils';
 
 type FavoritiesPageProps = {
-  offersFavorities: TOfferShort[];
+  offersFavorities: OfferShort[];
 }
 
 function FavoritiesPage({offersFavorities}: FavoritiesPageProps): JSX.Element {
-  const cities = Array.from(new Set(offersFavorities.map((offer: TOfferShort) => offer.city.name)));
+  const offersByCities = groupOffersByCity<OfferShort>(offersFavorities);
 
   return (
     <div className="page">
@@ -21,7 +22,7 @@ function FavoritiesPage({offersFavorities}: FavoritiesPageProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {cities.map((city: string) => <FavoritiesList key={city} city={city} offersFavorities={offersFavorities}/>)}
+              {Object.keys(offersByCities).map((city: string) => <FavoritiesList key={city} city={city} offers={offersByCities[city]}/>)}
             </ul>
           </section>
         </div>

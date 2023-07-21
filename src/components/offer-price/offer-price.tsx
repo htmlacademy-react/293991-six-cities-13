@@ -1,10 +1,10 @@
-import { TOfferDetail } from '../../types/offer';
+import { OfferDetail } from '../../types/offer';
 
-type TOfferPriceProps = {
-  offerDetail: TOfferDetail;
+type OfferPriceProps = {
+  offerDetail: OfferDetail;
 }
 
-function OfferPrice({offerDetail}: TOfferPriceProps):JSX.Element {
+function OfferPrice({offerDetail}: OfferPriceProps):JSX.Element {
   return (
     <div className="offer__price">
       <b className="offer__price-value">€{offerDetail.price}</b>

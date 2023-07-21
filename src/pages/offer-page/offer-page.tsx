@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { TOfferDetail } from '../../types/offer';
+import { OfferDetail } from '../../types/offer';
 import { Navigate, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import ImagesList from '../../components/offer-images-list/offer-images-list';
@@ -12,22 +12,22 @@ import OfferHeader from '../../components/offer-header/offer-header';
 import PageHeader from '../../components/page-header/page-header';
 import OfferReview from '../../components/offer-review/offer-review';
 import NearPlaces from '../../components/near-places/near-places';
-import TOfferMap from '../../components/offer-map/offer-map';
-import { TReview } from '../../types/offer-review';
+import OfferMap from '../../components/offer-map/offer-map';
+import { Review } from '../../types/offer-review';
 
 type OfferPageProps = {
-  offersDetail: TOfferDetail[];
-  reviews: TReview[];
+  offersDetail: OfferDetail[];
+  reviews: Review[];
 }
 
 function OfferPage({offersDetail, reviews}: OfferPageProps): JSX.Element {
   const { id } = useParams();
-  const offerDetail = offersDetail.find((offer: TOfferDetail) => offer.id === id) as TOfferDetail;
+  const offerDetail = offersDetail.find((offer: OfferDetail) => offer.id === id) as OfferDetail;
   if (offerDetail === undefined) {
     <Navigate to={AppRoute.NotFound}/>;
   }
 
-  const review = reviews.find((rv: TReview) => rv.offerId === id) as TReview;
+  const review = reviews.find((rv: Review) => rv.offerId === id) as Review;
 
   return (
     <div className="page">
@@ -49,7 +49,7 @@ function OfferPage({offersDetail, reviews}: OfferPageProps): JSX.Element {
               <OfferReview comments={review.comments}/>
             </div>
           </div>
-          <TOfferMap/>
+          <OfferMap/>
         </section>
         <NearPlaces/>
       </main>

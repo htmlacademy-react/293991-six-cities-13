@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
-import { TOfferShort } from '../../types/offer';
+import { OfferShort } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
 
 type MainPageProps = {
-  offersShort: TOfferShort[];
+  offersShort: OfferShort[];
 }
 
 function MainPage ({offersShort}: MainPageProps): JSX.Element {

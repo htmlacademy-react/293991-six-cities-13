@@ -1,13 +1,13 @@
 import { Link, generatePath } from 'react-router-dom';
-import { TOfferShort } from '../../types/offer';
+import { OfferShort } from '../../types/offer';
 import { capitalizeFirstLetter, convertRatingToWidthPerc } from '../../utils/utils';
 import { AppRoute } from '../../const';
 
-type TFavoriteOfferCardProps = {
-  offer: TOfferShort;
+type FavoriteOfferCardProps = {
+  offer: OfferShort;
 }
 
-function FavoriteOfferCard({offer}: TFavoriteOfferCardProps): JSX.Element {
+function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
   return (
     <article className="favorites__card place-card">
       {

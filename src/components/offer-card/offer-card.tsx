@@ -1,14 +1,14 @@
 import { Link, generatePath } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { TOfferShort } from '../../types/offer';
+import { OfferShort } from '../../types/offer';
 import offerCardPremium from '../offer-card-premium/offer-card-premium';
 
-type TOfferCardProps = {
-  offerShort: TOfferShort;
+type OfferCardProps = {
+  offerShort: OfferShort;
   onMouseEnterHandler: () => void;
 }
 
-function OfferCard({offerShort, onMouseEnterHandler}: TOfferCardProps): JSX.Element {
+function OfferCard({offerShort, onMouseEnterHandler}: OfferCardProps): JSX.Element {
 
   return (
     <article className="cities__card place-card" onMouseEnter={onMouseEnterHandler}>

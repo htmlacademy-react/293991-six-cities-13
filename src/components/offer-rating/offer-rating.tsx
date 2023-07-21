@@ -1,11 +1,11 @@
-import { TOfferDetail } from '../../types/offer';
+import { OfferDetail } from '../../types/offer';
 import { convertRatingToWidthPerc } from '../../utils/utils';
 
-type TOfferRatingProps = {
-  offerDetail: TOfferDetail;
+type OfferRatingProps = {
+  offerDetail: OfferDetail;
 }
 
-function OfferRating({offerDetail}: TOfferRatingProps): JSX.Element {
+function OfferRating({offerDetail}: OfferRatingProps): JSX.Element {
   return (
     <div className="offer__rating rating">
       <div className="offer__stars rating__stars">

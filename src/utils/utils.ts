@@ -1,4 +1,5 @@
 import { PARAGRAPH_MAX_LEN } from '../const';
+import { GroupedOffersByCity, OfferBase } from '../types/offer';
 
 export function convertRatingToWidthPerc(rating: number): string {
   return `${rating / 5 * 100}%`;
@@ -21,7 +22,7 @@ export function splitLongTextIntoParagraphs(text: string): string[] {
     }
   }
 
-  // Склеить предложения в параграфы. Конкатенировать предложения до тех пор пока длина нового предложения не более PARAGRAPH_MAX_LEN
+  // Склеить предложения в параграфы. Конкатенировать предложения до тех пор пока длина параграфа не более PARAGRAPH_MAX_LEN
   const groupedSentences: string[] = [];
   let newSentence: string = sentences[0];
   for (let i = 1; i < sentences.length; i++) {
@@ -40,16 +41,13 @@ export function splitLongTextIntoParagraphs(text: string): string[] {
 }
 
 export function getRandomKey(): number {
-  return Math.round(Math.random() * 100000000);
+  return Math.round(Math.random() * 1e8);
 }
 
-export function convertToYYYYMMDD(fullDateTime: string): string {
-  const newDT = new Date(fullDateTime);
-  return newDT.toISOString().split('T')[0];
-}
-
-export function convertToMonthYYYY(fullDateTime: string): string {
-  const newDT = new Date(fullDateTime);
-  const month = newDT.toLocaleString('default', { month: 'long' });
-  return `${month} ${newDT.getFullYear()}`;
+export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffersByCity<T> {
+  return offers.reduce((accumulator: GroupedOffersByCity<T>, curOffer: T) => {
+    const cityExists = curOffer.city.name in accumulator;
+    const _offers = cityExists ? [...accumulator[curOffer.city.name], curOffer] : [curOffer];
+    return {...accumulator, [curOffer.city.name]: [..._offers]};
+  }, {});
 }

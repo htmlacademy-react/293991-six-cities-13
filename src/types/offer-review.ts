@@ -1,14 +1,14 @@
-import { TPerson } from './person';
+import { Person } from './person';
 
-export type TComment = {
+export type Comment = {
   id: string;
   comment: string;
   date: string;
   rating: number;
-  user: TPerson;
+  user: Person;
 }
 
-export type TReview = {
+export type Review = {
   offerId: string;
-  comments: TComment[];
+  comments: Comment[];
 }

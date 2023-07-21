@@ -1,11 +1,11 @@
-import { TOfferDetail } from '../../types/offer';
+import { OfferDetail } from '../../types/offer';
 import { getRandomKey, splitLongTextIntoParagraphs } from '../../utils/utils';
 
-type TOfferHostProps = {
-  offerDetail: TOfferDetail;
+type OfferHostProps = {
+  offerDetail: OfferDetail;
 }
 
-function OfferHost({offerDetail}: TOfferHostProps):JSX.Element {
+function OfferHost({offerDetail}: OfferHostProps):JSX.Element {
   const paragraphs = splitLongTextIntoParagraphs(offerDetail.description);
 
   return (

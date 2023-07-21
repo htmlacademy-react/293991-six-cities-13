@@ -1,11 +1,11 @@
-import { TOfferDetail } from '../../types/offer';
+import { OfferDetail } from '../../types/offer';
 import { capitalizeFirstLetter } from '../../utils/utils';
 
-type TOfferFeaturesProps = {
-  offerDetail: TOfferDetail;
+type OfferFeaturesProps = {
+  offerDetail: OfferDetail;
 }
 
-function OfferFeatures({offerDetail}: TOfferFeaturesProps): JSX.Element {
+function OfferFeatures({offerDetail}: OfferFeaturesProps): JSX.Element {
   return (
     <ul className="offer__features">
       <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(offerDetail.type)}</li>

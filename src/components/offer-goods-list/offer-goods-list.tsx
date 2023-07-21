@@ -1,11 +1,11 @@
-import { TOfferDetail } from '../../types/offer';
+import { OfferDetail } from '../../types/offer';
 import OfferGood from '../offer-good/offer-good';
 
-type TOfferGoodsListProps = {
-  offerDetail: TOfferDetail;
+type OfferGoodsListProps = {
+  offerDetail: OfferDetail;
 }
 
-function OfferGoodsList({offerDetail}: TOfferGoodsListProps):JSX.Element {
+function OfferGoodsList({offerDetail}: OfferGoodsListProps):JSX.Element {
   return (
     <div className="offer__inside">
       <h2 className="offer__inside-title">What&apos;s inside</h2>

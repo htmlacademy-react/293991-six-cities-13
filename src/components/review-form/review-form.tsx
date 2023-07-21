@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS } from '../../const';
-import { TRating } from '../../types/rating';
+import { Rating } from '../../types/rating';
 import ReviewRatingStar from '../review-star/review-star';
 
 
@@ -22,7 +22,7 @@ function ReviewForm():JSX.Element {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        {RATINGS.map((rating: TRating) => <ReviewRatingStar key={rating.score} rating={rating} currentScore={score} onChangeRatingHandler={onChangeRatingHandler(rating.score)}/>)}
+        {RATINGS.map((rating: Rating) => <ReviewRatingStar key={rating.score} rating={rating} currentScore={score} onChangeRatingHandler={onChangeRatingHandler(rating.score)}/>)}
       </div>
       <textarea
         className="reviews__textarea form__textarea"

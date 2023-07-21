@@ -1,12 +1,12 @@
-import { TRating } from '../../types/rating';
+import { Rating } from '../../types/rating';
 
-type TReviewRatingStarProps = {
-  rating: TRating;
+type ReviewRatingStarProps = {
+  rating: Rating;
   currentScore: number;
   onChangeRatingHandler: () => void;
 }
 
-function ReviewRatingStar({rating, currentScore, onChangeRatingHandler}: TReviewRatingStarProps): JSX.Element {
+function ReviewRatingStar({rating, currentScore, onChangeRatingHandler}: ReviewRatingStarProps): JSX.Element {
   return (
     <>
       <input

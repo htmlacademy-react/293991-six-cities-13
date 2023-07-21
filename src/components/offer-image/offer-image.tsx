@@ -1,8 +1,8 @@
-type TOfferImageProps = {
+type OfferImageProps = {
   imageSrc: string;
 }
 
-function OfferImage({imageSrc}: TOfferImageProps):JSX.Element {
+function OfferImage({imageSrc}: OfferImageProps):JSX.Element {
   return (
     <div className="offer__image-wrapper">
       <img

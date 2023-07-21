@@ -1,10 +1,10 @@
-import { TOfferDetail } from '../../types/offer';
+import { OfferDetail } from '../../types/offer';
 
-type TOfferHeaderProps = {
-  offerDetail: TOfferDetail;
+type OfferHeaderProps = {
+  offerDetail: OfferDetail;
 }
 
-function OfferHeader({offerDetail}: TOfferHeaderProps):JSX.Element {
+function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
   return (
     <>
       {

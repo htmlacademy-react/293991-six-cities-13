@@ -1,4 +1,4 @@
-import { TRating } from './types/rating';
+import { Rating } from './types/rating';
 
 export enum AppRoute {
   Root = '/',
@@ -37,7 +37,7 @@ export const RATINGS = [
     score: 1,
     label: 'terribly'
   },
-] as TRating[];
+] as Rating[];
 
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 500;
