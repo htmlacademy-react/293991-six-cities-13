@@ -1,25 +1,33 @@
-function OfferCard(): JSX.Element {
+import { Link, generatePath } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { OfferShort } from '../../types/offer';
+import offerCardPremium from '../offer-card-premium/offer-card-premium';
+
+type OfferCardProps = {
+  offerShort: OfferShort;
+  onMouseEnterHandler: () => void;
+}
+
+function OfferCard({offerShort, onMouseEnterHandler}: OfferCardProps): JSX.Element {
 
   return (
-    <article className="cities__card place-card">
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
+    <article className="cities__card place-card" onMouseEnter={onMouseEnterHandler}>
+      {offerShort.isPremium && offerCardPremium()}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>
           <img
             className="place-card__image"
-            src="img/apartment-01.jpg"
+            src={offerShort.previewImage}
             width={260}
             height={200}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€120</b>
+            <b className="place-card__price-value">€{offerShort.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
@@ -38,16 +46,14 @@ function OfferCard(): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }} />
+            <span style={{ width: `${offerShort.rating / 5 * 100}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">
-            Beautiful &amp; luxurious apartment at great location
-          </a>
+          <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>{offerShort.title}</Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{offerShort.type}</p>
       </div>
     </article>
   );
