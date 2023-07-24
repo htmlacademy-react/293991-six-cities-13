@@ -12,7 +12,6 @@ import OfferHeader from '../../components/offer-header/offer-header';
 import PageHeader from '../../components/page-header/page-header';
 import OfferReview from '../../components/offer-review/offer-review';
 import NearPlaces from '../../components/near-places/near-places';
-import OfferMap from '../../components/offer-map/offer-map';
 import { Review } from '../../types/offer-review';
 
 type OfferPageProps = {
@@ -49,7 +48,7 @@ function OfferPage({offersDetail, reviews}: OfferPageProps): JSX.Element {
               <OfferReview comments={review.comments}/>
             </div>
           </div>
-          <OfferMap/>
+          <section className="offer__map map" />
         </section>
         <NearPlaces/>
       </main>
