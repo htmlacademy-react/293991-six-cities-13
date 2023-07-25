@@ -1,7 +1,7 @@
 import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, OfferCardMode} from '../../const';
 import 'leaflet/dist/leaflet.css';
 import cn from 'classnames';
 import { OfferShort } from '../../types/offer';
@@ -9,7 +9,7 @@ import { OfferShort } from '../../types/offer';
 type MapProps = {
   offersShort: OfferShort[];
   currentOfferId: string | undefined;
-  specialStyle: string;
+  mode: OfferCardMode;
 };
 
 const defaultCustomIcon = new Icon({
@@ -24,7 +24,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({offersShort, currentOfferId, specialStyle}: MapProps): JSX.Element {
+function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
   const currentOffer = offersShort.find((offer: OfferShort) => offer.id === currentOfferId) as OfferShort;
   
   const mapRef = useRef(null);
@@ -56,11 +56,14 @@ function Map({offersShort, currentOfferId, specialStyle}: MapProps): JSX.Element
 
   return (
     <section 
-      className={cn("map", specialStyle)} 
-      style={{height: '750px', width: '512px'}}
+      className={cn(
+        "map",
+        {"cities__map": mode === OfferCardMode.MainPage},
+        {"offer__map": mode === OfferCardMode.NearPlaces}
+      )} 
+      
       ref={mapRef}
     />
   );
 }
-
 export default Map;

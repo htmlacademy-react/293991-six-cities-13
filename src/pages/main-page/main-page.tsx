@@ -4,13 +4,14 @@ import Map from '../../components/map/map'
 import { useState } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
 import LocationsTabsList from '../../components/locations-tabs-list/locations-tabs-list';
+import { OfferCardMode } from '../../const';
 
 type MainPageProps = {
   offersShort: OfferShort[];
 }
 
 function MainPage ({offersShort}: MainPageProps): JSX.Element {
-  const [currentOfferId, setCurrentOfferId] = useState<string>('');
+  const [currentOfferId, setCurrentOfferId] = useState<string>(offersShort[0].id);
 
   const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
 
@@ -91,11 +92,11 @@ function MainPage ({offersShort}: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {offersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
+                {offersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
               </div>
             </section>
             <div className="cities__right-section">
-              <Map specialStyle={"cities__map"} offersShort={offersShort} currentOfferId={currentOfferId}/>
+              <Map mode={OfferCardMode.MainPage} offersShort={offersShort} currentOfferId={currentOfferId}/>
             </div>
           </div>
         </div>

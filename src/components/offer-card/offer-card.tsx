@@ -1,19 +1,32 @@
 import { Link, generatePath } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, OfferCardMode } from '../../const';
 import { OfferShort } from '../../types/offer';
 import offerCardPremium from '../offer-card-premium/offer-card-premium';
+import cn from 'classnames';
 
 type OfferCardProps = {
   offerShort: OfferShort;
   onMouseEnterHandler: () => void;
+  mode: OfferCardMode;
 }
 
-function OfferCard({offerShort, onMouseEnterHandler}: OfferCardProps): JSX.Element {
+function OfferCard({offerShort, onMouseEnterHandler, mode}: OfferCardProps): JSX.Element {
+  const articleClasses = cn(
+    "place-card",
+    {"cities__card": mode === OfferCardMode.MainPage},
+    {"near-places__card": mode === OfferCardMode.NearPlaces}
+  )
+  
+  const wrapperClasses = cn(
+    "place-card__image-wrapper",
+    {"cities__image-wrapper": mode === OfferCardMode.MainPage},
+    {"near-places__image-wrapper": mode === OfferCardMode.NearPlaces}
+  )
 
   return (
-    <article className="cities__card place-card" onMouseEnter={onMouseEnterHandler}>
+    <article className={articleClasses} onMouseEnter={onMouseEnterHandler}>
       {offerShort.isPremium && offerCardPremium()}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={wrapperClasses}>
         <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>
           <img
             className="place-card__image"

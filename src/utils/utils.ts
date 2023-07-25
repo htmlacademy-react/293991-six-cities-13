@@ -1,5 +1,6 @@
 import { PARAGRAPH_MAX_LEN } from '../const';
-import { GroupedOffersByCity, OfferBase } from '../types/offer';
+import { offersShort } from '../mocks/offers-short';
+import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
 
 export function convertRatingToWidthPerc(rating: number): string {
   return `${rating / 5 * 100}%`;
@@ -50,4 +51,8 @@ export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffe
     const _offers = cityExists ? [...accumulator[curOffer.city.name], curOffer] : [curOffer];
     return {...accumulator, [curOffer.city.name]: [..._offers]};
   }, {});
+}
+
+export function getNearOffers(): OfferShort[] {
+  return offersShort.slice(0, 3)
 }

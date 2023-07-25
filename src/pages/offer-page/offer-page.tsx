@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
-import { OfferDetail } from '../../types/offer';
+import { OfferDetail, OfferShort } from '../../types/offer';
 import { Navigate, useParams } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, OfferCardMode } from '../../const';
 import ImagesList from '../../components/offer-images-list/offer-images-list';
 import OfferGoodsList from '../../components/offer-goods-list/offer-goods-list';
 import OfferHost from '../../components/offer-host/offer-host';
@@ -11,8 +11,11 @@ import OfferRating from '../../components/offer-rating/offer-rating';
 import OfferHeader from '../../components/offer-header/offer-header';
 import PageHeader from '../../components/page-header/page-header';
 import OfferReview from '../../components/offer-review/offer-review';
-import NearPlaces from '../../components/near-places/near-places';
 import { Review } from '../../types/offer-review';
+import { getNearOffers } from '../../utils/utils';
+import { useState } from 'react';
+import OfferCard from '../../components/offer-card/offer-card';
+import Map from '../../components/map/map'
 
 type OfferPageProps = {
   offersDetail: OfferDetail[];
@@ -27,6 +30,12 @@ function OfferPage({offersDetail, reviews}: OfferPageProps): JSX.Element {
   }
 
   const review = reviews.find((rv: Review) => rv.offerId === id) as Review;
+
+  const nearOffers = getNearOffers();
+
+  const [currentOfferId, setCurrentOfferId] = useState<string>(nearOffers[0].id);
+
+  const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
 
   return (
     <div className="page">
@@ -48,9 +57,18 @@ function OfferPage({offersDetail, reviews}: OfferPageProps): JSX.Element {
               <OfferReview comments={review.comments}/>
             </div>
           </div>
-          <section className="offer__map map" />
+          <Map mode={OfferCardMode.NearPlaces} offersShort={nearOffers} currentOfferId={currentOfferId}/>
         </section>
-        <NearPlaces/>
+        <div className="container">
+          <section className="near-places places">
+            <h2 className="near-places__title">
+              Other places in the neighbourhood
+            </h2>
+            <div className="near-places__list places__list">
+              {nearOffers.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.NearPlaces} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
+            </div>
+          </section>
+        </div>
       </main>
     </div>
   );
