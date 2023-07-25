@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferShort } from '../../types/offer';
-import Map from '../../components/map/map'
+import Map from '../../components/map/map';
 import { useState } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
 import LocationsTabsList from '../../components/locations-tabs-list/locations-tabs-list';

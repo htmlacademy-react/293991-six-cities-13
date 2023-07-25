@@ -26,7 +26,7 @@ const currentCustomIcon = new Icon({
 
 function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
   const currentOffer = offersShort.find((offer: OfferShort) => offer.id === currentOfferId) as OfferShort;
-  
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentOffer);
 
@@ -52,16 +52,16 @@ function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersShort, currentOfferId]);
+  }, [map, offersShort, currentOffer]);
 
   return (
-    <section 
+    <section
       className={cn(
-        "map",
-        {"cities__map": mode === OfferCardMode.MainPage},
-        {"offer__map": mode === OfferCardMode.NearPlaces}
-      )} 
-      
+        'map',
+        {'cities__map': mode === OfferCardMode.MainPage},
+        {'offer__map': mode === OfferCardMode.NearPlaces}
+      )}
+
       ref={mapRef}
     />
   );

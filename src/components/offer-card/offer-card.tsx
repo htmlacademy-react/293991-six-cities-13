@@ -12,16 +12,16 @@ type OfferCardProps = {
 
 function OfferCard({offerShort, onMouseEnterHandler, mode}: OfferCardProps): JSX.Element {
   const articleClasses = cn(
-    "place-card",
-    {"cities__card": mode === OfferCardMode.MainPage},
-    {"near-places__card": mode === OfferCardMode.NearPlaces}
-  )
-  
+    'place-card',
+    {'cities__card': mode === OfferCardMode.MainPage},
+    {'near-places__card': mode === OfferCardMode.NearPlaces}
+  );
+
   const wrapperClasses = cn(
-    "place-card__image-wrapper",
-    {"cities__image-wrapper": mode === OfferCardMode.MainPage},
-    {"near-places__image-wrapper": mode === OfferCardMode.NearPlaces}
-  )
+    'place-card__image-wrapper',
+    {'cities__image-wrapper': mode === OfferCardMode.MainPage},
+    {'near-places__image-wrapper': mode === OfferCardMode.NearPlaces}
+  );
 
   return (
     <article className={articleClasses} onMouseEnter={onMouseEnterHandler}>

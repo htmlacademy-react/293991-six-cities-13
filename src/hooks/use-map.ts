@@ -1,5 +1,5 @@
 import {useEffect, useState, MutableRefObject, useRef} from 'react';
-import {LatLng, Map, TileLayer} from 'leaflet';
+import {Map, TileLayer} from 'leaflet';
 import { OfferShort } from '../types/offer';
 
 function useMap(
@@ -26,10 +26,10 @@ function useMap(
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         }
       );
-      
+
       instance.addLayer(layer);
       setMap(instance);
-      isRenderedRef.current = true
+      isRenderedRef.current = true;
     }
   }, [mapRef, currentOffer]);
 

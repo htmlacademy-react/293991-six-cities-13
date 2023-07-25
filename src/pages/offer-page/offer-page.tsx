@@ -15,7 +15,7 @@ import { Review } from '../../types/offer-review';
 import { getNearOffers } from '../../utils/utils';
 import { useState } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
-import Map from '../../components/map/map'
+import Map from '../../components/map/map';
 
 type OfferPageProps = {
   offersDetail: OfferDetail[];

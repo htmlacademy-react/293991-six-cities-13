@@ -54,5 +54,5 @@ export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffe
 }
 
 export function getNearOffers(): OfferShort[] {
-  return offersShort.slice(0, 3)
+  return offersShort.slice(0, 3);
 }
