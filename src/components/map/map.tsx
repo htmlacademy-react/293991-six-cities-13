@@ -33,6 +33,7 @@ function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
+
       offersShort.forEach((offer: OfferShort) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -40,11 +41,7 @@ function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
         });
 
         marker
-          .setIcon(
-            currentOffer !== undefined && offer.id === currentOffer.id
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
+          .setIcon(offer.id === currentOfferId ? currentCustomIcon : defaultCustomIcon)
           .addTo(markerLayer);
       });
 
@@ -52,7 +49,7 @@ function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersShort, currentOffer]);
+  }, [map, offersShort, currentOfferId]);
 
   return (
     <section
@@ -61,8 +58,14 @@ function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
         {'cities__map': mode === OfferCardMode.MainPage},
         {'offer__map': mode === OfferCardMode.NearPlaces}
       )}
-
       ref={mapRef}
+      style={{
+        height: '100%',
+        minHeight: '500px',
+        width: '100%',
+        maxWidth: '1144px',
+        margin: '0 auto'
+      }}
     />
   );
 }
