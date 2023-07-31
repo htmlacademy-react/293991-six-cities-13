@@ -1,4 +1,6 @@
 import { PARAGRAPH_MAX_LEN } from '../const';
+import { offersShort } from '../mocks/offers-short';
+import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
 import { CityName } from '../types/city';
 import { GroupedOffersByCity, OfferBase } from '../types/offer';
 
@@ -51,6 +53,10 @@ export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffe
     const _offers = cityExists ? [...accumulator[curOffer.city.name], curOffer] : [curOffer];
     return {...accumulator, [curOffer.city.name]: [..._offers]};
   }, {});
+}
+
+export function getNearOffers(): OfferShort[] {
+  return offersShort.slice(0, 3);
 }
 
 export function getOffersByCity<T extends OfferBase>(offers: T[], cityName: CityName): T[] {

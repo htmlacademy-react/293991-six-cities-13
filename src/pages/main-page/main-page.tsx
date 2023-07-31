@@ -1,4 +1,10 @@
 import { Helmet } from 'react-helmet-async';
+import { OfferShort } from '../../types/offer';
+import Map from '../../components/map/map';
+import { useState } from 'react';
+import OfferCard from '../../components/offer-card/offer-card';
+import LocationsTabsList from '../../components/locations-tabs-list/locations-tabs-list';
+import { OfferCardMode } from '../../const';
 import OffersList from '../../components/offers-list/offers-list';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
@@ -10,6 +16,11 @@ function MainPage (): JSX.Element {
   const allOffersShort = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity);
+
+function MainPage ({offersShort}: MainPageProps): JSX.Element {
+  const [currentOfferId, setCurrentOfferId] = useState<string>(offersShort[0].id);
+
+  const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
 
   return (
     <div className="page page--gray page--main">
@@ -89,10 +100,11 @@ function MainPage (): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <OffersList/>
+                {offersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map mode={OfferCardMode.MainPage} offersShort={offersShort} currentOfferId={currentOfferId}/>
             </div>
           </div>
         </div>
