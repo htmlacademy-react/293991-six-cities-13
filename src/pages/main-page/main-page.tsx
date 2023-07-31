@@ -3,22 +3,18 @@ import { OfferShort } from '../../types/offer';
 import Map from '../../components/map/map';
 import { useState } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
-import LocationsTabsList from '../../components/locations-tabs-list/locations-tabs-list';
 import { OfferCardMode } from '../../const';
-import OffersList from '../../components/offers-list/offers-list';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
 import { useAppSelector } from '../../hooks';
 import { getOffersByCity } from '../../utils/utils';
-import { OfferShort } from '../../types/offer';
 
 function MainPage (): JSX.Element {
   const allOffersShort = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.activeCity);
-  const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity);
+  const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity.name);
 
-function MainPage ({offersShort}: MainPageProps): JSX.Element {
-  const [currentOfferId, setCurrentOfferId] = useState<string>(offersShort[0].id);
+  const [currentOfferId, setCurrentOfferId] = useState<string>();
 
   const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
 
@@ -71,7 +67,7 @@ function MainPage ({offersShort}: MainPageProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersShort.length} places to stay in {activeCity}</b>
+              <b className="places__found">{offersShort.length} places to stay in {activeCity.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -99,7 +95,6 @@ function MainPage ({offersShort}: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList/>
                 {offersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
               </div>
             </section>
@@ -112,5 +107,4 @@ function MainPage ({offersShort}: MainPageProps): JSX.Element {
     </div>
   );
 }
-
 export default MainPage;

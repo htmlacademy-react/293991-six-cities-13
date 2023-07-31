@@ -14,9 +14,9 @@ export const offersShort = [
       }
     },
     location: {
-      latitude: 52.3909553943508,
-      longitude: 4.85309666406198,
-      zoom: 11
+      latitude: 48.868610000000004,
+      longitude: 2.342499,
+      zoom: 16
     },
     isFavorite: false,
     isPremium: false,
@@ -37,9 +37,9 @@ export const offersShort = [
       }
     },
     location: {
-      latitude: 52.3609553943508,
-      longitude: 4.85309666406198,
-      zoom: 11
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
     },
     isFavorite: false,
     isPremium: false,
@@ -60,9 +60,9 @@ export const offersShort = [
       }
     },
     location: {
-      latitude: 52.3909553943508,
-      longitude: 4.929309666406198,
-      zoom: 11
+      latitude: 48.834610000000005,
+      longitude: 2.335499,
+      zoom: 16
     },
     isFavorite: false,
     isPremium: true,
@@ -75,7 +75,7 @@ export const offersShort = [
     price: 164,
     previewImage: 'https://13.design.pages.academy/static/hotel/18.jpg',
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
         latitude: 48.85661,
         longitude: 2.351499,

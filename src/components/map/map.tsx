@@ -5,6 +5,7 @@ import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, OfferCardMode} from '../../const
 import 'leaflet/dist/leaflet.css';
 import cn from 'classnames';
 import { OfferShort } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 
 type MapProps = {
   offersShort: OfferShort[];
@@ -25,10 +26,9 @@ const currentCustomIcon = new Icon({
 });
 
 function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
-  const currentOffer = offersShort.find((offer: OfferShort) => offer.id === currentOfferId) as OfferShort;
-
+  const activeCity = useAppSelector((state) => state.activeCity);
   const mapRef = useRef(null);
-  const map = useMap(mapRef, currentOffer);
+  const map = useMap(mapRef, activeCity);
 
   useEffect(() => {
     if (map) {
@@ -44,6 +44,8 @@ function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
           .setIcon(offer.id === currentOfferId ? currentCustomIcon : defaultCustomIcon)
           .addTo(markerLayer);
       });
+
+      map.setView([activeCity.location.latitude, activeCity.location.longitude]);
 
       return () => {
         map.removeLayer(markerLayer);

@@ -1,8 +1,8 @@
-import { CityName } from '../../types/city';
+import { City } from '../../types/city';
 import CityTab from '../city-tab/city-tab';
 
 type CitiesListProps = {
-  cities: CityName[];
+  cities: City[];
 }
 
 function CitiesTabList({cities}: CitiesListProps):JSX.Element {
@@ -12,8 +12,8 @@ function CitiesTabList({cities}: CitiesListProps):JSX.Element {
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            {cities.map((cityName: CityName) => (
-              <CityTab key={cityName} cityName={cityName}/>
+            {cities.map((city: City) => (
+              <CityTab key={city.name} city={city}/>
             ))}
           </ul>
         </section>
