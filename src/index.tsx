@@ -5,6 +5,8 @@ import { offersDetail } from './mocks/offers-detail';
 import { offersShort } from './mocks/offers-short';
 import { reviews } from './mocks/offers-reviews';
 import { offersFavorities } from './mocks/offers-favorities';
+import { store } from './store';
+import { Provider } from 'react-redux';
 
 
 const root = ReactDOM.createRoot(
@@ -13,6 +15,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App offersDetail={offersDetail} offersShort={offersShort} reviews={reviews} offersFavorities={offersFavorities}/>
+    <Provider store={store}>
+      <App offersDetail={offersDetail} offersShort={offersShort} reviews={reviews} offersFavorities={offersFavorities}/>
+    </Provider>
   </React.StrictMode>
 );

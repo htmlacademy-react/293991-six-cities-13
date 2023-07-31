@@ -1,4 +1,5 @@
 import { PARAGRAPH_MAX_LEN } from '../const';
+import { CityName } from '../types/city';
 import { GroupedOffersByCity, OfferBase } from '../types/offer';
 
 export function convertRatingToWidthPerc(rating: number): string {
@@ -51,3 +52,7 @@ export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffe
     return {...accumulator, [curOffer.city.name]: [..._offers]};
   }, {});
 }
+
+export function getOffersByCity<T extends OfferBase>(offers: T[], cityName: CityName): T[] {
+  return groupOffersByCity<T>(offers)[cityName] || [];
+};

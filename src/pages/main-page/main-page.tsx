@@ -1,12 +1,16 @@
 import { Helmet } from 'react-helmet-async';
-import { OfferShort } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
+import { CITIES } from '../../const';
+import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
+import { useAppSelector } from '../../hooks';
+import { getOffersByCity } from '../../utils/utils';
+import { OfferShort } from '../../types/offer';
 
-type MainPageProps = {
-  offersShort: OfferShort[];
-}
+function MainPage (): JSX.Element {
+  const allOffersShort = useAppSelector((state) => state.offers);
+  const activeCity = useAppSelector((state) => state.activeCity);
+  const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity);
 
-function MainPage ({offersShort}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -51,48 +55,12 @@ function MainPage ({offersShort}: MainPageProps): JSX.Element {
         </div>
       </header>
       <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+        <CitiesTabList cities={CITIES}/>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{offersShort.length} places to stay in {activeCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -120,7 +88,7 @@ function MainPage ({offersShort}: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offersShort={offersShort}/>
+                <OffersList/>
               </div>
             </section>
             <div className="cities__right-section">

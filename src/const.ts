@@ -41,3 +41,8 @@ export const RATINGS = [
 
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 500;
+
+// с координатами !!!! в виде obj 
+export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
+export const DEFAULT_CTY = CITIES[0];

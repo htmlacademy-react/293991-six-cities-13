@@ -9,6 +9,9 @@ import RequireAuth from '../require-auth/require-auth';
 import { HelmetProvider } from 'react-helmet-async';
 import { OfferDetail, OfferShort } from '../../types/offer';
 import { Review } from '../../types/offer-review';
+import { useEffect } from 'react';
+import { loadOffers } from '../../store/action';
+import { useAppDispatch } from '../../hooks';
 
 type AppProps = {
   offersDetail: OfferDetail[];
@@ -18,11 +21,17 @@ type AppProps = {
 }
 
 function App({offersDetail, offersShort, reviews, offersFavorities}: AppProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadOffers())
+  }, [dispatch])
+
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path={AppRoute.Root} element={<MainPage offersShort={offersShort}/>}/>
+          <Route path={AppRoute.Root} element={<MainPage/>}/>
           <Route path={AppRoute.Login} element={<LoginPage/>}/>
           <Route element={<RequireAuth/>}>
             <Route path={AppRoute.Favorites} element={<FavoritiesPage offersFavorities={offersFavorities}/>}/>

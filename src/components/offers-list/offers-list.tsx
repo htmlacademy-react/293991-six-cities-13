@@ -1,15 +1,17 @@
+import { useAppSelector } from '../../hooks';
 import { OfferShort } from '../../types/offer';
+import { groupOffersByCity } from '../../utils/utils';
 import OfferCard from '../offer-card/offer-card';
 import { useState } from 'react';
 
-type OffersListProps = {
-  offersShort: OfferShort[];
-}
-
-function OffersList({offersShort}: OffersListProps): JSX.Element {
+function OffersList(): JSX.Element {
+  const activeCity = useAppSelector((state) => state.activeCity);
+  const allOffersShot = useAppSelector((state) => state.offers);
   const [offerListState, setCurrentOfferId] = useState({});
 
   const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId({...offerListState, currentOfferId: offerId});
+
+  const offersShort = groupOffersByCity<OfferShort>(allOffersShot)[activeCity] || [];
 
   return (
     <>
