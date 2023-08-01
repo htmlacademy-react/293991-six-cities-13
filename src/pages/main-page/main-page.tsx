@@ -1,12 +1,20 @@
 import { Helmet } from 'react-helmet-async';
 import { OfferShort } from '../../types/offer';
-import OffersList from '../../components/offers-list/offers-list';
+import Map from '../../components/map/map';
+import { useState } from 'react';
+import OfferCard from '../../components/offer-card/offer-card';
+import LocationsTabsList from '../../components/locations-tabs-list/locations-tabs-list';
+import { OfferCardMode } from '../../const';
 
 type MainPageProps = {
   offersShort: OfferShort[];
 }
 
 function MainPage ({offersShort}: MainPageProps): JSX.Element {
+  const [currentOfferId, setCurrentOfferId] = useState<string>(offersShort[0].id);
+
+  const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -51,43 +59,7 @@ function MainPage ({offersShort}: MainPageProps): JSX.Element {
         </div>
       </header>
       <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+        <LocationsTabsList/>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
@@ -120,11 +92,11 @@ function MainPage ({offersShort}: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offersShort={offersShort}/>
+                {offersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map mode={OfferCardMode.MainPage} offersShort={offersShort} currentOfferId={currentOfferId}/>
             </div>
           </div>
         </div>
