@@ -100,3 +100,12 @@ export const CITIES: City[] = [
 
 export const DEFAULT_CITY_NAME = 'Paris';
 export const DEFAULT_CITY = CITIES.find((city: City) => city.name === DEFAULT_CITY_NAME) as City;
+
+export enum SortType {
+  Popular = 'Popular',
+  Price_low_to_high = 'Price: low to high',
+  Price_high_to_low = 'Price: high to low',
+  Top_rated_first = 'Top rated first'
+};
+
+export const SORT_TYPES = [SortType.Popular, SortType.Price_low_to_high, SortType.Price_high_to_low, SortType.Top_rated_first];

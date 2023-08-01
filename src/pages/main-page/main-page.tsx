@@ -7,13 +7,15 @@ import { OfferCardMode } from '../../const';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
 import { useAppSelector } from '../../hooks';
-import { getOffersByCity } from '../../utils/utils';
+import { getOffersByCity, sortOffers } from '../../utils/utils';
 import OffersSorting from '../../components/offers-sorting/offers-sorting';
 
 function MainPage (): JSX.Element {
   const allOffersShort = useAppSelector((state) => state.offers);
+  const sortType = useAppSelector((state) => state.sortType);
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity.name);
+  const sortedOffersShort = sortOffers(offersShort, sortType)
 
   const [currentOfferId, setCurrentOfferId] = useState<string>();
 
@@ -71,7 +73,7 @@ function MainPage (): JSX.Element {
               <b className="places__found">{offersShort.length} places to stay in {activeCity.name}</b>
               <OffersSorting/>
               <div className="cities__places-list places__list tabs__content">
-                {offersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
+                {sortedOffersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
               </div>
             </section>
             <div className="cities__right-section">
