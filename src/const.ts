@@ -1,6 +1,5 @@
-import { City, CityName } from './types/city';
+import { City } from './types/city';
 import { Rating } from './types/rating';
-import { Location } from './types/location';
 
 export enum AppRoute {
   Root = '/',
@@ -97,7 +96,7 @@ export const CITIES: City[] = [
       zoom: 13
     }
   }
-]
+];
 
 export const DEFAULT_CITY_NAME = 'Paris';
 export const DEFAULT_CITY = CITIES.find((city: City) => city.name === DEFAULT_CITY_NAME) as City;

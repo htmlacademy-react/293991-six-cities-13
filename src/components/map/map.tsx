@@ -51,7 +51,7 @@ function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersShort, currentOfferId]);
+  }, [map, offersShort, currentOfferId, activeCity]);
 
   return (
     <section

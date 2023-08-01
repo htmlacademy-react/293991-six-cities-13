@@ -15,21 +15,20 @@ import { useAppDispatch } from '../../hooks';
 
 type AppProps = {
   offersDetail: OfferDetail[];
-  offersShort: OfferShort[];
   reviews: Review[];
   offersFavorities: OfferShort[];
 }
 
-function App({offersDetail, offersShort, reviews, offersFavorities}: AppProps): JSX.Element {
+function App({offersDetail, reviews, offersFavorities}: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadOffers())
-  }, [dispatch])
+    dispatch(loadOffers());
+  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(changeCity(DEFAULT_CITY))
-  }, [dispatch])
+    dispatch(changeCity(DEFAULT_CITY));
+  }, [dispatch]);
 
   return (
     <HelmetProvider>

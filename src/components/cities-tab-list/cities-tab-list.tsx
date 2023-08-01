@@ -18,7 +18,7 @@ function CitiesTabList({cities}: CitiesListProps):JSX.Element {
           </ul>
         </section>
       </div>
-      </>
+    </>
   );
 }
 

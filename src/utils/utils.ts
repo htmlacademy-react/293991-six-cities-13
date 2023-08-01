@@ -61,4 +61,4 @@ export function getNearOffers(): OfferShort[] {
 
 export function getOffersByCity<T extends OfferBase>(offers: T[], cityName: CityName): T[] {
   return groupOffersByCity<T>(offers)[cityName] || [];
-};
+}

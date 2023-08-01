@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { offersDetail } from './mocks/offers-detail';
-import { offersShort } from './mocks/offers-short';
 import { reviews } from './mocks/offers-reviews';
 import { offersFavorities } from './mocks/offers-favorities';
 import { store } from './store';
@@ -16,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App offersDetail={offersDetail} offersShort={offersShort} reviews={reviews} offersFavorities={offersFavorities}/>
+      <App offersDetail={offersDetail} reviews={reviews} offersFavorities={offersFavorities}/>
     </Provider>
   </React.StrictMode>
 );
