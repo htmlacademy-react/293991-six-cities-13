@@ -106,6 +106,6 @@ export enum SortType {
   Price_low_to_high = 'Price: low to high',
   Price_high_to_low = 'Price: high to low',
   Top_rated_first = 'Top rated first'
-};
+}
 
 export const SORT_TYPES = [SortType.Popular, SortType.Price_low_to_high, SortType.Price_high_to_low, SortType.Top_rated_first];

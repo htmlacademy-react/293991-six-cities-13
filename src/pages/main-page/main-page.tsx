@@ -15,7 +15,7 @@ function MainPage (): JSX.Element {
   const sortType = useAppSelector((state) => state.sortType);
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity.name);
-  const sortedOffersShort = sortOffers(offersShort, sortType)
+  const sortedOffersShort = sortOffers(offersShort, sortType);
 
   const [currentOfferId, setCurrentOfferId] = useState<string>();
 
