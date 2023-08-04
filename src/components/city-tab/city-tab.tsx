@@ -12,14 +12,13 @@ function CityTab({city}: CityTabProps):JSX.Element {
   const dispatch = useAppDispatch();
 
   const onClickHandler = (clickedCity: City) => () => (dispatch(changeCity(clickedCity)));
-  const classNames = cn(
-    'locations__item-link tabs__item',
-    {'tabs__item--active': city.name === activeCity.name}
-  );
 
   return (
     <li className="locations__item">
-      <a className={classNames}
+      <a className={cn(
+          'locations__item-link tabs__item',
+          {'tabs__item--active': city.name === activeCity.name}
+        )}
         onClick={onClickHandler(city)}
       >
         <span>{city.name}</span>

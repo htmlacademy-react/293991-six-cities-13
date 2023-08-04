@@ -10,7 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { OfferDetail, OfferShort } from '../../types/offer';
 import { Review } from '../../types/offer-review';
 import { useEffect } from 'react';
-import { changeCity, loadOffers } from '../../store/action';
+import { loadOffers } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 
 type AppProps = {
@@ -24,10 +24,6 @@ function App({offersDetail, reviews, offersFavorities}: AppProps): JSX.Element {
 
   useEffect(() => {
     dispatch(loadOffers());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(changeCity(DEFAULT_CITY));
   }, [dispatch]);
 
   return (
