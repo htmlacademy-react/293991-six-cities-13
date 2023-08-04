@@ -7,6 +7,7 @@ type OfferReviewProps = {
 }
 
 function OfferReview({comments}: OfferReviewProps): JSX.Element {
+  // Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 1.
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">
