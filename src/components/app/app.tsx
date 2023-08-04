@@ -4,13 +4,13 @@ import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import {AppRoute, DEFAULT_CITY} from '../../const';
+import {AppRoute} from '../../const';
 import RequireAuth from '../require-auth/require-auth';
 import { HelmetProvider } from 'react-helmet-async';
 import { OfferDetail, OfferShort } from '../../types/offer';
 import { Review } from '../../types/offer-review';
 import { useEffect } from 'react';
-import { changeCity, loadOffers } from '../../store/action';
+import { loadOffers } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 
 type AppProps = {
@@ -24,10 +24,6 @@ function App({offersDetail, reviews, offersFavorities}: AppProps): JSX.Element {
 
   useEffect(() => {
     dispatch(loadOffers());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(changeCity(DEFAULT_CITY));
   }, [dispatch]);
 
   return (
