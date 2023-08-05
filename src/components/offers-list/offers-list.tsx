@@ -1,20 +1,20 @@
-import { OfferCardMode } from "../../const";
-import { useAppSelector } from "../../hooks";
-import { City } from "../../types/city";
-import { OfferShort } from "../../types/offer";
-import { sortOffers } from "../../utils/utils";
-import OfferCard from "../offer-card/offer-card";
+import { OfferCardMode } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { City } from '../../types/city';
+import { OfferShort } from '../../types/offer';
+import { sortOffers } from '../../utils/utils';
+import OfferCard from '../offer-card/offer-card';
 
 type OfferslistProps = {
   offersShort: OfferShort[];
   activeCity: City;
-  onMouseEnterHandler: (offerId: string) => () => void
+  onMouseEnterHandler: (offerId: string) => () => void;
 }
 
 function OffersList({offersShort, activeCity, onMouseEnterHandler}: OfferslistProps):JSX.Element {
   const sortType = useAppSelector((state) => state.sortType);
   const sortedOffersShort = sortOffers(offersShort, sortType);
-  
+
   return (
     <>
       <h2 className="visually-hidden">Places</h2>

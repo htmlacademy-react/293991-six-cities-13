@@ -1,4 +1,4 @@
-import './loading-spinner.css'
+import './loading-spinner.css';
 
 function LoadingSpinner():JSX.Element {
   return (
