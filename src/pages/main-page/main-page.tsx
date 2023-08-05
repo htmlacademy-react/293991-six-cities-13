@@ -2,20 +2,19 @@ import { Helmet } from 'react-helmet-async';
 import { OfferShort } from '../../types/offer';
 import Map from '../../components/map/map';
 import { useState } from 'react';
-import OfferCard from '../../components/offer-card/offer-card';
 import { OfferCardMode } from '../../const';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
 import { useAppSelector } from '../../hooks';
-import { getOffersByCity, sortOffers } from '../../utils/utils';
-import OffersSorting from '../../components/offers-sorting/offers-sorting';
+import { getOffersByCity } from '../../utils/utils';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import OffersList from '../../components/offers-list/offers-list';
 
 function MainPage (): JSX.Element {
   const allOffersShort = useAppSelector((state) => state.offers);
-  const sortType = useAppSelector((state) => state.sortType);
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity.name);
-  const sortedOffersShort = sortOffers(offersShort, sortType);
 
   const [currentOfferId, setCurrentOfferId] = useState<string>();
 
@@ -69,12 +68,7 @@ function MainPage (): JSX.Element {
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersShort.length} {offersShort.length === 1 ? 'place' : 'places'} to stay in {activeCity.name}</b>
-              <OffersSorting/>
-              <div className="cities__places-list places__list tabs__content">
-                {sortedOffersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
-              </div>
+              {isOffersLoading ? <LoadingSpinner/> : <OffersList offersShort={offersShort} activeCity={activeCity} onMouseEnterHandler={onMouseEnterHandler}/>}
             </section>
             <div className="cities__right-section">
               <Map mode={OfferCardMode.MainPage} offersShort={offersShort} currentOfferId={currentOfferId}/>
