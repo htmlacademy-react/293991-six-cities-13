@@ -6,7 +6,7 @@ export const api = createAPI();
 
 export const store = configureStore({
   reducer,
-  middleware: (curryGetDefaultMiddleware) => 
+  middleware: (curryGetDefaultMiddleware) =>
     curryGetDefaultMiddleware({
       thunk: {
         extraArgument: api

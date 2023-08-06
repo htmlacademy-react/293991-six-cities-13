@@ -20,7 +20,7 @@ import Map from '../../components/map/map';
 function OfferPage(): JSX.Element {
   const offersDetail: OfferDetail[] = [];
   const reviews: Review[] = [];
-  
+
   const { id } = useParams();
   const offerDetail = offersDetail.find((offer: OfferDetail) => offer.id === id) as OfferDetail;
   if (offerDetail === undefined) {

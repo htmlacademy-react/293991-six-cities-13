@@ -15,6 +15,10 @@ export const changeSortType = createAction('CHANGE_SORT_TYPE', (sortType: SortTy
   payload: sortType
 }));
 
+export const changeOffersLoadingStatus = createAction('CHANGE_OFFERS_LOADING_STATUS', (isOffersLoading: boolean) => ({
+  payload: isOffersLoading
+}));
+
 export const requireAuthorization = createAction('REQUIRE_AUTHORIZATION', (authorizationStatus: AuthorizationStatus) => ({
   payload: authorizationStatus
 }));
