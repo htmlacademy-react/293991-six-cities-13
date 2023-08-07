@@ -20,19 +20,17 @@ import Map from '../../components/map/map';
 function OfferPage(): JSX.Element {
   const offersDetail: OfferDetail[] = [];
   const reviews: Review[] = [];
-
   const { id } = useParams();
   const offerDetail = offersDetail.find((offer: OfferDetail) => offer.id === id) as OfferDetail;
+  
   if (offerDetail === undefined) {
     <Navigate to={AppRoute.NotFound}/>;
   }
 
   const review = reviews.find((rv: Review) => rv.offerId === id) as Review;
-
+  const comments = review ? review.comments : [];
   const nearOffers = getNearOffers();
-
-  const [currentOfferId, setCurrentOfferId] = useState<string>(nearOffers[0].id);
-
+  const [currentOfferId, setCurrentOfferId] = useState<string>(nearOffers.length > 0 ? nearOffers[0].id : '');
   const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
 
   return (
@@ -52,7 +50,7 @@ function OfferPage(): JSX.Element {
               <OfferPrice offerDetail={offerDetail}/>
               <OfferGoodsList offerDetail={offerDetail}/>
               <OfferHost offerDetail={offerDetail}/>
-              <OfferReview comments={review.comments}/>
+              <OfferReview comments={comments}/>
             </div>
           </div>
           <Map mode={OfferCardMode.NearPlaces} offersShort={nearOffers} currentOfferId={currentOfferId}/>

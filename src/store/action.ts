@@ -1,6 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import { City } from '../types/city';
-import { AuthorizationStatus, SortType } from '../const';
+import { AppRoute, AuthorizationStatus, SortType } from '../const';
 import { OfferShort } from '../types/offer';
 
 export const changeCity = createAction('CHANGE_CITY', (clickedCity: City) => ({
@@ -23,6 +23,8 @@ export const requireAuthorization = createAction('REQUIRE_AUTHORIZATION', (autho
   payload: authorizationStatus
 }));
 
-export const setError = createAction('SET_ERROR', (error: string | null) => ({
-  payload: error
+export const redirectToRoute = createAction<AppRoute>('REDIRECT_TO_ROUTE');
+
+export const changeUserEmail = createAction('CHANGE_USER_EMAIL', (userEmail: string) => ({
+  payload: userEmail
 }));

@@ -11,7 +11,7 @@ function FavoritiesPage(): JSX.Element {
   return (
     <div className="page">
       <Helmet>
-        <title>6 cities. Favorities</title>
+        <title>6 cities. Favorites</title>
       </Helmet>
       <PageHeader/>
       <main className="page__main page__main--favorites">

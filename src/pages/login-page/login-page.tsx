@@ -1,6 +1,27 @@
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { ChangeEvent, useState, MouseEvent} from 'react';
+import { useAppDispatch } from '../../hooks';
+import { loginAction } from '../../services/api-actions';
 
 function LoginPage(): JSX.Element {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  
+  function onChangeEmailHandler(evt: ChangeEvent<HTMLInputElement>) {
+    setEmail(evt.target.value);
+  }
+
+  function onChangePasswordHandler(evt: ChangeEvent<HTMLInputElement>) {
+    setPassword(evt.target.value);
+  }
+
+  function onClickHandler(evt: MouseEvent<HTMLElement>) {
+    evt.preventDefault();
+    dispatch(loginAction({email, password}));
+  };
 
   return (
     <div className="page page--gray page--login">
@@ -11,15 +32,15 @@ function LoginPage(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img
-                  className="header__logo"
-                  src="img/logo.svg"
-                  alt="6 cities logo"
-                  width={81}
-                  height={41}
-                />
-              </a>
+              <Link to={AppRoute.Root} className="header__logo-link">
+                  <img
+                    className="header__logo"
+                    src="img/logo.svg"
+                    alt="6 cities logo"
+                    width={81}
+                    height={41}
+                  />
+              </Link>
             </div>
           </div>
         </div>
@@ -28,7 +49,7 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -37,6 +58,8 @@ function LoginPage(): JSX.Element {
                   name="email"
                   placeholder="Email"
                   required
+                  value={email}
+                  onChange={onChangeEmailHandler}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -47,9 +70,15 @@ function LoginPage(): JSX.Element {
                   name="password"
                   placeholder="Password"
                   required
+                  value={password}
+                  onChange={onChangePasswordHandler}
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+                onClick={onClickHandler}
+              >
                 Sign in
               </button>
             </form>

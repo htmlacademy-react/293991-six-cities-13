@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
 
 function RequireAuth(): JSX.Element {
-  const authorizationStatus = AuthorizationStatus.Auth;
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   return authorizationStatus === AuthorizationStatus.Auth ? <Outlet/> : <Navigate to={AppRoute.Login}/>;
 }
 

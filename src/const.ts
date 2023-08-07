@@ -120,3 +120,5 @@ export enum APIRoute {
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
