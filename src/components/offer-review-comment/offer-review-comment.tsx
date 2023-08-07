@@ -7,6 +7,7 @@ type OfferReviewCommentProps = {
 }
 
 function OfferReviewComment({comment}: OfferReviewCommentProps): JSX.Element {
+  // Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 1.
   const paragraphs = splitLongTextIntoParagraphs(comment.comment);
   const newDT = new Date(comment.date);
 
