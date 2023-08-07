@@ -28,7 +28,6 @@ function OfferPage(): JSX.Element {
   }
 
   const review = reviews.find((rv: Review) => rv.offerId === id) as Review;
-  const comments = review ? review.comments : [];
   const nearOffers = getNearOffers();
   const [currentOfferId, setCurrentOfferId] = useState<string>(nearOffers.length > 0 ? nearOffers[0].id : '');
   const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
@@ -50,9 +49,11 @@ function OfferPage(): JSX.Element {
               <OfferPrice offerDetail={offerDetail}/>
               <OfferGoodsList offerDetail={offerDetail}/>
               <OfferHost offerDetail={offerDetail}/>
-              <OfferReview comments={comments}/>
+              {/*Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 2.*/}
+              <OfferReview comments={review.comments}/>
             </div>
           </div>
+          {/*Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 3.*/}
           <Map mode={OfferCardMode.NearPlaces} offersShort={nearOffers} currentOfferId={currentOfferId}/>
         </section>
         <div className="container">
@@ -61,6 +62,7 @@ function OfferPage(): JSX.Element {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
+              {/*Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 4.*/}
               {nearOffers.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.NearPlaces} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
             </div>
           </section>
