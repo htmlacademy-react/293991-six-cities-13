@@ -22,7 +22,7 @@ function OfferPage(): JSX.Element {
   const reviews: Review[] = [];
   const { id } = useParams();
   const offerDetail = offersDetail.find((offer: OfferDetail) => offer.id === id) as OfferDetail;
-  
+
   if (offerDetail === undefined) {
     <Navigate to={AppRoute.NotFound}/>;
   }

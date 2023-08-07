@@ -9,7 +9,7 @@ function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  
+
   function onChangeEmailHandler(evt: ChangeEvent<HTMLInputElement>) {
     setEmail(evt.target.value);
   }
@@ -21,7 +21,7 @@ function LoginPage(): JSX.Element {
   function onClickHandler(evt: MouseEvent<HTMLElement>) {
     evt.preventDefault();
     dispatch(loginAction({email, password}));
-  };
+  }
 
   return (
     <div className="page page--gray page--login">
@@ -33,13 +33,13 @@ function LoginPage(): JSX.Element {
           <div className="header__wrapper">
             <div className="header__left">
               <Link to={AppRoute.Root} className="header__logo-link">
-                  <img
-                    className="header__logo"
-                    src="img/logo.svg"
-                    alt="6 cities logo"
-                    width={81}
-                    height={41}
-                  />
+                <img
+                  className="header__logo"
+                  src="img/logo.svg"
+                  alt="6 cities logo"
+                  width={81}
+                  height={41}
+                />
               </Link>
             </div>
           </div>

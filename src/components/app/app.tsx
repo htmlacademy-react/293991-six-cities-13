@@ -16,9 +16,9 @@ import browserHistory from '../../browser-history';
 function App(): JSX.Element {
   const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  
+
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) {
-    return <LoadingSpinner/>
+    return <LoadingSpinner/>;
   }
 
   return (

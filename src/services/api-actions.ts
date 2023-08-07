@@ -49,6 +49,6 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Root));
-    dispatch(changeUserEmail(email))
+    dispatch(changeUserEmail(email));
   }
 );
