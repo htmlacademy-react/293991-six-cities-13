@@ -55,15 +55,15 @@ function MainPage (): JSX.Element {
           <div className="cities__places-container container">
             {
               (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) ?
-              <LoadingSpinner/> :
-              <>
-                <section className="cities__places places">
-                  <OffersList offersShort={offersShort} activeCity={activeCity} onMouseEnterHandler={onMouseEnterHandler}/>
-                </section>
-                <div className="cities__right-section">
-                  <Map mode={OfferCardMode.MainPage} offersShort={offersShort}/>
-                </div>
-              </>
+                <LoadingSpinner/> :
+                <>
+                  <section className="cities__places places">
+                    <OffersList offersShort={offersShort} activeCity={activeCity} onMouseEnterHandler={onMouseEnterHandler}/>
+                  </section>
+                  <div className="cities__right-section">
+                    <Map mode={OfferCardMode.MainPage} offersShort={offersShort}/>
+                  </div>
+                </>
             }
           </div>
         </div>
