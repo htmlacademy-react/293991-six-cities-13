@@ -28,3 +28,7 @@ export const redirectToRoute = createAction<AppRoute>('REDIRECT_TO_ROUTE');
 export const changeUserEmail = createAction('CHANGE_USER_EMAIL', (userEmail: string) => ({
   payload: userEmail
 }));
+
+export const changeCurrentOffer = createAction('CHANGE_CURRENT_OFFER', (currentOfferId: string) => ({
+  payload: currentOfferId
+}));
