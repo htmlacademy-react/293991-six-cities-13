@@ -10,9 +10,10 @@ type OfferslistProps = {
   offersShort: OfferShort[];
   activeCity: City;
   onMouseEnterHandler: (offerId: string) => () => void;
+  onMouseLeaveHandler: () => void;
 }
 
-function OffersList({offersShort, activeCity, onMouseEnterHandler}: OfferslistProps):JSX.Element {
+function OffersList({offersShort, activeCity, onMouseEnterHandler, onMouseLeaveHandler}: OfferslistProps):JSX.Element {
   const sortType = useAppSelector((state) => state.sortType);
   const sortedOffersShort = sortOffers(offersShort, sortType);
 
@@ -22,7 +23,7 @@ function OffersList({offersShort, activeCity, onMouseEnterHandler}: OfferslistPr
       <b className="places__found">{offersShort.length} {offersShort.length === 1 ? 'place' : 'places'} to stay in {activeCity.name}</b>
       <OffersSorting/>
       <div className="cities__places-list places__list tabs__content">
-        {sortedOffersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
+        {sortedOffersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)} onMouseLeaveHandler={onMouseLeaveHandler}/>))}
       </div>
     </>
   );

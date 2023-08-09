@@ -4,13 +4,13 @@ import Map from '../../components/map/map';
 import { AuthorizationStatus, OfferCardMode } from '../../const';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { getOffersByCity } from '../../utils/utils';
 import OffersList from '../../components/offers-list/offers-list';
 import LoggedUser from '../../components/logged-user/logged-user';
 import LogginButton from '../../components/loggin-button/loggin-button';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { changeCurrentOffer } from '../../store/action';
+import { useState } from 'react';
 
 function MainPage (): JSX.Element {
   const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
@@ -18,9 +18,10 @@ function MainPage (): JSX.Element {
   const allOffersShort = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity.name);
-  const dispatch = useAppDispatch();
+  const [currentOfferId, setCurrentOfferId] = useState<string>('');
 
-  const onMouseEnterHandler = (offerId: string) => () => dispatch(changeCurrentOffer(offerId));
+  const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
+  const onMouseLeaveHandler = () => setCurrentOfferId('');
 
   return (
     <div className="page page--gray page--main">
@@ -58,10 +59,15 @@ function MainPage (): JSX.Element {
                 <LoadingSpinner/> :
                 <>
                   <section className="cities__places places">
-                    <OffersList offersShort={offersShort} activeCity={activeCity} onMouseEnterHandler={onMouseEnterHandler}/>
+                    <OffersList
+                      offersShort={offersShort}
+                      activeCity={activeCity}
+                      onMouseEnterHandler={onMouseEnterHandler}
+                      onMouseLeaveHandler={onMouseLeaveHandler}
+                    />
                   </section>
                   <div className="cities__right-section">
-                    <Map mode={OfferCardMode.MainPage} offersShort={offersShort}/>
+                    <Map offersShort={offersShort} mode={OfferCardMode.MainPage} currentOfferId={currentOfferId}/>
                   </div>
                 </>
             }

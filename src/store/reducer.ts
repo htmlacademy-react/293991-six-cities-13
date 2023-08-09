@@ -1,8 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeCurrentOffer, changeOffersLoadingStatus, changeSortType, changeUserEmail, loadOffers, requireAuthorization } from './action';
+import { changeCity, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization } from './action';
 import { City } from '../types/city';
-import { OfferShort } from '../types/offer';
+import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
+import { Comment } from '../types/offer-review';
 
 
 type InitialCity = {
@@ -12,7 +13,12 @@ type InitialCity = {
   isOffersLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userEmail: string;
-  currentOfferId: string;
+  offerDetail: OfferDetail | null;
+  isOfferDetailLoading: boolean;
+  offerComments: Comment[];
+  areOfferCommentsLoading: boolean;
+  offersNearBy: OfferShort[];
+  areOffersNearByLoading: boolean;
 }
 
 const initialState: InitialCity = {
@@ -22,14 +28,19 @@ const initialState: InitialCity = {
   isOffersLoading: true,
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: '',
-  currentOfferId: ''
+  offerDetail: null,
+  isOfferDetailLoading: true,
+  offerComments: [],
+  areOfferCommentsLoading: true,
+  offersNearBy: [],
+  areOffersNearByLoading: true
+
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, action) => {
       state.activeCity = action.payload;
-      state.currentOfferId = '';
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
@@ -46,8 +57,35 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeUserEmail, (state, action) => {
       state.userEmail = action.payload;
     })
-    .addCase(changeCurrentOffer, (state, action) => {
-      state.currentOfferId = action.payload;
+    .addCase(loadOfferDetail, (state, action) => {
+      state.offerDetail = action.payload;
+    })
+    .addCase(changeOfferDetailLoadingStatus, (state, action) => {
+      state.isOfferDetailLoading = action.payload;
+    })
+    .addCase(deleteOfferDetail, (state) => {
+      state.offerDetail = null;
+      state.isOfferDetailLoading = true;
+    })
+    .addCase(loadOfferComments, (state, action) => {
+      state.offerComments = action.payload;
+    })
+    .addCase(changeOfferCommentsLoadingStatus, (state, action) => {
+      state.areOfferCommentsLoading = action.payload;
+    })
+    .addCase(deleteOfferComments, (state) => {
+      state.offerComments = [];
+      state.areOfferCommentsLoading = true;
+    })
+    .addCase(loadOffersNearBy, (state, action) => {
+      state.offersNearBy = action.payload;
+    })
+    .addCase(changeOffersNearByLoadingStatus, (state, action) => {
+      state.areOffersNearByLoading = action.payload;
+    })
+    .addCase(deleteOffersNearBy, (state) => {
+      state.offersNearBy = [];
+      state.areOffersNearByLoading = true;
     });
 });
 

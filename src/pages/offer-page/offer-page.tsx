@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { OfferDetail, OfferShort } from '../../types/offer';
+import { OfferShort } from '../../types/offer';
 import { Navigate, useParams } from 'react-router-dom';
 import { AppRoute, OfferCardMode } from '../../const';
 import ImagesList from '../../components/offer-images-list/offer-images-list';
@@ -11,27 +11,46 @@ import OfferRating from '../../components/offer-rating/offer-rating';
 import OfferHeader from '../../components/offer-header/offer-header';
 import PageHeader from '../../components/page-header/page-header';
 import OfferReview from '../../components/offer-review/offer-review';
-import { Review } from '../../types/offer-review';
-import { getNearOffers } from '../../utils/utils';
 import OfferCard from '../../components/offer-card/offer-card';
 import Map from '../../components/map/map';
-import { changeCurrentOffer } from '../../store/action';
-import { useAppDispatch } from '../../hooks';
+import { deleteOfferComments, deleteOfferDetail, deleteOffersNearBy } from '../../store/action';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import { loadOfferCommentsAction, loadOfferDetailAction, loadOffersNearByAction } from '../../services/api-actions';
+import { useEffect, useState } from 'react';
+import { filterNearByOffers } from '../../utils/utils';
 
 function OfferPage(): JSX.Element {
-  const offersDetail: OfferDetail[] = [];
-  const reviews: Review[] = [];
+  const isOfferDetailLoading = useAppSelector((state) => state.isOfferDetailLoading);
+  const areOfferCommentsLoading = useAppSelector((state) => state.areOfferCommentsLoading);
+  const offersNearBy = useAppSelector((state) => state.offersNearBy);
+  const filteredOffersNearBy = filterNearByOffers(offersNearBy);
+  const areOffersNearByLoading = useAppSelector((state) => state.areOffersNearByLoading);
+  const offerComments = useAppSelector((state) => state.offerComments);
+  const offerDetail = useAppSelector((state) => state.offerDetail);
   const { id } = useParams();
-  const offerDetail = offersDetail.find((offer: OfferDetail) => offer.id === id) as OfferDetail;
   const dispatch = useAppDispatch();
+  const [currentOfferId, setCurrentOfferId] = useState<string>('');
 
-  if (offerDetail === undefined) {
+  if (offerDetail === undefined || offerDetail === null) {
     <Navigate to={AppRoute.NotFound}/>;
   }
 
-  const review = reviews.find((rv: Review) => rv.offerId === id) as Review;
-  const nearOffers = getNearOffers();
-  const onMouseEnterHandler = (offerId: string) => () => dispatch(changeCurrentOffer(offerId));
+  useEffect(() => {
+    if (id) {
+      dispatch(loadOfferDetailAction(id));
+      dispatch(loadOfferCommentsAction(id));
+      dispatch(loadOffersNearByAction(id));
+    }
+    return () => {
+      dispatch(deleteOfferDetail());
+      dispatch(deleteOfferComments());
+      dispatch(deleteOffersNearBy());
+    };
+  }, [id, dispatch]);
+
+  const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
+  const onMouseLeaveHandler = () => setCurrentOfferId('');
 
   return (
     <div className="page">
@@ -40,34 +59,49 @@ function OfferPage(): JSX.Element {
       </Helmet>
       <PageHeader/>
       <main className="page__main page__main--offer">
-        <section className="offer">
-          <ImagesList offerDetail={offerDetail}/>
-          <div className="offer__container container">
-            <div className="offer__wrapper">
-              <OfferHeader offerDetail={offerDetail}/>
-              <OfferRating offerDetail={offerDetail}/>
-              <OfferFeatures offerDetail={offerDetail}/>
-              <OfferPrice offerDetail={offerDetail}/>
-              <OfferGoodsList offerDetail={offerDetail}/>
-              <OfferHost offerDetail={offerDetail}/>
-              {/*Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 2.*/}
-              <OfferReview comments={review.comments}/>
-            </div>
-          </div>
-          {/*Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 3.*/}
-          <Map mode={OfferCardMode.NearPlaces} offersShort={nearOffers}/>
-        </section>
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">
-              Other places in the neighbourhood
-            </h2>
-            <div className="near-places__list places__list">
-              {/*Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 4.*/}
-              {nearOffers.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.NearPlaces} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)}/>))}
-            </div>
-          </section>
-        </div>
+        {
+          isOfferDetailLoading ?
+            <LoadingSpinner/> :
+            <>
+              <section className="offer">
+                <ImagesList images={offerDetail?.images}/>
+                <div className="offer__container container">
+                  <div className="offer__wrapper">
+                    <OfferHeader isPremium={offerDetail?.isPremium} title={offerDetail?.title}/>
+                    <OfferRating rating={offerDetail?.rating}/>
+                    <OfferFeatures type={offerDetail?.type} bedrooms={offerDetail?.bedrooms} maxAdults={offerDetail?.maxAdults}/>
+                    <OfferPrice price={offerDetail?.price}/>
+                    <OfferGoodsList goods={offerDetail?.goods}/>
+                    <OfferHost description={offerDetail?.description} host={offerDetail?.host}/>
+                    {
+                      areOfferCommentsLoading ?
+                        <LoadingSpinner/> :
+                        <OfferReview comments={offerComments}/>
+                    }
+                  </div>
+                </div>
+                {
+                  areOffersNearByLoading ?
+                    <LoadingSpinner/> :
+                    <Map offersShort={filteredOffersNearBy} mode={OfferCardMode.NearPlaces} currentOfferId={currentOfferId}/>
+                }
+              </section>
+              {
+                areOffersNearByLoading ?
+                  <LoadingSpinner/> :
+                  <div className="container">
+                    <section className="near-places places">
+                      <h2 className="near-places__title">
+                        Other places in the neighbourhood
+                      </h2>
+                      <div className="near-places__list places__list">
+                        {filteredOffersNearBy.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.NearPlaces} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)} onMouseLeaveHandler={onMouseLeaveHandler}/>))}
+                      </div>
+                    </section>
+                  </div>
+              }
+            </>
+        }
       </main>
     </div>
   );

@@ -1,18 +1,17 @@
-import { OfferDetail } from '../../types/offer';
 import { convertRatingToWidthPerc } from '../../utils/utils';
 
 type OfferRatingProps = {
-  offerDetail: OfferDetail;
+  rating: number | undefined;
 }
 
-function OfferRating({offerDetail}: OfferRatingProps): JSX.Element {
+function OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
   return (
     <div className="offer__rating rating">
       <div className="offer__stars rating__stars">
-        <span style={{ width: convertRatingToWidthPerc(offerDetail.rating) }} />
+        <span style={{ width: convertRatingToWidthPerc(rating) }} />
         <span className="visually-hidden">Rating</span>
       </div>
-      <span className="offer__rating-value rating__value">{offerDetail.rating}</span>
+      <span className="offer__rating-value rating__value">{rating}</span>
     </div>
   );
 }
