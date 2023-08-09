@@ -1,8 +1,7 @@
-import { PARAGRAPH_MAX_LEN } from '../const';
+import { PARAGRAPH_MAX_LEN, SortType } from '../const';
 import { offersShort } from '../mocks/offers-short';
 import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
 import { CityName } from '../types/city';
-import { GroupedOffersByCity, OfferBase } from '../types/offer';
 
 export function convertRatingToWidthPerc(rating: number): string {
   return `${rating / 5 * 100}%`;
@@ -61,4 +60,19 @@ export function getNearOffers(): OfferShort[] {
 
 export function getOffersByCity<T extends OfferBase>(offers: T[], cityName: CityName): T[] {
   return groupOffersByCity<T>(offers)[cityName] || [];
+}
+
+export function sortOffers<T extends OfferBase>(offers: T[], sortType: SortType): T[] {
+  switch (sortType) {
+    case SortType.Popular:
+      return [...offers];
+    case SortType.Price_low_to_high:
+      return [...offers].sort((a: T, b: T) => a.price - b.price);
+    case SortType.Price_high_to_low:
+      return [...offers].sort((a: T, b: T) => b.price - a.price);
+    case SortType.Top_rated_first:
+      return [...offers].sort((a: T, b: T) => b.rating - a.rating);
+    default:
+      return [...offers];
+  }
 }
