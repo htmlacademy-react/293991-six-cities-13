@@ -3,12 +3,13 @@ import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AppRoute, AuthorizationStatus, BackendRoute } from '../const';
-import { changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeUserEmail, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, redirectToRoute, requireAuthorization } from '../store/action';
+import { changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeUserEmail, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, redirectToRoute, requireAuthorization, setError } from '../store/action';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { saveToken } from './token';
 import { Comment } from '../types/offer-review';
 import { generatePath } from 'react-router-dom';
+import { CommentRequestData } from '../types/comment-request-data';
 
 export const loadOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -31,10 +32,12 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'REQUIRE_AUTHORIZATION',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(BackendRoute.Login);
+      const {data} = await api.get(BackendRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(changeUserEmail(data.email));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(changeUserEmail(''));
     }
   },
 );
@@ -49,8 +52,8 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     const {data} = await api.post<UserData>(BackendRoute.Login, {email, password});
     saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(changeUserEmail(data.email));
     dispatch(redirectToRoute(AppRoute.Root));
-    dispatch(changeUserEmail(email));
   }
 );
 
@@ -94,5 +97,17 @@ export const loadOffersNearByAction = createAsyncThunk<void, string, {
     const {data} = await api.get<OfferShort[]>(generatePath(BackendRoute.OffersNearBy, {id: offerId}));
     dispatch(changeOffersNearByLoadingStatus(false));
     dispatch(loadOffersNearBy(data));
+  }
+);
+
+export const addComment = createAsyncThunk<void, CommentRequestData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'LOGIN',
+  async ({offerId, comment, rating}, {dispatch, extra: api}) => {
+    await api.post(generatePath(BackendRoute.Comments, {id: offerId}), {comment, rating});
+    dispatch(loadOfferCommentsAction(offerId));
   }
 );

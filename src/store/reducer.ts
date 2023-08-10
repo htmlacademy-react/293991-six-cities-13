@@ -1,9 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization } from './action';
+import { changeCity, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError } from './action';
 import { City } from '../types/city';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
 import { Comment } from '../types/offer-review';
+import { ErrorResponse } from '../types/error-response';
 
 
 type InitialCity = {
@@ -19,6 +20,7 @@ type InitialCity = {
   areOfferCommentsLoading: boolean;
   offersNearBy: OfferShort[];
   areOffersNearByLoading: boolean;
+  errorResponse: ErrorResponse | null;
 }
 
 const initialState: InitialCity = {
@@ -33,8 +35,8 @@ const initialState: InitialCity = {
   offerComments: [],
   areOfferCommentsLoading: true,
   offersNearBy: [],
-  areOffersNearByLoading: true
-
+  areOffersNearByLoading: true,
+  errorResponse: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -86,6 +88,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(deleteOffersNearBy, (state) => {
       state.offersNearBy = [];
       state.areOffersNearByLoading = true;
+    })
+    .addCase(setError, (state, action) => {
+      state.errorResponse = action.payload;
     });
 });
 

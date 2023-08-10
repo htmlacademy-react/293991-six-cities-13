@@ -3,6 +3,7 @@ import { City } from '../types/city';
 import { AppRoute, AuthorizationStatus, SortType } from '../const';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { Comment } from '../types/offer-review';
+import { ErrorResponse } from '../types/error-response';
 
 export const changeCity = createAction('CHANGE_CITY', (clickedCity: City) => ({
   payload: clickedCity
@@ -59,3 +60,8 @@ export const changeOffersNearByLoadingStatus = createAction('CHANGE_OFFERS_NEARB
 }));
 
 export const deleteOffersNearBy = createAction('DELETE_OFFERS_NEARBY');
+
+
+export const setError = createAction('SET_ERROR', (errorResponse: ErrorResponse) => ({
+  payload: errorResponse
+}));

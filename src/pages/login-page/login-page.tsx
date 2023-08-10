@@ -1,9 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { ChangeEvent, useState, MouseEvent} from 'react';
+import { ChangeEvent, useState, FormEvent} from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
+import { AuthData } from '../../types/auth-data';
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
@@ -18,9 +19,12 @@ function LoginPage(): JSX.Element {
     setPassword(evt.target.value);
   }
 
-  function onClickHandler(evt: MouseEvent<HTMLElement>) {
+  function onSubmitFormHandler(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    dispatch(loginAction({email, password}));
+    const form = evt.currentTarget;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData) as AuthData;
+    dispatch(loginAction(data));
   }
 
   return (
@@ -49,7 +53,7 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" method="post">
+            <form className="login__form form" onClick={onSubmitFormHandler}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -77,7 +81,6 @@ function LoginPage(): JSX.Element {
               <button
                 className="login__submit form__submit button"
                 type="submit"
-                onClick={onClickHandler}
               >
                 Sign in
               </button>
