@@ -4,11 +4,8 @@ import { OfferShort } from '../../types/offer';
 import FavoritiesList from '../../components/favorities-list/favorities-list';
 import { groupOffersByCity } from '../../utils/utils';
 
-type FavoritiesPageProps = {
-  offersFavorities: OfferShort[];
-}
-
-function FavoritiesPage({offersFavorities}: FavoritiesPageProps): JSX.Element {
+function FavoritiesPage(): JSX.Element {
+  const offersFavorities: OfferShort[] = [];
   const offersByCities = groupOffersByCity<OfferShort>(offersFavorities);
 
   return (

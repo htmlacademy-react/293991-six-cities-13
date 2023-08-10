@@ -1,5 +1,4 @@
 import { PARAGRAPH_MAX_LEN, SortType } from '../const';
-import { offersShort } from '../mocks/offers-short';
 import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
 import { CityName } from '../types/city';
 
@@ -55,7 +54,7 @@ export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffe
 }
 
 export function getNearOffers(): OfferShort[] {
-  return offersShort.slice(0, 3);
+  return [].slice(0, 3);
 }
 
 export function getOffersByCity<T extends OfferBase>(offers: T[], cityName: CityName): T[] {

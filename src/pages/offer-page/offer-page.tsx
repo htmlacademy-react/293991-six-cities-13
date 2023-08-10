@@ -17,12 +17,10 @@ import { useState } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
 import Map from '../../components/map/map';
 
-type OfferPageProps = {
-  offersDetail: OfferDetail[];
-  reviews: Review[];
-}
+function OfferPage(): JSX.Element {
+  const offersDetail: OfferDetail[] = [];
+  const reviews: Review[] = [];
 
-function OfferPage({offersDetail, reviews}: OfferPageProps): JSX.Element {
   const { id } = useParams();
   const offerDetail = offersDetail.find((offer: OfferDetail) => offer.id === id) as OfferDetail;
   if (offerDetail === undefined) {

@@ -109,3 +109,10 @@ export enum SortType {
 }
 
 export const SORT_TYPES = [SortType.Popular, SortType.Price_low_to_high, SortType.Price_high_to_low, SortType.Top_rated_first];
+
+export const BACKEND_URL = 'https://13.design.pages.academy/six-cities';
+export const REQUEST_TIMEOUT = 5000;
+
+export enum APIRoute {
+  Offers = '/offers',
+}
