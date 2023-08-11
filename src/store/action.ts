@@ -62,6 +62,6 @@ export const changeOffersNearByLoadingStatus = createAction('CHANGE_OFFERS_NEARB
 export const deleteOffersNearBy = createAction('DELETE_OFFERS_NEARBY');
 
 
-export const setError = createAction('SET_ERROR', (errorResponse: ErrorResponse) => ({
+export const setError = createAction('SET_ERROR', (errorResponse: ErrorResponse | null) => ({
   payload: errorResponse
 }));

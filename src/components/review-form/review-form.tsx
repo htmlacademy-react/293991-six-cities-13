@@ -1,10 +1,11 @@
 import { ChangeEvent, useState, MouseEvent } from 'react';
-import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS } from '../../const';
+import { FormControlToDisplayError, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS } from '../../const';
 import { Rating } from '../../types/rating';
 import ReviewRatingStar from '../review-star/review-star';
 import { addComment } from '../../services/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import styles from './review-form.module.css'
+import { extractErrorMessageForControl } from '../../utils/utils';
 
 function ReviewForm():JSX.Element {
   const dispatch = useAppDispatch();
@@ -31,19 +32,23 @@ function ReviewForm():JSX.Element {
     }
   }
 
+  const errorForRating = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.Rating);
+  const errorForComment = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.Comment);
+
   return (
     <form className="reviews__form form" >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
       {
-        errorResponse !== null && errorResponse.details.find((detail) => detail.property === 'rating') !== null && (
-          <p className={styles.error}>{errorResponse.details.find((detail) => detail.property === 'rating')?.messages[0]}</p>
-        )
+        errorResponse !== null && errorForRating && <p className={styles.error}>{errorForRating}</p>
       }
       <div className="reviews__rating-form form__rating">
         {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onChangeRatingHandler={onChangeRatingHandler(rt.score)}/>)}
       </div>
+      {
+        errorResponse !== null && errorForComment && <p className={styles.error}>{errorForComment}</p>
+      }
       <textarea
         className="reviews__textarea form__textarea"
         id="review"

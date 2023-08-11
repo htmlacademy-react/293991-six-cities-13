@@ -1,15 +1,18 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, FormControlToDisplayError } from '../../const';
 import { ChangeEvent, useState, FormEvent} from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
 import { AuthData } from '../../types/auth-data';
+import { extractErrorMessageForControl } from '../../utils/utils';
+import styles from './login-page.module.css'
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
+  const errorResponse = useAppSelector((state) => state.errorResponse);
 
   function onChangeEmailHandler(evt: ChangeEvent<HTMLInputElement>) {
     setEmail(evt.target.value);
@@ -19,13 +22,16 @@ function LoginPage(): JSX.Element {
     setPassword(evt.target.value);
   }
 
-  function onSubmitFormHandler(evt: FormEvent<HTMLFormElement>) {
+  function onSubmitHandler(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     const form = evt.currentTarget;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData) as AuthData;
     dispatch(loginAction(data));
   }
+
+  const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.Email);
+  const errorForPassword = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.Password);
 
   return (
     <div className="page page--gray page--login">
@@ -53,9 +59,12 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" onClick={onSubmitFormHandler}>
+            <form className="login__form form" onSubmit={onSubmitHandler}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
+                {
+                  errorResponse !== null && errorForEmail && <p className={styles.error}>{errorForEmail}</p>
+                }
                 <input
                   className="login__input form__input"
                   type="email"
@@ -68,6 +77,9 @@ function LoginPage(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
+                {
+                  errorResponse !== null && errorForPassword && <p className={styles.error}>{errorForPassword}</p>
+                }
                 <input
                   className="login__input form__input"
                   type="password"
@@ -81,6 +93,7 @@ function LoginPage(): JSX.Element {
               <button
                 className="login__submit form__submit button"
                 type="submit"
+                // onClick={onSubmitClickHandler}
               >
                 Sign in
               </button>

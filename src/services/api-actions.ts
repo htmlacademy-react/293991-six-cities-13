@@ -53,6 +53,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(changeUserEmail(data.email));
+    dispatch(setError(null));
     dispatch(redirectToRoute(AppRoute.Root));
   }
 );
@@ -105,9 +106,10 @@ export const addComment = createAsyncThunk<void, CommentRequestData, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'LOGIN',
+  'ADD_COMMENT',
   async ({offerId, comment, rating}, {dispatch, extra: api}) => {
     await api.post(generatePath(BackendRoute.Comments, {id: offerId}), {comment, rating});
     dispatch(loadOfferCommentsAction(offerId));
+    dispatch(setError(null));
   }
 );

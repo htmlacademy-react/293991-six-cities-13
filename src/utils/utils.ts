@@ -1,6 +1,7 @@
-import { NEARBY_OFFFERS_COUNT, PARAGRAPH_MAX_LEN, SortType } from '../const';
+import { FormControlToDisplayError, NEARBY_OFFFERS_COUNT, PARAGRAPH_MAX_LEN, SortType } from '../const';
 import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
 import { CityName } from '../types/city';
+import { ErrorResponse } from '../types/error-response';
 
 export function convertRatingToWidthPerc(rating: number): string {
   return `${rating / 5 * 100}%`;
@@ -86,4 +87,13 @@ export function sortOffers<T extends OfferBase>(offers: T[], sortType: SortType)
     default:
       return [...offers];
   }
+}
+
+export function extractErrorMessageForControl(errorResponse: ErrorResponse | null, control: FormControlToDisplayError): string {
+  let errorMessage = '';
+  if (errorResponse !== null) {
+    const errorMessages = errorResponse.details.find((item) => item.property === control);
+    errorMessage = (errorMessages !== null && errorMessages !== undefined && errorMessages.messages.length > 0) ? errorMessages.messages[0] : '';
+  }
+  return errorMessage
 }

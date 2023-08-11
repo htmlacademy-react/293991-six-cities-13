@@ -5,6 +5,7 @@ import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
 import { Comment } from '../types/offer-review';
 import { ErrorResponse } from '../types/error-response';
+import { loginAction } from '../services/api-actions';
 
 
 type InitialCity = {
@@ -91,6 +92,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setError, (state, action) => {
       state.errorResponse = action.payload;
+    })
+    .addCase(loginAction.fulfilled, (state) => {
+      state.errorResponse = null;
     });
 });
 
