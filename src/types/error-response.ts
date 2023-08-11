@@ -5,7 +5,7 @@ export type ErrorResponse = {
     {
       property: string;
       value: string;
-      messages: string[]
+      messages: string[];
     }
-  ]
+  ];
 };

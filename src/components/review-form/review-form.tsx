@@ -4,7 +4,7 @@ import { Rating } from '../../types/rating';
 import ReviewRatingStar from '../review-star/review-star';
 import { addComment } from '../../services/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import styles from './review-form.module.css'
+import styles from './review-form.module.css';
 import { extractErrorMessageForControl } from '../../utils/utils';
 
 function ReviewForm():JSX.Element {
@@ -13,7 +13,7 @@ function ReviewForm():JSX.Element {
   const [rating, setRating] = useState(0);
   const offerDetail = useAppSelector((state) => state.offerDetail);
   const errorResponse = useAppSelector((state) => state.errorResponse);
-  
+
   const reviewIsValid = comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > 0;
 
   const onChangeRatingHandler = (newRating: number) => () => setRating(newRating);
@@ -32,8 +32,8 @@ function ReviewForm():JSX.Element {
     }
   }
 
-  const errorForRating = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.Rating);
-  const errorForComment = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.Comment);
+  const errorForRating = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.RatingControl);
+  const errorForComment = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.CommentControl);
 
   return (
     <form className="reviews__form form" >
@@ -68,7 +68,7 @@ function ReviewForm():JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          // disabled={!reviewIsValid}
+          disabled={!reviewIsValid}
           onClick={onSubmitHandler}
         >
           Submit

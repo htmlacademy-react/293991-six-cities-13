@@ -4,9 +4,9 @@ import { AppRoute, FormControlToDisplayError } from '../../const';
 import { ChangeEvent, useState, FormEvent} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
-import { AuthData } from '../../types/auth-data';
+import { AuthRequestData } from '../../types/auth-data';
 import { extractErrorMessageForControl } from '../../utils/utils';
-import styles from './login-page.module.css'
+import styles from './login-page.module.css';
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
@@ -26,12 +26,12 @@ function LoginPage(): JSX.Element {
     evt.preventDefault();
     const form = evt.currentTarget;
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData) as AuthData;
+    const data = Object.fromEntries(formData) as AuthRequestData;
     dispatch(loginAction(data));
   }
 
-  const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.Email);
-  const errorForPassword = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.Password);
+  const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.EmailControl);
+  const errorForPassword = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.PasswordControl);
 
   return (
     <div className="page page--gray page--login">

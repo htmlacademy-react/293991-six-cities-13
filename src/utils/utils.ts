@@ -95,5 +95,5 @@ export function extractErrorMessageForControl(errorResponse: ErrorResponse | nul
     const errorMessages = errorResponse.details.find((item) => item.property === control);
     errorMessage = (errorMessages !== null && errorMessages !== undefined && errorMessages.messages.length > 0) ? errorMessages.messages[0] : '';
   }
-  return errorMessage
+  return errorMessage;
 }

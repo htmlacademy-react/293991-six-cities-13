@@ -4,7 +4,7 @@ import { AxiosInstance } from 'axios';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AppRoute, AuthorizationStatus, BackendRoute } from '../const';
 import { changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeUserEmail, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, redirectToRoute, requireAuthorization, setError } from '../store/action';
-import { AuthData } from '../types/auth-data';
+import { AuthRequestData, AuthResponseData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { saveToken } from './token';
 import { Comment } from '../types/offer-review';
@@ -32,7 +32,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'REQUIRE_AUTHORIZATION',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      const {data} = await api.get(BackendRoute.Login);
+      const {data} = await api.get<AuthResponseData>(BackendRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
       dispatch(changeUserEmail(data.email));
     } catch {
@@ -42,7 +42,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const loginAction = createAsyncThunk<void, AuthRequestData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;

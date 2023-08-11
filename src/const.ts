@@ -1,7 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { City } from './types/city';
 import { Rating } from './types/rating';
-import { ErrorResponse } from './types/error-response';
 
 export enum AppRoute {
   Root = '/',
@@ -133,8 +132,8 @@ export const NEARBY_OFFFERS_COUNT = 3;
 export const HTTP_CODES_TO_DISPLAY = [StatusCodes.BAD_REQUEST, StatusCodes.UNAUTHORIZED, StatusCodes.NOT_FOUND];
 
 export enum FormControlToDisplayError {
-  Email = 'email',
-  Password = 'password',
-  Comment = 'comment',
-  Rating = 'rating',
+  EmailControl = 'email',
+  PasswordControl = 'password',
+  CommentControl = 'comment',
+  RatingControl = 'rating',
 }
