@@ -13,27 +13,25 @@ import PageHeader from '../../components/page-header/page-header';
 import OfferReview from '../../components/offer-review/offer-review';
 import { Review } from '../../types/offer-review';
 import { getNearOffers } from '../../utils/utils';
-import { useState } from 'react';
 import OfferCard from '../../components/offer-card/offer-card';
 import Map from '../../components/map/map';
+import { changeCurrentOffer } from '../../store/action';
+import { useAppDispatch } from '../../hooks';
 
 function OfferPage(): JSX.Element {
   const offersDetail: OfferDetail[] = [];
   const reviews: Review[] = [];
-
   const { id } = useParams();
   const offerDetail = offersDetail.find((offer: OfferDetail) => offer.id === id) as OfferDetail;
+  const dispatch = useAppDispatch();
+
   if (offerDetail === undefined) {
     <Navigate to={AppRoute.NotFound}/>;
   }
 
   const review = reviews.find((rv: Review) => rv.offerId === id) as Review;
-
   const nearOffers = getNearOffers();
-
-  const [currentOfferId, setCurrentOfferId] = useState<string>(nearOffers[0].id);
-
-  const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
+  const onMouseEnterHandler = (offerId: string) => () => dispatch(changeCurrentOffer(offerId));
 
   return (
     <div className="page">
@@ -57,7 +55,7 @@ function OfferPage(): JSX.Element {
             </div>
           </div>
           {/*Формальный PR. Компонент добавлен в предыдущий коммитах. Пункт 3.*/}
-          <Map mode={OfferCardMode.NearPlaces} offersShort={nearOffers} currentOfferId={currentOfferId}/>
+          <Map mode={OfferCardMode.NearPlaces} offersShort={nearOffers}/>
         </section>
         <div className="container">
           <section className="near-places places">

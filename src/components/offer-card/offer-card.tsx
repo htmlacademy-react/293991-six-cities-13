@@ -11,22 +11,23 @@ type OfferCardProps = {
 }
 
 function OfferCard({offerShort, onMouseEnterHandler, mode}: OfferCardProps): JSX.Element {
-  const articleClasses = cn(
-    'place-card',
-    {'cities__card': mode === OfferCardMode.MainPage},
-    {'near-places__card': mode === OfferCardMode.NearPlaces}
-  );
-
-  const wrapperClasses = cn(
-    'place-card__image-wrapper',
-    {'cities__image-wrapper': mode === OfferCardMode.MainPage},
-    {'near-places__image-wrapper': mode === OfferCardMode.NearPlaces}
-  );
 
   return (
-    <article className={articleClasses} onMouseEnter={onMouseEnterHandler}>
+    <article
+      className={cn(
+        'place-card',
+        {'cities__card': mode === OfferCardMode.MainPage},
+        {'near-places__card': mode === OfferCardMode.NearPlaces}
+      )}
+      onMouseEnter={onMouseEnterHandler}
+    >
       {offerShort.isPremium && offerCardPremium()}
-      <div className={wrapperClasses}>
+      <div className={cn(
+        'place-card__image-wrapper',
+        {'cities__image-wrapper': mode === OfferCardMode.MainPage},
+        {'near-places__image-wrapper': mode === OfferCardMode.NearPlaces}
+      )}
+      >
         <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>
           <img
             className="place-card__image"

@@ -1,10 +1,10 @@
-const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+import { AUTH_TOKEN_KEY_NAME } from '../const';
 
 export type Token = string;
 
 export const getToken = (): Token => {
   const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
-  return token ?? 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=';
+  return token ?? '';
 };
 
 export const saveToken = (token: Token): void => {

@@ -9,7 +9,6 @@ import { useAppSelector } from '../../hooks';
 
 type MapProps = {
   offersShort: OfferShort[];
-  currentOfferId: string | undefined;
   mode: OfferCardMode;
 };
 
@@ -25,7 +24,8 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({offersShort, currentOfferId, mode}: MapProps): JSX.Element {
+function Map({offersShort, mode}: MapProps): JSX.Element {
+  const currentOfferId = useAppSelector((state) => state.currentOfferId);
   const activeCity = useAppSelector((state) => state.activeCity);
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);

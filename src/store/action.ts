@@ -1,6 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import { City } from '../types/city';
-import { SortType } from '../const';
+import { AppRoute, AuthorizationStatus, SortType } from '../const';
 import { OfferShort } from '../types/offer';
 
 export const changeCity = createAction('CHANGE_CITY', (clickedCity: City) => ({
@@ -17,4 +17,18 @@ export const changeSortType = createAction('CHANGE_SORT_TYPE', (sortType: SortTy
 
 export const changeOffersLoadingStatus = createAction('CHANGE_OFFERS_LOADING_STATUS', (isOffersLoading: boolean) => ({
   payload: isOffersLoading
+}));
+
+export const requireAuthorization = createAction('REQUIRE_AUTHORIZATION', (authorizationStatus: AuthorizationStatus) => ({
+  payload: authorizationStatus
+}));
+
+export const redirectToRoute = createAction<AppRoute>('REDIRECT_TO_ROUTE');
+
+export const changeUserEmail = createAction('CHANGE_USER_EMAIL', (userEmail: string) => ({
+  payload: userEmail
+}));
+
+export const changeCurrentOffer = createAction('CHANGE_CURRENT_OFFER', (currentOfferId: string) => ({
+  payload: currentOfferId
 }));
