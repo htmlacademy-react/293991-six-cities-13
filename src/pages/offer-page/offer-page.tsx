@@ -17,7 +17,7 @@ import { deleteOfferComments, deleteOfferDetail, deleteOffersNearBy } from '../.
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { loadOfferCommentsAction, loadOfferDetailAction, loadOffersNearByAction } from '../../services/api-actions';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { filterNearByOffers } from '../../utils/utils';
 
 function OfferPage(): JSX.Element {
@@ -28,13 +28,15 @@ function OfferPage(): JSX.Element {
   const areOffersNearByLoading = useAppSelector((state) => state.areOffersNearByLoading);
   const offerComments = useAppSelector((state) => state.offerComments);
   const offerDetail = useAppSelector((state) => state.offerDetail);
+  const offersShort = useAppSelector((state) => state.offers);
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const [currentOfferId, setCurrentOfferId] = useState<string>('');
 
   if (offerDetail === undefined || offerDetail === null) {
     <Navigate to={AppRoute.NotFound}/>;
   }
+  const currentOfferShort = offersShort.find((offer: OfferShort) => offer.id === offerDetail?.id);
+  const offersForMap = currentOfferShort !== undefined ? [...filteredOffersNearBy, currentOfferShort] : filteredOffersNearBy;
 
   useEffect(() => {
     if (id) {
@@ -48,9 +50,6 @@ function OfferPage(): JSX.Element {
       dispatch(deleteOffersNearBy());
     };
   }, [id, dispatch]);
-
-  const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
-  const onMouseLeaveHandler = () => setCurrentOfferId('');
 
   return (
     <div className="page">
@@ -83,7 +82,7 @@ function OfferPage(): JSX.Element {
                 {
                   areOffersNearByLoading ?
                     <LoadingSpinner/> :
-                    <Map offersShort={filteredOffersNearBy} mode={OfferCardMode.NearPlaces} currentOfferId={currentOfferId}/>
+                    <Map offersShort={offersForMap} mode={OfferCardMode.NearPlaces} currentOfferId={offerDetail?.id}/>
                 }
               </section>
               {
@@ -95,7 +94,7 @@ function OfferPage(): JSX.Element {
                         Other places in the neighbourhood
                       </h2>
                       <div className="near-places__list places__list">
-                        {filteredOffersNearBy.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.NearPlaces} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)} onMouseLeaveHandler={onMouseLeaveHandler}/>))}
+                        {filteredOffersNearBy.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.NearPlaces}/>))}
                       </div>
                     </section>
                   </div>

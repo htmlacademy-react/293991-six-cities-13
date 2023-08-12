@@ -4,7 +4,7 @@ import { CityName } from '../types/city';
 import { ErrorResponse } from '../types/error-response';
 
 export function convertRatingToWidthPerc(rating: number): string {
-  return `${rating / 5 * 100}%`;
+  return `${Math.round(rating) / 5 * 100}%`;
 }
 
 export function capitalizeFirstLetter(text: string) {

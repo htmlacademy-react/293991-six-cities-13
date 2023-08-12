@@ -19,9 +19,6 @@ function MainPage (): JSX.Element {
   const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity.name);
   const [currentOfferId, setCurrentOfferId] = useState<string>('');
 
-  const onMouseEnterHandler = (offerId: string) => () => setCurrentOfferId(offerId);
-  const onMouseLeaveHandler = () => setCurrentOfferId('');
-
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -40,8 +37,8 @@ function MainPage (): JSX.Element {
                     <OffersList
                       offersShort={offersShort}
                       activeCity={activeCity}
-                      onMouseEnterHandler={onMouseEnterHandler}
-                      onMouseLeaveHandler={onMouseLeaveHandler}
+                      onMouseEnterHandler={(offerId: string) => () => setCurrentOfferId(offerId)}
+                      onMouseLeaveHandler={() => setCurrentOfferId('')}
                     />
                   </section>
                   <div className="cities__right-section">

@@ -1,6 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import { City } from '../types/city';
-import { AppRoute, AuthorizationStatus, SortType } from '../const';
+import { AppRoute, AuthorizationStatus, MAX_COMMENTS_IN_REVIEW, SortType } from '../const';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { Comment } from '../types/offer-review';
 import { ErrorResponse } from '../types/error-response';

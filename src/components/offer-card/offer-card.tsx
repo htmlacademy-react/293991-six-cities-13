@@ -7,8 +7,8 @@ import { convertRatingToWidthPerc } from '../../utils/utils';
 
 type OfferCardProps = {
   offerShort: OfferShort;
-  onMouseEnterHandler: () => void;
-  onMouseLeaveHandler: () => void;
+  onMouseEnterHandler?: () => void;
+  onMouseLeaveHandler?: () => void;
   mode: OfferCardMode;
 }
 

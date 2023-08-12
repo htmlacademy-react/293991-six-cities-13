@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, MAX_COMMENTS_IN_REVIEW } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { Comment } from '../../types/offer-review';
 import OfferReviewComment from '../offer-review-comment/offer-review-comment';
@@ -19,7 +19,7 @@ function OfferReview({comments}: OfferReviewProps): JSX.Element {
       {
         comments.length > 0 &&
         <ul className="reviews__list">
-          {comments.map((comment: Comment) => <OfferReviewComment key={comment.id} comment={comment}/>)}
+          {comments.slice(0, MAX_COMMENTS_IN_REVIEW).map((comment: Comment) => <OfferReviewComment key={comment.id} comment={comment}/>)}
         </ul>
       }
       {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}

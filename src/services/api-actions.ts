@@ -6,7 +6,7 @@ import { AppRoute, AuthorizationStatus, BackendRoute } from '../const';
 import { changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeUserEmail, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, redirectToRoute, requireAuthorization, setError } from '../store/action';
 import { AuthRequestData, AuthResponseData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { saveToken } from './token';
+import { deleteToken, saveToken } from './token';
 import { Comment } from '../types/offer-review';
 import { generatePath } from 'react-router-dom';
 import { CommentRequestData } from '../types/comment-request-data';
@@ -55,6 +55,22 @@ export const loginAction = createAsyncThunk<void, AuthRequestData, {
     dispatch(changeUserEmail(data.email));
     dispatch(setError(null));
     dispatch(redirectToRoute(AppRoute.Root));
+  }
+);
+
+
+export const logoutAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'LOGOUT',
+  async (_arg, {dispatch, extra: api}) => {
+    await api.delete<UserData>(BackendRoute.Logout);
+    deleteToken();
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(changeUserEmail(''));
+    dispatch(setError(null));
   }
 );
 

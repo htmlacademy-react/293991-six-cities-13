@@ -1,7 +1,13 @@
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { logoutAction } from '../../services/api-actions';
 
 function LoggedUser(): JSX.Element {
   const userEmail = useAppSelector((state) => state.userEmail);
+  const dispatch = useAppDispatch();
+
+  function onClickHandler() {
+    dispatch(logoutAction());
+  }
 
   return (
     <ul className="header__nav-list">
@@ -18,7 +24,7 @@ function LoggedUser(): JSX.Element {
         </a>
       </li>
       <li className="header__nav-item">
-        <a className="header__nav-link" href="#">
+        <a className="header__nav-link" onClick={onClickHandler}>
           <span className="header__signout">Sign out</span>
         </a>
       </li>
