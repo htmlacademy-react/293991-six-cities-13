@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError } from './action';
+import { changeCity, changeOfferCommentSendingStatus, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError } from './action';
 import { City } from '../types/city';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
 import { Comment } from '../types/offer-review';
 import { ErrorResponse } from '../types/error-response';
-import { loginAction } from '../services/api-actions';
+import { addComment, loginAction } from '../services/api-actions';
 
 
 type InitialCity = {
@@ -19,6 +19,7 @@ type InitialCity = {
   isOfferDetailLoading: boolean;
   offerComments: Comment[];
   areOfferCommentsLoading: boolean;
+  isOfferCommentSending: boolean;
   offersNearBy: OfferShort[];
   areOffersNearByLoading: boolean;
   errorResponse: ErrorResponse | null;
@@ -35,6 +36,7 @@ const initialState: InitialCity = {
   isOfferDetailLoading: true,
   offerComments: [],
   areOfferCommentsLoading: true,
+  isOfferCommentSending: false,
   offersNearBy: [],
   areOffersNearByLoading: true,
   errorResponse: null
@@ -76,6 +78,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeOfferCommentsLoadingStatus, (state, action) => {
       state.areOfferCommentsLoading = action.payload;
     })
+    .addCase(changeOfferCommentSendingStatus, (state, action) => {
+      state.isOfferCommentSending = action.payload;
+    })
     .addCase(deleteOfferComments, (state) => {
       state.offerComments = [];
       state.areOfferCommentsLoading = true;
@@ -95,6 +100,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loginAction.fulfilled, (state) => {
       state.errorResponse = null;
+    })
+    .addCase(addComment.rejected, (state) => {
+      state.isOfferCommentSending = false;
     });
 });
 

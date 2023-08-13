@@ -13,6 +13,7 @@ function ReviewForm():JSX.Element {
   const [rating, setRating] = useState(0);
   const offerDetail = useAppSelector((state) => state.offerDetail);
   const errorResponse = useAppSelector((state) => state.errorResponse);
+  const isOfferCommentSending = useAppSelector((state) => state.isOfferCommentSending);
 
   const reviewIsValid = comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > 0;
 
@@ -36,7 +37,7 @@ function ReviewForm():JSX.Element {
   const errorForComment = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.CommentControl);
 
   return (
-    <form className="reviews__form form" >
+    <form className="reviews__form form">
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -56,6 +57,7 @@ function ReviewForm():JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={onChangeCommentHandler}
+        disabled={isOfferCommentSending}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -67,7 +69,7 @@ function ReviewForm():JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!reviewIsValid}
+          disabled={!reviewIsValid || isOfferCommentSending}
           onClick={onSubmitHandler}
         >
           Submit

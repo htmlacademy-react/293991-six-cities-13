@@ -1,6 +1,6 @@
-import { FormControlToDisplayError, NEARBY_OFFFERS_COUNT, PARAGRAPH_MAX_LEN, SortType } from '../const';
+import { CITIES, FormControlToDisplayError, NEARBY_OFFFERS_COUNT, PARAGRAPH_MAX_LEN, SortType } from '../const';
 import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
-import { CityName } from '../types/city';
+import { City, CityName } from '../types/city';
 import { ErrorResponse } from '../types/error-response';
 
 export function convertRatingToWidthPerc(rating: number): string {
@@ -96,4 +96,8 @@ export function extractErrorMessageForControl(errorResponse: ErrorResponse | nul
     errorMessage = (errorMessages !== null && errorMessages !== undefined && errorMessages.messages.length > 0) ? errorMessages.messages[0] : '';
   }
   return errorMessage;
+}
+
+export function getRandomCity(): City {
+  return CITIES[(Math.floor(Math.random() * CITIES.length))];
 }

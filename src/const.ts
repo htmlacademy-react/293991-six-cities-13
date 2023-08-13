@@ -42,7 +42,7 @@ export const RATINGS = [
 ] as Rating[];
 
 export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 500;
+export const MAX_COMMENT_LENGTH = 300;
 
 export const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';

@@ -5,8 +5,9 @@ import { ChangeEvent, useState, FormEvent} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
 import { AuthRequestData } from '../../types/auth-data';
-import { extractErrorMessageForControl } from '../../utils/utils';
+import { extractErrorMessageForControl, getRandomCity } from '../../utils/utils';
 import styles from './login-page.module.css';
+import { changeCity } from '../../store/action';
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
@@ -32,6 +33,11 @@ function LoginPage(): JSX.Element {
 
   const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.EmailControl);
   const errorForPassword = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.PasswordControl);
+
+  const randomCity = getRandomCity();
+  function onClickHandler() {
+    dispatch(changeCity(randomCity));
+  }
 
   return (
     <div className="page page--gray page--login">
@@ -93,7 +99,6 @@ function LoginPage(): JSX.Element {
               <button
                 className="login__submit form__submit button"
                 type="submit"
-                // onClick={onSubmitClickHandler}
               >
                 Sign in
               </button>
@@ -101,9 +106,9 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link to={AppRoute.Root} className="locations__item-link" onClick={onClickHandler}>
+                <span>{randomCity.name}</span>
+              </Link>
             </div>
           </section>
         </div>

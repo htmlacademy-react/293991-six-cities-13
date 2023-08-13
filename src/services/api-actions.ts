@@ -3,7 +3,7 @@ import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AppRoute, AuthorizationStatus, BackendRoute } from '../const';
-import { changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeUserEmail, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, redirectToRoute, requireAuthorization, setError } from '../store/action';
+import { changeOfferCommentSendingStatus, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeUserEmail, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, redirectToRoute, requireAuthorization, setError } from '../store/action';
 import { AuthRequestData, AuthResponseData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { deleteToken, saveToken } from './token';
@@ -124,8 +124,10 @@ export const addComment = createAsyncThunk<void, CommentRequestData, {
 }>(
   'ADD_COMMENT',
   async ({offerId, comment, rating}, {dispatch, extra: api}) => {
+    dispatch(changeOfferCommentSendingStatus(true));
     await api.post(generatePath(BackendRoute.Comments, {id: offerId}), {comment, rating});
     dispatch(loadOfferCommentsAction(offerId));
     dispatch(setError(null));
+    dispatch(changeOfferCommentSendingStatus(false));
   }
 );
