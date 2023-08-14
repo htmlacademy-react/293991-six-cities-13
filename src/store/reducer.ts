@@ -1,18 +1,22 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeOfferCommentSendingStatus, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError } from './action';
+import { changeCity, changeFavoritesLoadingStatus, changeOfferCommentSendingStatus, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOfferFavoriteStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteFavorites, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadFavorites, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError } from './action';
 import { City } from '../types/city';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
 import { Comment } from '../types/offer-review';
 import { ErrorResponse } from '../types/error-response';
-import { addComment, loginAction } from '../services/api-actions';
+import { addCommentAction, changeOfferFavoriteStatusAction, loginAction } from '../services/api-actions';
+import { countFavorities } from '../utils/utils';
 
 
 type InitialCity = {
   activeCity: City;
   offers: OfferShort[];
+  favoritesCount: number;
+  favorites: OfferShort[];
+  areFavoritesLoading: boolean;
   sortType: SortType;
-  isOffersLoading: boolean;
+  areOffersLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userEmail: string;
   offerDetail: OfferDetail | null;
@@ -28,8 +32,11 @@ type InitialCity = {
 const initialState: InitialCity = {
   activeCity: DEFAULT_CITY,
   offers: [],
+  favoritesCount: 0,
+  favorites: [],
+  areFavoritesLoading: true,
   sortType: SortType.Popular,
-  isOffersLoading: true,
+  areOffersLoading: true,
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: '',
   offerDetail: null,
@@ -49,12 +56,13 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+      state.favoritesCount = countFavorities(state.offers);
     })
     .addCase(changeSortType, (state, action) => {
       state.sortType = action.payload;
     })
     .addCase(changeOffersLoadingStatus, (state, action) => {
-      state.isOffersLoading = action.payload;
+      state.areOffersLoading = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
@@ -101,8 +109,21 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loginAction.fulfilled, (state) => {
       state.errorResponse = null;
     })
-    .addCase(addComment.rejected, (state) => {
+    .addCase(addCommentAction.rejected, (state) => {
       state.isOfferCommentSending = false;
+    })
+    .addCase(changeOfferFavoriteStatus, (state, action) => {
+      state.offers = state.offers.map((offer: OfferShort) => ((offer.id === action.payload.id) ? {...offer, isFavorite: action.payload.isFavorite} : offer));
+      state.favoritesCount = countFavorities(state.offers);
+    })
+    .addCase(loadFavorites, (state,  action) => {
+      state.favorites = action.payload;
+    })
+    .addCase(changeFavoritesLoadingStatus, (state, action) => {
+      state.areFavoritesLoading = action.payload;
+    })
+    .addCase(deleteFavorites, (state) => {
+      state.favorites = [];
     });
 });
 

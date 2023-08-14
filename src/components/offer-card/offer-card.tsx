@@ -1,9 +1,13 @@
 import { Link, generatePath } from 'react-router-dom';
-import { AppRoute, OfferCardMode } from '../../const';
+import { AppRoute, OfferCardMode, OfferFavoriteStatus } from '../../const';
 import { OfferShort } from '../../types/offer';
 import offerCardPremium from '../offer-card-premium/offer-card-premium';
 import cn from 'classnames';
 import { convertRatingToWidthPerc } from '../../utils/utils';
+import { useAppDispatch } from '../../hooks';
+import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type OfferCardProps = {
   offerShort: OfferShort;
@@ -13,6 +17,12 @@ type OfferCardProps = {
 }
 
 function OfferCard({offerShort, onMouseEnterHandler, onMouseLeaveHandler, mode}: OfferCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  function onClickHandler() {
+    const offerFavoriteStatus = offerShort.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
+    dispatch(changeOfferFavoriteStatusAction({offerId: offerShort.id, offerFavoriteStatus}))
+  }
 
   return (
     <article
@@ -47,19 +57,20 @@ function OfferCard({offerShort, onMouseEnterHandler, onMouseLeaveHandler, mode}:
             <b className="place-card__price-value">€{offerShort.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button
-            className="place-card__bookmark-button button"
-            type="button"
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
-            >
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          { offerShort.isFavorite ?
+            <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={onClickHandler}>
+              <svg className="place-card__bookmark-icon" width="18" height="19">
+                <use xlinkHref="#icon-bookmark" />
+              </svg>
+              <span className="visually-hidden">In bookmarks</span>
+            </button> :
+            <button className="place-card__bookmark-button button" type="button" onClick={onClickHandler}>
+              <svg className="place-card__bookmark-icon" width={18} height={19}>
+                <use xlinkHref="#icon-bookmark" />
+              </svg>
+              <span className="visually-hidden">To bookmarks</span>
+            </button>
+          }
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -72,6 +83,7 @@ function OfferCard({offerShort, onMouseEnterHandler, onMouseLeaveHandler, mode}:
         </h2>
         <p className="place-card__type">{offerShort.type}</p>
       </div>
+      <ToastContainer/>
     </article>
   );
 }

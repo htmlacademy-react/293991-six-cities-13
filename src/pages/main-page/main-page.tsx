@@ -12,7 +12,7 @@ import { useState } from 'react';
 import PageHeader from '../../components/page-header/page-header';
 
 function MainPage (): JSX.Element {
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+  const isOffersLoading = useAppSelector((state) => state.areOffersLoading);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const allOffersShort = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.activeCity);

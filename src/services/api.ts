@@ -1,9 +1,10 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
-import { BACKEND_URL, HTTP_CODES_TO_DISPLAY, REQUEST_TIMEOUT } from '../const';
+import { AppRoute, BACKEND_URL, HTTP_CODES_TO_DISPLAY, REQUEST_TIMEOUT } from '../const';
 import { getToken } from './token';
 import { ErrorResponse } from '../types/error-response';
-import { setError } from '../store/action';
+import { redirectToRoute, setError } from '../store/action';
 import { store } from '../store';
+import { StatusCodes } from 'http-status-codes';
 
 
 export const createAPI = ():AxiosInstance => {

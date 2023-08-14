@@ -5,6 +5,7 @@ import { logoutAction } from '../../services/api-actions';
 
 function LoggedUser(): JSX.Element {
   const userEmail = useAppSelector((state) => state.userEmail);
+  const favoritesCount = useAppSelector((state) => state.favoritesCount);
   const dispatch = useAppDispatch();
 
   function onClickHandler() {
@@ -21,7 +22,7 @@ function LoggedUser(): JSX.Element {
           <span className="header__user-name user__name">
             {userEmail}
           </span>
-          <span className="header__favorite-count">3</span>
+          <span className="header__favorite-count">{favoritesCount}</span>
         </Link>
       </li>
       <li className="header__nav-item">

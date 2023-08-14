@@ -2,7 +2,7 @@ import { ChangeEvent, useState, MouseEvent } from 'react';
 import { FormControlToDisplayError, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS } from '../../const';
 import { Rating } from '../../types/rating';
 import ReviewRatingStar from '../review-star/review-star';
-import { addComment } from '../../services/api-actions';
+import { addCommentAction } from '../../services/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import styles from './review-form.module.css';
 import { extractErrorMessageForControl } from '../../utils/utils';
@@ -27,7 +27,7 @@ function ReviewForm():JSX.Element {
     evt.preventDefault();
     if (offerDetail !== undefined && offerDetail !== null) {
       const offerId = offerDetail.id;
-      dispatch(addComment({offerId, comment, rating}));
+      dispatch(addCommentAction({offerId, comment, rating}));
       setComment('');
       setRating(0);
     }

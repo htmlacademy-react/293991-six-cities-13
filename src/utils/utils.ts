@@ -101,3 +101,7 @@ export function extractErrorMessageForControl(errorResponse: ErrorResponse | nul
 export function getRandomCity(): City {
   return CITIES[(Math.floor(Math.random() * CITIES.length))];
 }
+
+export function countFavorities(offers: OfferShort[]): number {
+  return offers.reduce((accumulator: number, curOffer: OfferShort) => (curOffer.isFavorite ? accumulator + 1 : accumulator), 0);
+}

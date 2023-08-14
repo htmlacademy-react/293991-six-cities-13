@@ -120,7 +120,9 @@ export enum BackendRoute {
   Offers = '/offers',
   OfferDetail = '/offers/:id',
   Comments = '/comments/:id',
-  OffersNearBy = '/offers/:id/nearby'
+  OffersNearBy = '/offers/:id/nearby',
+  FavoriteStatus = '/favorite/:id/:status',
+  Favorite = '/favorite'
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
@@ -129,7 +131,7 @@ export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 
 export const NEARBY_OFFFERS_COUNT = 3;
 
-export const HTTP_CODES_TO_DISPLAY = [StatusCodes.BAD_REQUEST, StatusCodes.UNAUTHORIZED, StatusCodes.NOT_FOUND];
+export const HTTP_CODES_TO_DISPLAY = [StatusCodes.BAD_REQUEST, StatusCodes.UNAUTHORIZED, StatusCodes.NOT_FOUND, StatusCodes.CONFLICT];
 
 export enum FormControlToDisplayError {
   EmailControl = 'email',
@@ -140,3 +142,8 @@ export enum FormControlToDisplayError {
 
 export const MAX_IMAGES_IN_OFFER_CARD = 6;
 export const MAX_COMMENTS_IN_REVIEW = 10;
+
+export enum OfferFavoriteStatus {
+  Unset = 0,
+  Set = 1  
+}

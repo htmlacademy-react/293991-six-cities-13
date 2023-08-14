@@ -50,7 +50,6 @@ export const changeOfferCommentsLoadingStatus = createAction('CHANGE_OFFER_COMME
   payload: areOfferCommentsLoading
 }));
 
-
 export const changeOfferCommentSendingStatus = createAction('CHANGE_OFFER_COMMENT_SENDING_STATUS', (isOfferCommentSending: boolean) => ({
   payload: isOfferCommentSending
 }));
@@ -67,7 +66,20 @@ export const changeOffersNearByLoadingStatus = createAction('CHANGE_OFFERS_NEARB
 
 export const deleteOffersNearBy = createAction('DELETE_OFFERS_NEARBY');
 
-
 export const setError = createAction('SET_ERROR', (errorResponse: ErrorResponse | null) => ({
   payload: errorResponse
 }));
+
+export const changeOfferFavoriteStatus = createAction('CHANGE_OFFER_FAVORITE_STATUS', (offer: OfferDetail) => ({
+  payload: offer
+}));
+
+export const changeFavoritesLoadingStatus = createAction('CHANGE_FAVORITES_LOADING_STATUS', (areFavoritesLoading: boolean) => ({
+  payload: areFavoritesLoading
+}));
+
+export const loadFavorites = createAction('LOAD_FAVORITIES', (offers: OfferShort[]) => ({
+  payload: offers
+}));
+
+export const deleteFavorites = createAction('DELETE_FAVORITES');
