@@ -3,6 +3,8 @@ import PageHeader from '../../components/page-header/page-header';
 import { OfferShort } from '../../types/offer';
 import FavoritiesList from '../../components/favorities-list/favorities-list';
 import { groupOffersByCity } from '../../utils/utils';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 function FavoritiesPage(): JSX.Element {
   const offersFavorities: OfferShort[] = [];
@@ -25,7 +27,7 @@ function FavoritiesPage(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link to={AppRoute.Root} className="header__logo-link">
           <img
             className="footer__logo"
             src="img/logo.svg"
@@ -33,7 +35,7 @@ function FavoritiesPage(): JSX.Element {
             width={64}
             height={33}
           />
-        </a>
+        </Link>
       </footer>
     </div>
   );

@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import { City } from './types/city';
 import { Rating } from './types/rating';
 
@@ -41,7 +42,7 @@ export const RATINGS = [
 ] as Rating[];
 
 export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 500;
+export const MAX_COMMENT_LENGTH = 300;
 
 export const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
@@ -113,12 +114,29 @@ export const SORT_TYPES = [SortType.Popular, SortType.Price_low_to_high, SortTyp
 export const BACKEND_URL = 'https://13.design.pages.academy/six-cities';
 export const REQUEST_TIMEOUT = 5000;
 
-export enum APIRoute {
+export enum BackendRoute {
   Login = '/login',
   Logout = '/logout',
   Offers = '/offers',
+  OfferDetail = '/offers/:id',
+  Comments = '/comments/:id',
+  OffersNearBy = '/offers/:id/nearby'
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+
+export const NEARBY_OFFFERS_COUNT = 3;
+
+export const HTTP_CODES_TO_DISPLAY = [StatusCodes.BAD_REQUEST, StatusCodes.UNAUTHORIZED, StatusCodes.NOT_FOUND];
+
+export enum FormControlToDisplayError {
+  EmailControl = 'email',
+  PasswordControl = 'password',
+  CommentControl = 'comment',
+  RatingControl = 'rating',
+}
+
+export const MAX_IMAGES_IN_OFFER_CARD = 6;
+export const MAX_COMMENTS_IN_REVIEW = 10;

@@ -1,9 +1,10 @@
-import { PARAGRAPH_MAX_LEN, SortType } from '../const';
+import { CITIES, FormControlToDisplayError, NEARBY_OFFFERS_COUNT, PARAGRAPH_MAX_LEN, SortType } from '../const';
 import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
-import { CityName } from '../types/city';
+import { City, CityName } from '../types/city';
+import { ErrorResponse } from '../types/error-response';
 
 export function convertRatingToWidthPerc(rating: number): string {
-  return `${rating / 5 * 100}%`;
+  return `${Math.round(rating) / 5 * 100}%`;
 }
 
 export function capitalizeFirstLetter(text: string) {
@@ -13,31 +14,35 @@ export function capitalizeFirstLetter(text: string) {
 export function splitLongTextIntoParagraphs(text: string): string[] {
   const sentences: string[] = [];
   let start = 0;
+  let groupedSentences: string[] = [];
 
-  // Разбить текст на предложения
-  for (let i = 0; i < text.length; i++) {
-    if (text[i] === '.' || text[i] === '?' || text[i] === '!') {
-      const sentence = text.substring(start, i + 1).trim();
-      sentences.push(sentence);
-      start = i + 1;
+  if (text.includes('.') || text.includes('?') || text.includes('!')) {
+    // Разбить текст на предложения
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === '.' || text[i] === '?' || text[i] === '!') {
+        const sentence = text.substring(start, i + 1).trim();
+        sentences.push(sentence);
+        start = i + 1;
+      }
     }
-  }
 
-  // Склеить предложения в параграфы. Конкатенировать предложения до тех пор пока длина параграфа не более PARAGRAPH_MAX_LEN
-  const groupedSentences: string[] = [];
-  let newSentence: string = sentences[0];
-  for (let i = 1; i < sentences.length; i++) {
-    if (newSentence.length <= PARAGRAPH_MAX_LEN) {
-      newSentence = [newSentence, sentences[i]].join(' ');
-    } else {
+    // Склеить предложения в параграфы. Конкатенировать предложения до тех пор пока длина параграфа не более PARAGRAPH_MAX_LEN
+    groupedSentences = [];
+    let newSentence: string = sentences[0];
+    for (let i = 1; i < sentences.length; i++) {
+      if (newSentence.length <= PARAGRAPH_MAX_LEN) {
+        newSentence = [newSentence, sentences[i]].join(' ');
+      } else {
+        groupedSentences.push(newSentence);
+        newSentence = sentences[i];
+      }
+    }
+    if (newSentence.length > 0) {
       groupedSentences.push(newSentence);
-      newSentence = sentences[i];
     }
+  } else {
+    groupedSentences = [text];
   }
-  if (newSentence.length > 0) {
-    groupedSentences.push(newSentence);
-  }
-
   return groupedSentences;
 }
 
@@ -53,8 +58,16 @@ export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffe
   }, {});
 }
 
-export function getNearOffers(): OfferShort[] {
-  return [].slice(0, 3);
+export function filterNearByOffers(offers: OfferShort[]): OfferShort[] {
+  if (offers !== undefined && offers !== null) {
+    if (offers.length > NEARBY_OFFFERS_COUNT) {
+      return offers.slice(0, NEARBY_OFFFERS_COUNT);
+    } else {
+      return offers;
+    }
+  } else {
+    return [];
+  }
 }
 
 export function getOffersByCity<T extends OfferBase>(offers: T[], cityName: CityName): T[] {
@@ -74,4 +87,17 @@ export function sortOffers<T extends OfferBase>(offers: T[], sortType: SortType)
     default:
       return [...offers];
   }
+}
+
+export function extractErrorMessageForControl(errorResponse: ErrorResponse | null, control: FormControlToDisplayError): string {
+  let errorMessage = '';
+  if (errorResponse !== null) {
+    const errorMessages = errorResponse.details.find((item) => item.property === control);
+    errorMessage = (errorMessages !== null && errorMessages !== undefined && errorMessages.messages.length > 0) ? errorMessages.messages[0] : '';
+  }
+  return errorMessage;
+}
+
+export function getRandomCity(): City {
+  return CITIES[(Math.floor(Math.random() * CITIES.length))];
 }

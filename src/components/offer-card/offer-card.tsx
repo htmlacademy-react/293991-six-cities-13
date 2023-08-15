@@ -3,14 +3,16 @@ import { AppRoute, OfferCardMode } from '../../const';
 import { OfferShort } from '../../types/offer';
 import offerCardPremium from '../offer-card-premium/offer-card-premium';
 import cn from 'classnames';
+import { convertRatingToWidthPerc } from '../../utils/utils';
 
 type OfferCardProps = {
   offerShort: OfferShort;
-  onMouseEnterHandler: () => void;
+  onMouseEnterHandler?: () => void;
+  onMouseLeaveHandler?: () => void;
   mode: OfferCardMode;
 }
 
-function OfferCard({offerShort, onMouseEnterHandler, mode}: OfferCardProps): JSX.Element {
+function OfferCard({offerShort, onMouseEnterHandler, onMouseLeaveHandler, mode}: OfferCardProps): JSX.Element {
 
   return (
     <article
@@ -20,6 +22,7 @@ function OfferCard({offerShort, onMouseEnterHandler, mode}: OfferCardProps): JSX
         {'near-places__card': mode === OfferCardMode.NearPlaces}
       )}
       onMouseEnter={onMouseEnterHandler}
+      onMouseLeave={onMouseLeaveHandler}
     >
       {offerShort.isPremium && offerCardPremium()}
       <div className={cn(
@@ -60,7 +63,7 @@ function OfferCard({offerShort, onMouseEnterHandler, mode}: OfferCardProps): JSX
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${offerShort.rating / 5 * 100}%` }} />
+            <span style={{ width: convertRatingToWidthPerc(offerShort.rating) }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

@@ -4,13 +4,12 @@ import Map from '../../components/map/map';
 import { AuthorizationStatus, OfferCardMode } from '../../const';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { getOffersByCity } from '../../utils/utils';
 import OffersList from '../../components/offers-list/offers-list';
-import LoggedUser from '../../components/logged-user/logged-user';
-import LogginButton from '../../components/loggin-button/loggin-button';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { changeCurrentOffer } from '../../store/action';
+import { useState } from 'react';
+import PageHeader from '../../components/page-header/page-header';
 
 function MainPage (): JSX.Element {
   const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
@@ -18,37 +17,14 @@ function MainPage (): JSX.Element {
   const allOffersShort = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity.name);
-  const dispatch = useAppDispatch();
-
-  const onMouseEnterHandler = (offerId: string) => () => dispatch(changeCurrentOffer(offerId));
+  const [currentOfferId, setCurrentOfferId] = useState<string>('');
 
   return (
     <div className="page page--gray page--main">
       <Helmet>
         <title>Welcom to 6 cities!</title>
       </Helmet>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
-                <img
-                  className="header__logo"
-                  src="img/logo.svg"
-                  alt="6 cities logo"
-                  width={81}
-                  height={41}
-                />
-              </a>
-            </div>
-            <nav className="header__nav">
-              {
-                authorizationStatus === AuthorizationStatus.Auth ? <LoggedUser/> : <LogginButton/>
-              }
-            </nav>
-          </div>
-        </div>
-      </header>
+      <PageHeader/>
       <main className="page__main page__main--index">
         <CitiesTabList cities={CITIES}/>
         <div className="cities">
@@ -58,10 +34,15 @@ function MainPage (): JSX.Element {
                 <LoadingSpinner/> :
                 <>
                   <section className="cities__places places">
-                    <OffersList offersShort={offersShort} activeCity={activeCity} onMouseEnterHandler={onMouseEnterHandler}/>
+                    <OffersList
+                      offersShort={offersShort}
+                      activeCity={activeCity}
+                      onMouseEnterHandler={(offerId: string) => () => setCurrentOfferId(offerId)}
+                      onMouseLeaveHandler={() => setCurrentOfferId('')}
+                    />
                   </section>
                   <div className="cities__right-section">
-                    <Map mode={OfferCardMode.MainPage} offersShort={offersShort}/>
+                    <Map offersShort={offersShort} mode={OfferCardMode.MainPage} currentOfferId={currentOfferId}/>
                   </div>
                 </>
             }

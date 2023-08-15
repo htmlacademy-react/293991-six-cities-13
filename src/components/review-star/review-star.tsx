@@ -1,12 +1,15 @@
+import { useAppSelector } from '../../hooks';
 import { Rating } from '../../types/rating';
 
 type ReviewRatingStarProps = {
   rating: Rating;
-  currentScore: number;
+  currentRating: number;
   onChangeRatingHandler: () => void;
 }
 
-function ReviewRatingStar({rating, currentScore, onChangeRatingHandler}: ReviewRatingStarProps): JSX.Element {
+function ReviewRatingStar({rating, currentRating, onChangeRatingHandler}: ReviewRatingStarProps): JSX.Element {
+  const isOfferCommentSending = useAppSelector((state) => state.isOfferCommentSending);
+
   return (
     <>
       <input
@@ -15,8 +18,9 @@ function ReviewRatingStar({rating, currentScore, onChangeRatingHandler}: ReviewR
         value={rating.score}
         id={`${rating.score}-stars`}
         type="radio"
-        checked={rating.score === currentScore}
+        checked={rating.score === currentRating}
         onChange={onChangeRatingHandler}
+        disabled={isOfferCommentSending}
       />
       <label
         htmlFor={`${rating.score}-stars`}

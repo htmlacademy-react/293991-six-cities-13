@@ -1,19 +1,20 @@
-import { OfferDetail } from '../../types/offer';
 import { capitalizeFirstLetter } from '../../utils/utils';
 
 type OfferFeaturesProps = {
-  offerDetail: OfferDetail;
+  type: string | undefined;
+  bedrooms: number | undefined;
+  maxAdults: number | undefined;
 }
 
-function OfferFeatures({offerDetail}: OfferFeaturesProps): JSX.Element {
+function OfferFeatures({type = '', bedrooms = 0, maxAdults = 0}: OfferFeaturesProps): JSX.Element {
   return (
     <ul className="offer__features">
-      <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(offerDetail.type)}</li>
+      <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(type)}</li>
       <li className="offer__feature offer__feature--bedrooms">
-        {offerDetail.bedrooms} Bedrooms
+        {bedrooms} Bedrooms
       </li>
       <li className="offer__feature offer__feature--adults">
-        Max {offerDetail.maxAdults} adults
+        Max {maxAdults} adults
       </li>
     </ul>
   );
