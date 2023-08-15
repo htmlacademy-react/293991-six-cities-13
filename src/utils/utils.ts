@@ -50,7 +50,7 @@ export function getRandomKey(): number {
   return Math.round(Math.random() * 1e8);
 }
 
-export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffersByCity<T> {
+export function groupOffersByCityName<T extends OfferBase>(offers: T[]): GroupedOffersByCity<T> {
   return offers.reduce((accumulator: GroupedOffersByCity<T>, curOffer: T) => {
     const cityExists = curOffer.city.name in accumulator;
     const _offers = cityExists ? [...accumulator[curOffer.city.name], curOffer] : [curOffer];
@@ -71,7 +71,7 @@ export function filterNearByOffers(offers: OfferShort[]): OfferShort[] {
 }
 
 export function getOffersByCity<T extends OfferBase>(offers: T[], cityName: CityName): T[] {
-  return groupOffersByCity<T>(offers)[cityName] || [];
+  return groupOffersByCityName<T>(offers)[cityName] || [];
 }
 
 export function sortOffers<T extends OfferBase>(offers: T[], sortType: SortType): T[] {

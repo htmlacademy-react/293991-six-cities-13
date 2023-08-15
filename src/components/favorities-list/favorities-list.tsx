@@ -3,14 +3,13 @@ import FavoriteOfferCard from '../favorite-offer-card/favorite-offer-card';
 import FavoriteLocationCity from '../favorities-location-city/favorities-location-city';
 
 type FavoritiesListProps = {
-  city: string;
   offers: OfferShort[];
 }
 
-function FavoritiesList({city, offers}: FavoritiesListProps):JSX.Element {
+function FavoritiesList({offers}: FavoritiesListProps):JSX.Element {
   return (
     <li className="favorites__locations-items">
-      <FavoriteLocationCity city={city}/>
+      { offers.length > 0 && <FavoriteLocationCity city={offers[0].city}/>}
       <div className="favorites__places">
         {offers.map((offer: OfferShort) => <FavoriteOfferCard key={offer.id} offer={offer}/>)}
       </div>

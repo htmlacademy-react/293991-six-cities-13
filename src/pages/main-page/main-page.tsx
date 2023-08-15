@@ -10,6 +10,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { useState } from 'react';
 import PageHeader from '../../components/page-header/page-header';
+import cn from 'classnames';
 
 function MainPage (): JSX.Element {
   const isOffersLoading = useAppSelector((state) => state.areOffersLoading);
@@ -25,26 +26,42 @@ function MainPage (): JSX.Element {
         <title>Welcom to 6 cities!</title>
       </Helmet>
       <PageHeader/>
-      <main className="page__main page__main--index">
+      <main className={cn(
+        'page__main page__main--index',
+        {'page__main--index-empty': offersShort.length === 0},
+      )}>
         <CitiesTabList cities={CITIES}/>
         <div className="cities">
-          <div className="cities__places-container container">
+          <div className={cn(
+            'cities__places-container container',
+            {'cities__places-container--empty': offersShort.length === 0},
+          )}>
             {
               (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) ?
                 <LoadingSpinner/> :
-                <>
-                  <section className="cities__places places">
-                    <OffersList
-                      offersShort={offersShort}
-                      activeCity={activeCity}
-                      onMouseEnterHandler={(offerId: string) => () => setCurrentOfferId(offerId)}
-                      onMouseLeaveHandler={() => setCurrentOfferId('')}
-                    />
-                  </section>
-                  <div className="cities__right-section">
-                    <Map offersShort={offersShort} mode={OfferCardMode.MainPage} currentOfferId={currentOfferId}/>
-                  </div>
-                </>
+                (offersShort.length === 0) ?
+                  <>
+                    <section className="cities__no-places">
+                      <div className="cities__status-wrapper tabs__content">
+                        <b className="cities__status">No places to stay available</b>
+                        <p className="cities__status-description">We could not find any property available at the moment in {activeCity.name}</p>
+                      </div>
+                    </section>
+                    <div className="cities__right-section"></div> 
+                  </>:
+                  <>
+                    <section className="cities__places places">
+                      <OffersList
+                        offersShort={offersShort}
+                        activeCity={activeCity}
+                        onMouseEnterHandler={(offerId: string) => () => setCurrentOfferId(offerId)}
+                        onMouseLeaveHandler={() => setCurrentOfferId('')}
+                      />
+                    </section>
+                    <div className="cities__right-section">
+                      <Map offersShort={offersShort} mode={OfferCardMode.MainPage} currentOfferId={currentOfferId}/>
+                    </div>
+                  </>
             }
           </div>
         </div>

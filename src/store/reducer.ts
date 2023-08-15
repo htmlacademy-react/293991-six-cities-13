@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeFavoritesLoadingStatus, changeOfferCommentSendingStatus, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOfferFavoriteStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteFavorites, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadFavorites, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError } from './action';
+import { changeCity, changeFavoritesLoadingStatus, changeOfferCommentSendingStatus, changeOfferCommentsLoadingStatus, changeOfferDetailLoadingStatus, changeOfferFavoriteStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeSortType, changeUserEmail, deleteFavorite, deleteFavorites, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, loadFavorites, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError } from './action';
 import { City } from '../types/city';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
@@ -115,6 +115,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeOfferFavoriteStatus, (state, action) => {
       state.offers = state.offers.map((offer: OfferShort) => ((offer.id === action.payload.id) ? {...offer, isFavorite: action.payload.isFavorite} : offer));
       state.favoritesCount = countFavorities(state.offers);
+      if (state.offerDetail !== null && state.offerDetail.id === action.payload.id) {
+        state.offerDetail.isFavorite = action.payload.isFavorite;
+      }
     })
     .addCase(loadFavorites, (state,  action) => {
       state.favorites = action.payload;
@@ -124,6 +127,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(deleteFavorites, (state) => {
       state.favorites = [];
+    })
+    .addCase(deleteFavorite, (state, action) => {
+      state.favorites = [...state.favorites].reduce((accumulator: OfferShort[], curOffer: OfferShort) => (curOffer.id !== action.payload ? [...accumulator, curOffer] : [...accumulator]), []);
     });
 });
 

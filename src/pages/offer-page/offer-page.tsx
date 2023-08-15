@@ -66,7 +66,7 @@ function OfferPage(): JSX.Element {
                 <ImagesList images={offerDetail?.images}/>
                 <div className="offer__container container">
                   <div className="offer__wrapper">
-                    <OfferHeader isPremium={offerDetail?.isPremium} title={offerDetail?.title}/>
+                    <OfferHeader offerDetail={offerDetail}/>
                     <OfferRating rating={offerDetail?.rating}/>
                     <OfferFeatures type={offerDetail?.type} bedrooms={offerDetail?.bedrooms} maxAdults={offerDetail?.maxAdults}/>
                     <OfferPrice price={offerDetail?.price}/>

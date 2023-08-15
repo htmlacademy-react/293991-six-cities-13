@@ -1,13 +1,25 @@
 import { Link, generatePath } from 'react-router-dom';
 import { OfferShort } from '../../types/offer';
 import { capitalizeFirstLetter, convertRatingToWidthPerc } from '../../utils/utils';
-import { AppRoute } from '../../const';
+import { AppRoute, OfferFavoriteStatus } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
+import { ToastContainer } from 'react-toastify';
+import { deleteFavorite } from '../../store/action';
 
 type FavoriteOfferCardProps = {
   offer: OfferShort;
 }
 
 function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  function onClickHandler() {
+    const offerFavoriteStatus = offer.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
+    dispatch(changeOfferFavoriteStatusAction({offerId: offer.id, offerFavoriteStatus}))
+    dispatch(deleteFavorite(offer.id))
+  }
+  
   return (
     <article className="favorites__card place-card">
       {
@@ -35,19 +47,20 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
               /&nbsp;night
             </span>
           </div>
-          <button
-            className="place-card__bookmark-button place-card__bookmark-button--active button"
-            type="button"
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
-            >
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          { offer.isFavorite ?
+            <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={onClickHandler}>
+              <svg className="place-card__bookmark-icon" width={18} height={19}>
+                <use xlinkHref="#icon-bookmark" />
+              </svg>
+              <span className="visually-hidden">In bookmarks</span>
+            </button> :
+            <button className="place-card__bookmark-button button" type="button" onClick={onClickHandler}>
+              <svg className="place-card__bookmark-icon" width={18} height={19}>
+                <use xlinkHref="#icon-bookmark" />
+              </svg>
+              <span className="visually-hidden">To bookmarks</span>
+            </button>
+          }
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -60,6 +73,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
         </h2>
         <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
       </div>
+      <ToastContainer/>
     </article>
   );
 }

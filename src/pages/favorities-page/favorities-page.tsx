@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import PageHeader from '../../components/page-header/page-header';
 import { OfferShort } from '../../types/offer';
 import FavoritiesList from '../../components/favorities-list/favorities-list';
-import { groupOffersByCity } from '../../utils/utils';
+import { groupOffersByCityName } from '../../utils/utils';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -15,14 +15,15 @@ function FavoritiesPage(): JSX.Element {
   const favorites = useAppSelector((state) => state.favorites);
   const areFavoritesLoading = useAppSelector((state) => state.areFavoritesLoading);
   const dispatch = useAppDispatch();
-  const offersByCities = groupOffersByCity<OfferShort>(favorites);
+  const groupedOffersByCityName = groupOffersByCityName<OfferShort>(favorites);
 
   useEffect(() => {
     dispatch(loadFavoritesAction())
     dispatch(changeFavoritesLoadingStatus(true));
-      return () => {
-        dispatch(deleteFavorites());
-      };
+    
+    return () => {
+      dispatch(deleteFavorites());
+    };
   }, [dispatch]);
 
   return (
@@ -41,7 +42,7 @@ function FavoritiesPage(): JSX.Element {
               <section className="favorites">
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">
-                  {Object.keys(offersByCities).map((city: string) => <FavoritiesList key={city} city={city} offers={offersByCities[city]}/>)}
+                  {Object.keys(groupedOffersByCityName).map((cityName: string) => <FavoritiesList key={cityName} offers={groupedOffersByCityName[cityName]}/>)}
                 </ul>
               </section>
             </div>

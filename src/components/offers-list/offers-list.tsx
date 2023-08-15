@@ -13,9 +13,9 @@ type OfferslistProps = {
   onMouseLeaveHandler: () => void;
 }
 
-function OffersList({offersShort, activeCity, onMouseEnterHandler, onMouseLeaveHandler}: OfferslistProps):JSX.Element {
+function OffersList({offersShort, activeCity, onMouseEnterHandler, onMouseLeaveHandler}: OfferslistProps): JSX.Element {
   const sortType = useAppSelector((state) => state.sortType);
-  const sortedOffersShort = sortOffers(offersShort, sortType);
+  const sortedOffersShort = sortOffers<OfferShort>(offersShort, sortType);
 
   return (
     <>
