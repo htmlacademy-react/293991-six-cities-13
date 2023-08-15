@@ -145,5 +145,5 @@ export const MAX_COMMENTS_IN_REVIEW = 10;
 
 export enum OfferFavoriteStatus {
   Unset = 0,
-  Set = 1  
+  Set = 1
 }

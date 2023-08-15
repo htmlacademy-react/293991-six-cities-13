@@ -10,8 +10,6 @@ import { deleteToken, saveToken } from './token';
 import { Comment } from '../types/offer-review';
 import { generatePath } from 'react-router-dom';
 import { CommentRequestData } from '../types/comment-request-data';
-import { StatusCodes } from 'http-status-codes';
-import { toast } from 'react-toastify';
 
 export const loadOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -153,16 +151,7 @@ export const changeOfferFavoriteStatusAction = createAsyncThunk<void, OfferFavor
 }>(
   'CHANGE_OFFER_FAVORITE_STATUS',
   async ({offerId, offerFavoriteStatus}, {dispatch, extra: api}) => {
-    await api.post<OfferDetail>(generatePath(BackendRoute.FavoriteStatus, {id: offerId, status: `${offerFavoriteStatus}`}))
-      .then(function(response) {
-        dispatch(changeOfferFavoriteStatus(response.data));
-      })
-      .catch(function(error) {
-        if(error.response.status === StatusCodes.UNAUTHORIZED) {
-          dispatch(redirectToRoute(AppRoute.Login));
-        } else {
-          toast.error(error.response.data.message);
-        }
-      })
+    const {data} = await api.post<OfferDetail>(generatePath(BackendRoute.FavoriteStatus, {id: offerId, status: `${offerFavoriteStatus}`}));
+    dispatch(changeOfferFavoriteStatus(data));
   }
 );

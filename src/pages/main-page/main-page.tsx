@@ -20,6 +20,35 @@ function MainPage (): JSX.Element {
   const offersShort = getOffersByCity<OfferShort>(allOffersShort, activeCity.name);
   const [currentOfferId, setCurrentOfferId] = useState<string>('');
 
+  function getElement() {
+    // Решение замечания линтера: no-nested-ternary
+    return (
+      (offersShort.length === 0) ?
+        <>
+          <section className="cities__no-places">
+            <div className="cities__status-wrapper tabs__content">
+              <b className="cities__status">No places to stay available</b>
+              <p className="cities__status-description">We could not find any property available at the moment in {activeCity.name}</p>
+            </div>
+          </section>
+          <div className="cities__right-section"></div>
+        </> :
+        <>
+          <section className="cities__places places">
+            <OffersList
+              offersShort={offersShort}
+              activeCity={activeCity}
+              onMouseEnterHandler={(offerId: string) => () => setCurrentOfferId(offerId)}
+              onMouseLeaveHandler={() => setCurrentOfferId('')}
+            />
+          </section>
+          <div className="cities__right-section">
+            <Map offersShort={offersShort} mode={OfferCardMode.MainPage} currentOfferId={currentOfferId}/>
+          </div>
+        </>
+    );
+  }
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -29,39 +58,19 @@ function MainPage (): JSX.Element {
       <main className={cn(
         'page__main page__main--index',
         {'page__main--index-empty': offersShort.length === 0},
-      )}>
+      )}
+      >
         <CitiesTabList cities={CITIES}/>
         <div className="cities">
           <div className={cn(
             'cities__places-container container',
             {'cities__places-container--empty': offersShort.length === 0},
-          )}>
+          )}
+          >
             {
               (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) ?
                 <LoadingSpinner/> :
-                (offersShort.length === 0) ?
-                  <>
-                    <section className="cities__no-places">
-                      <div className="cities__status-wrapper tabs__content">
-                        <b className="cities__status">No places to stay available</b>
-                        <p className="cities__status-description">We could not find any property available at the moment in {activeCity.name}</p>
-                      </div>
-                    </section>
-                    <div className="cities__right-section"></div> 
-                  </>:
-                  <>
-                    <section className="cities__places places">
-                      <OffersList
-                        offersShort={offersShort}
-                        activeCity={activeCity}
-                        onMouseEnterHandler={(offerId: string) => () => setCurrentOfferId(offerId)}
-                        onMouseLeaveHandler={() => setCurrentOfferId('')}
-                      />
-                    </section>
-                    <div className="cities__right-section">
-                      <Map offersShort={offersShort} mode={OfferCardMode.MainPage} currentOfferId={currentOfferId}/>
-                    </div>
-                  </>
+                getElement()
             }
           </div>
         </div>

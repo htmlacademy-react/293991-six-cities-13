@@ -1,7 +1,7 @@
-import { OfferFavoriteStatus } from "../../const";
-import { useAppDispatch } from "../../hooks";
-import { changeOfferFavoriteStatusAction } from "../../services/api-actions";
-import { OfferDetail } from "../../types/offer";
+import { OfferFavoriteStatus } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
+import { OfferDetail } from '../../types/offer';
 import cn from 'classnames';
 
 type OfferHeaderProps = {
@@ -14,7 +14,7 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
   function onClickHandler() {
     if (offerDetail) {
       const offerFavoriteStatus = offerDetail.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
-      dispatch(changeOfferFavoriteStatusAction({offerId: offerDetail.id, offerFavoriteStatus}))
+      dispatch(changeOfferFavoriteStatusAction({offerId: offerDetail.id, offerFavoriteStatus}));
     }
   }
 
@@ -31,7 +31,8 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
           {offerDetail?.title}
         </h1>
 
-        { offerDetail?.isFavorite ?
+        {
+          offerDetail?.isFavorite ?
             <button className="offer__bookmark-button offer__bookmark-button--active button" type="button" onClick={onClickHandler}>
               <svg className="offer__bookmark-icon" width={31} height={33}>
                 <use xlinkHref="#icon-bookmark" />
@@ -44,7 +45,7 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
               </svg>
               <span className="visually-hidden">To bookmarks</span>
             </button>
-          }
+        }
       </div>
     </>
   );

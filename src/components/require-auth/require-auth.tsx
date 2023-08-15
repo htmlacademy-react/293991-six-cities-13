@@ -6,16 +6,21 @@ import PageHeader from '../page-header/page-header';
 
 function RequireAuth(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  function getElement() {
+    // Решение замечания линтера: no-nested-ternary
+    return (authorizationStatus === AuthorizationStatus.Auth) ? <Outlet/> : <Navigate to={AppRoute.Login}/>;
+  }
+
   return (
-      authorizationStatus === AuthorizationStatus.Unknown ?
+    authorizationStatus === AuthorizationStatus.Unknown ?
       <div className="page">
         <Helmet>
           <title>6 cities</title>
         </Helmet>
         <PageHeader/>
       </div> :
-      (authorizationStatus === AuthorizationStatus.Auth ? <Outlet/> : <Navigate to={AppRoute.Login}/>)
-  )
+      getElement()
+  );
 }
 
 export default RequireAuth;

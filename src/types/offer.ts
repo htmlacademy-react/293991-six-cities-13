@@ -34,5 +34,5 @@ export type GroupedOffersByCity<T> = {
 
 export type OfferFavoriteRequest = {
   offerId: string;
-  offerFavoriteStatus: OfferFavoriteStatus
+  offerFavoriteStatus: OfferFavoriteStatus;
 }

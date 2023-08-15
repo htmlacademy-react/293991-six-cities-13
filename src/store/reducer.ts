@@ -5,7 +5,7 @@ import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
 import { Comment } from '../types/offer-review';
 import { ErrorResponse } from '../types/error-response';
-import { addCommentAction, changeOfferFavoriteStatusAction, loginAction } from '../services/api-actions';
+import { addCommentAction, loginAction } from '../services/api-actions';
 import { countFavorities } from '../utils/utils';
 
 
@@ -119,7 +119,7 @@ const reducer = createReducer(initialState, (builder) => {
         state.offerDetail.isFavorite = action.payload.isFavorite;
       }
     })
-    .addCase(loadFavorites, (state,  action) => {
+    .addCase(loadFavorites, (state, action) => {
       state.favorites = action.payload;
     })
     .addCase(changeFavoritesLoadingStatus, (state, action) => {

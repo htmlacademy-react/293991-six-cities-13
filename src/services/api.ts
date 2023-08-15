@@ -4,8 +4,8 @@ import { getToken } from './token';
 import { ErrorResponse } from '../types/error-response';
 import { redirectToRoute, setError } from '../store/action';
 import { store } from '../store';
+import { toast } from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
-
 
 export const createAPI = ():AxiosInstance => {
   const api = axios.create({
@@ -30,6 +30,11 @@ export const createAPI = ():AxiosInstance => {
     (error: AxiosError<ErrorResponse>) => {
       if (error.response && HTTP_CODES_TO_DISPLAY.includes(error.response.status)) {
         store.dispatch(setError(error.response.data));
+      }
+      if(error.response && error.response.status === StatusCodes.UNAUTHORIZED) {
+        store.dispatch(redirectToRoute(AppRoute.Login));
+      } else {
+        toast.error(error !== null && error.response?.data.message);
       }
 
       throw error;

@@ -16,10 +16,10 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
 
   function onClickHandler() {
     const offerFavoriteStatus = offer.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
-    dispatch(changeOfferFavoriteStatusAction({offerId: offer.id, offerFavoriteStatus}))
-    dispatch(deleteFavorite(offer.id))
+    dispatch(changeOfferFavoriteStatusAction({offerId: offer.id, offerFavoriteStatus}));
+    dispatch(deleteFavorite(offer.id));
   }
-  
+
   return (
     <article className="favorites__card place-card">
       {
@@ -47,19 +47,20 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
               /&nbsp;night
             </span>
           </div>
-          { offer.isFavorite ?
-            <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={onClickHandler}>
-              <svg className="place-card__bookmark-icon" width={18} height={19}>
-                <use xlinkHref="#icon-bookmark" />
-              </svg>
-              <span className="visually-hidden">In bookmarks</span>
-            </button> :
-            <button className="place-card__bookmark-button button" type="button" onClick={onClickHandler}>
-              <svg className="place-card__bookmark-icon" width={18} height={19}>
-                <use xlinkHref="#icon-bookmark" />
-              </svg>
-              <span className="visually-hidden">To bookmarks</span>
-            </button>
+          {
+            offer.isFavorite ?
+              <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={onClickHandler}>
+                <svg className="place-card__bookmark-icon" width={18} height={19}>
+                  <use xlinkHref="#icon-bookmark" />
+                </svg>
+                <span className="visually-hidden">In bookmarks</span>
+              </button> :
+              <button className="place-card__bookmark-button button" type="button" onClick={onClickHandler}>
+                <svg className="place-card__bookmark-icon" width={18} height={19}>
+                  <use xlinkHref="#icon-bookmark" />
+                </svg>
+                <span className="visually-hidden">To bookmarks</span>
+              </button>
           }
         </div>
         <div className="place-card__rating rating">
