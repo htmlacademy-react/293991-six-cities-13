@@ -4,7 +4,6 @@ import { capitalizeFirstLetter, convertRatingToWidthPerc } from '../../utils/uti
 import { AppRoute, OfferFavoriteStatus } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
-import { ToastContainer } from 'react-toastify';
 import { deleteFavorite } from '../../store/action';
 import cn from 'classnames';
 
@@ -73,7 +72,6 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
         </h2>
         <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
       </div>
-      <ToastContainer/>
     </article>
   );
 }

@@ -139,6 +139,7 @@ export enum FormControlToDisplayError {
   CommentControl = 'comment',
   RatingControl = 'rating',
 }
+export const COMMON_ERROR_TYPE = 'COMMON_ERROR';
 
 export const MAX_IMAGES_IN_OFFER_CARD = 6;
 export const MAX_COMMENTS_IN_REVIEW = 10;

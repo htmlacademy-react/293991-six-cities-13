@@ -6,7 +6,6 @@ import cn from 'classnames';
 import { convertRatingToWidthPerc } from '../../utils/utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { memo } from 'react';
 
@@ -87,7 +86,6 @@ function OfferCard({offerShort, onMouseHoverHandler, mode}: OfferCardProps): JSX
         </h2>
         <p className="place-card__type">{offerShort.type}</p>
       </div>
-      <ToastContainer/>
     </article>
   );
 }

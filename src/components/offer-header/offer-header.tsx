@@ -1,5 +1,6 @@
-import { OfferFavoriteStatus } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, OfferFavoriteStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
 import { OfferDetail } from '../../types/offer';
 import cn from 'classnames';
@@ -9,9 +10,15 @@ type OfferHeaderProps = {
 }
 
 function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   function onClickHandler() {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+    }
+
     if (offerDetail) {
       const offerFavoriteStatus = offerDetail.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
       dispatch(changeOfferFavoriteStatusAction({offerId: offerDetail.id, offerFavoriteStatus}));

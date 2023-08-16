@@ -6,7 +6,7 @@ import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
 import { Comment } from '../types/offer-review';
 import { ErrorResponse } from '../types/error-response';
 import { addCommentAction, loadOfferDetailAction, loginAction } from '../services/api-actions';
-import { countFavorities, eraseOfferFavoriteStatus, filterNearByOffers, getOffersByCity, updateOfferFavoriteStatus } from '../utils/utils';
+import { countFavorities, eraseOfferFavoriteStatus, filterNearByOffers, getOffersByCity, getRandomCity, updateOfferFavoriteStatus } from '../utils/utils';
 
 
 type InitialCity = {
@@ -26,6 +26,7 @@ type InitialCity = {
   isOfferCommentSending: boolean;
   offersNearBy: OfferShort[];
   errorResponse: ErrorResponse | null;
+  loginPageRandomCity: City;
 }
 
 const initialState: InitialCity = {
@@ -44,7 +45,8 @@ const initialState: InitialCity = {
   offerComments: [],
   isOfferCommentSending: false,
   offersNearBy: [],
-  errorResponse: null
+  errorResponse: null,
+  loginPageRandomCity: getRandomCity()
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -106,6 +108,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeOfferFavoriteStatus, (state, action) => {
       state.offers = updateOfferFavoriteStatus(state.offers, action.payload.id, action.payload.isFavorite);
       state.offersByCity = updateOfferFavoriteStatus(state.offersByCity, action.payload.id, action.payload.isFavorite);
+      state.offersNearBy = updateOfferFavoriteStatus(state.offersNearBy, action.payload.id, action.payload.isFavorite);
       state.favoritesCount = countFavorities(state.offers);
       if (state.offerDetail !== null && state.offerDetail.id === action.payload.id) {
         state.offerDetail.isFavorite = action.payload.isFavorite;

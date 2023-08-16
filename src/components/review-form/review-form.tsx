@@ -69,7 +69,7 @@ function ReviewForm():JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!reviewIsValid || isOfferCommentSending}
+          // disabled={!reviewIsValid || isOfferCommentSending}
           onClick={onSubmitHandler}
         >
           Submit

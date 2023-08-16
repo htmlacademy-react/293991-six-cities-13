@@ -7,6 +7,7 @@ import { checkAuthAction, loadOffersAction } from './services/api-actions';
 import { changeCity } from './store/action';
 import { DEFAULT_CITY_NAME } from './const';
 import { getCityDataByCityName } from './utils/utils';
+import { ToastContainer } from 'react-toastify';
 
 store.dispatch(loadOffersAction());
 store.dispatch(changeCity(getCityDataByCityName(DEFAULT_CITY_NAME)));
@@ -20,6 +21,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App/>
+      <ToastContainer/>
     </Provider>
   </React.StrictMode>
 );

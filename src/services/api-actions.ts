@@ -157,12 +157,6 @@ export const changeOfferFavoriteStatusAction = createAsyncThunk<void, OfferFavor
 }>(
   'CHANGE_OFFER_FAVORITE_STATUS',
   async ({offerId, offerFavoriteStatus}, {dispatch, extra: api}) => {
-    // try {
-    //   const {data} = await api.post<OfferDetail>(generatePath(BackendRoute.FavoriteStatus, {id: offerId, status: `${offerFavoriteStatus}`}));
-    //   dispatch(changeOfferFavoriteStatus(data));
-    // } catch {
-    //   dispatch(redirectToRoute(AppRoute.Login));
-    // }
     const {data} = await api.post<OfferDetail>(generatePath(BackendRoute.FavoriteStatus, {id: offerId, status: `${offerFavoriteStatus}`}));
     dispatch(changeOfferFavoriteStatus(data));
   }
