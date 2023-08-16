@@ -30,22 +30,18 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
         <h1 className="offer__name">
           {offerDetail?.title}
         </h1>
-
-        {
-          offerDetail?.isFavorite ?
-            <button className="offer__bookmark-button offer__bookmark-button--active button" type="button" onClick={onClickHandler}>
-              <svg className="offer__bookmark-icon" width={31} height={33}>
-                <use xlinkHref="#icon-bookmark" />
-              </svg>
-              <span className="visually-hidden">In bookmarks</span>
-            </button> :
-            <button className="offer__bookmark-button button" type="button" onClick={onClickHandler}>
-              <svg className="offer__bookmark-icon" width={31} height={33}>
-                <use xlinkHref="#icon-bookmark" />
-              </svg>
-              <span className="visually-hidden">To bookmarks</span>
-            </button>
-        }
+        <button className={cn(
+          'offer__bookmark-button button',
+          {'offer__bookmark-button--active': offerDetail?.isFavorite}
+        )}
+        type="button"
+        onClick={onClickHandler}
+        >
+          <svg className="offer__bookmark-icon" width={31} height={33}>
+            <use xlinkHref="#icon-bookmark" />
+          </svg>
+          <span className="visually-hidden">{offerDetail?.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+        </button>
       </div>
     </>
   );

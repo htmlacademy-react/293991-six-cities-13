@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../hooks';
 import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
 import { ToastContainer } from 'react-toastify';
 import { deleteFavorite } from '../../store/action';
+import cn from 'classnames';
 
 type FavoriteOfferCardProps = {
   offer: OfferShort;
@@ -47,21 +48,19 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
               /&nbsp;night
             </span>
           </div>
-          {
-            offer.isFavorite ?
-              <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={onClickHandler}>
-                <svg className="place-card__bookmark-icon" width={18} height={19}>
-                  <use xlinkHref="#icon-bookmark" />
-                </svg>
-                <span className="visually-hidden">In bookmarks</span>
-              </button> :
-              <button className="place-card__bookmark-button button" type="button" onClick={onClickHandler}>
-                <svg className="place-card__bookmark-icon" width={18} height={19}>
-                  <use xlinkHref="#icon-bookmark" />
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
-          }
+
+          <button className={cn(
+            'place-card__bookmark-button button',
+            {'place-card__bookmark-button--active': offer.isFavorite}
+          )}
+          type="button"
+          onClick={onClickHandler}
+          >
+            <svg className="place-card__bookmark-icon" width={18} height={19}>
+              <use xlinkHref="#icon-bookmark" />
+            </svg>
+            <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+          </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
