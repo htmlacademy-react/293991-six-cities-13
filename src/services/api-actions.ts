@@ -35,7 +35,7 @@ export const loadFavoritesAction = createAsyncThunk<void, undefined, {
     const {data} = await api.get<OfferShort[]>(BackendRoute.Favorite);
     dispatch(changeFavoritesLoadingStatus(true));
     dispatch(loadFavorites(data));
-    dispatch(changeFavoritesLoadingStatus(false));
+    // dispatch(changeFavoritesLoadingStatus(false));
   }
 );
 

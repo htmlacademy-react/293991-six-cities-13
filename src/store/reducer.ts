@@ -36,7 +36,7 @@ const initialState: InitialCity = {
   offersByCity: [],
   favoritesCount: 0,
   favorites: [],
-  areFavoritesLoading: false,
+  areFavoritesLoading: true,
   sortType: SortType.Popular,
   areOffersLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -141,9 +141,14 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffersAction.rejected, (state) => {
       state.areOffersLoading = false;
     })
+
+    .addCase(loadFavoritesAction.fulfilled, (state) => {
+      state. areFavoritesLoading = false;
+    })
     .addCase(loadFavoritesAction.rejected, (state) => {
       state. areFavoritesLoading = false;
     })
+
     .addCase(loadOfferDetailAction.rejected, (state) => {
       state.isOfferDetailLoading = false;
     })
