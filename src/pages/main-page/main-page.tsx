@@ -3,14 +3,12 @@ import Map from '../../components/map/map';
 import { AuthorizationStatus, OfferCardMode } from '../../const';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import PageHeader from '../../components/page-header/page-header';
 import cn from 'classnames';
-import { loadFavoritesAction } from '../../services/api-actions';
-import { deleteFavorites } from '../../store/action';
 
 function MainPage (): JSX.Element {
   const areOffersLoading = useAppSelector((state) => state.areOffersLoading);
@@ -19,22 +17,7 @@ function MainPage (): JSX.Element {
   const offersByCity = useAppSelector((state) => state.offersByCity);
   const [currentOfferId, setCurrentOfferId] = useState<string>('');
 
-
-
-  const onMouseEnterHandler = useCallback((offerId: string) => () => setCurrentOfferId(offerId), []);
-  const onMouseLeaveHandler = useCallback(() => setCurrentOfferId(''), []);
-
-
-  const favorites = useAppSelector((state) => state.favorites);
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(loadFavoritesAction());
-
-    return () => {
-      dispatch(deleteFavorites());
-    };
-  }, [dispatch]);
-
+  const onMouseHoverHandler = useCallback((offerId: string) => {setCurrentOfferId(offerId)}, []);
 
   function getElement() {
     // Решение замечания линтера: no-nested-ternary
@@ -51,10 +34,7 @@ function MainPage (): JSX.Element {
         </> :
         <>
           <section className="cities__places places">
-            <OffersList
-              onMouseEnterHandler={onMouseEnterHandler}
-              onMouseLeaveHandler={onMouseLeaveHandler}
-            />
+            <OffersList onMouseHoverHandler={onMouseHoverHandler} />
           </section>
           <div className="cities__right-section">
             <Map mode={OfferCardMode.MainPage} currentOfferId={currentOfferId}/>

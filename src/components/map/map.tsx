@@ -9,7 +9,7 @@ import { useAppSelector } from '../../hooks';
 
 type MapProps = {
   mode: OfferCardMode;
-  currentOfferId: string | undefined;
+  currentOfferId: string | null | undefined;
 };
 
 const defaultCustomIcon = new Icon({

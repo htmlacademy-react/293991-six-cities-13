@@ -107,9 +107,13 @@ export function countFavorities(offers: OfferShort[]): number {
 }
 
 export function getCityDataByCityName(cityName: string): City {
-  return CITIES.find((city: City) => city.name === cityName) as City
+  return CITIES.find((city: City) => city.name === cityName) as City;
 }
 
 export function updateOfferFavoriteStatus(offers: OfferShort[], offerId: string, newIsFavorite: boolean): OfferShort[] {
-  return offers.map((offer: OfferShort) => ((offer.id === offerId) ? {...offer, isFavorite: newIsFavorite} : offer))
+  return offers.map((offer: OfferShort) => ((offer.id === offerId) ? {...offer, isFavorite: newIsFavorite} : offer));
+}
+
+export function eraseOfferFavoriteStatus(offers: OfferShort[]): OfferShort[] {
+  return offers.map((offer: OfferShort) => ({...offer, isFavorite: false}));
 }

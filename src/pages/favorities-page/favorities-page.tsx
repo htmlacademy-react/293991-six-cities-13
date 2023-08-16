@@ -17,10 +17,9 @@ function FavoritiesPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const groupedOffersByCityName = groupOffersByCityName<OfferShort>(favorites);
 
-  console.log(areFavoritesLoading)
-
   useEffect(() => {
     dispatch(loadFavoritesAction());
+    dispatch(changeFavoritesLoadingStatus(true));
 
     return () => {
       dispatch(deleteFavorites());

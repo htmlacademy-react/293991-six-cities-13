@@ -1,30 +1,33 @@
-import { Link, generatePath } from 'react-router-dom';
-import { AppRoute, OfferCardMode, OfferFavoriteStatus } from '../../const';
+import { Link, generatePath, useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, OfferCardMode, OfferFavoriteStatus } from '../../const';
 import { OfferShort } from '../../types/offer';
 import offerCardPremium from '../offer-card-premium/offer-card-premium';
 import cn from 'classnames';
 import { convertRatingToWidthPerc } from '../../utils/utils';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { memo } from 'react';
-import { changeOfferFavoriteStatus } from '../../store/action';
 
 type OfferCardProps = {
   offerShort: OfferShort;
-  onMouseEnterHandler?: () => void;
-  onMouseLeaveHandler?: () => void;
+  onMouseHoverHandler?: (offerId: string) => void;
   mode: OfferCardMode;
 }
 
-function OfferCard({offerShort, onMouseEnterHandler, onMouseLeaveHandler, mode}: OfferCardProps): JSX.Element {
+function OfferCard({offerShort, onMouseHoverHandler, mode}: OfferCardProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
 
   function onClickHandler() {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+    }
+    
     const offerFavoriteStatus = offerShort.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
     dispatch(changeOfferFavoriteStatusAction({offerId: offerShort.id, offerFavoriteStatus}));
-    // dispatch(changeOfferFavoriteStatus({offerShort}))
   }
 
   return (
@@ -34,8 +37,8 @@ function OfferCard({offerShort, onMouseEnterHandler, onMouseLeaveHandler, mode}:
         {'cities__card': mode === OfferCardMode.MainPage},
         {'near-places__card': mode === OfferCardMode.NearPlaces}
       )}
-      onMouseEnter={onMouseEnterHandler}
-      onMouseLeave={onMouseLeaveHandler}
+      onMouseEnter={() => onMouseHoverHandler && onMouseHoverHandler(offerShort.id)}
+      onMouseLeave={() => onMouseHoverHandler && onMouseHoverHandler('')}
     >
       {offerShort.isPremium && offerCardPremium()}
       <div className={cn(
@@ -89,4 +92,4 @@ function OfferCard({offerShort, onMouseEnterHandler, onMouseLeaveHandler, mode}:
   );
 }
 
-export default OfferCard;
+export default memo(OfferCard);

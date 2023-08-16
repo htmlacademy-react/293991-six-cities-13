@@ -88,4 +88,4 @@ export const deleteFavorite = createAction('DELETE_FAVORITE', (offerId: string) 
   payload: offerId
 }));
 
-// export const 
+export const eraseFavorites = createAction('ERASE_FAVORITES');

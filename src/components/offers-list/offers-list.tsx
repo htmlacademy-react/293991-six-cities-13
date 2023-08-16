@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { OfferCardMode } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { OfferShort } from '../../types/offer';
@@ -6,12 +6,11 @@ import { sortOffers } from '../../utils/utils';
 import OfferCard from '../offer-card/offer-card';
 import OffersSorting from '../offers-sorting/offers-sorting';
 
-type OfferslistProps = {
-  onMouseEnterHandler: (offerId: string) => () => void;
-  onMouseLeaveHandler: () => void;
+type OffersListProps = {
+  onMouseHoverHandler: (offerId: string) => void;
 }
 
-function OffersList({onMouseEnterHandler, onMouseLeaveHandler}: OfferslistProps): JSX.Element {
+function OffersList({onMouseHoverHandler}: OffersListProps): JSX.Element {
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersByCity = useAppSelector((state) => state.offersByCity);
   const sortType = useAppSelector((state) => state.sortType);
@@ -22,10 +21,10 @@ function OffersList({onMouseEnterHandler, onMouseLeaveHandler}: OfferslistProps)
       <b className="places__found">{offersByCity.length} {offersByCity.length === 1 ? 'place' : 'places'} to stay in {activeCity.name}</b>
       <OffersSorting/>
       <div className="cities__places-list places__list tabs__content">
-        {sortedOffersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseEnterHandler={onMouseEnterHandler(offerShort.id)} onMouseLeaveHandler={onMouseLeaveHandler}/>))}
+        {sortedOffersShort.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.MainPage} onMouseHoverHandler={onMouseHoverHandler}/>))}
       </div>
     </>
   );
 }
 
-export default OffersList;
+export default memo(OffersList);
