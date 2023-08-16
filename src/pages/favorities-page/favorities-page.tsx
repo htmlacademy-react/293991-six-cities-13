@@ -19,7 +19,6 @@ function FavoritiesPage(): JSX.Element {
 
   useEffect(() => {
     dispatch(loadFavoritesAction());
-    dispatch(changeFavoritesLoadingStatus(true));
 
     return () => {
       dispatch(deleteFavorites());

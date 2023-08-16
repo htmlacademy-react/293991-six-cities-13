@@ -8,7 +8,6 @@ import { OfferShort } from '../../types/offer';
 import { useAppSelector } from '../../hooks';
 
 type MapProps = {
-  offersShort: OfferShort[];
   mode: OfferCardMode;
   currentOfferId: string | undefined;
 };
@@ -25,16 +24,19 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({offersShort, mode, currentOfferId}: MapProps): JSX.Element {
+function Map({mode, currentOfferId}: MapProps): JSX.Element {
   const activeCity = useAppSelector((state) => state.activeCity);
+  const offersByCity = useAppSelector((state) => state.offersByCity);
+  const offersNearBy = useAppSelector((state) => state.offersNearBy);
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
+  const offersForMap = mode === OfferCardMode.MainPage ? offersByCity : offersNearBy;
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
 
-      offersShort.forEach((offer: OfferShort) => {
+      offersForMap.forEach((offer: OfferShort) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude
@@ -51,7 +53,7 @@ function Map({offersShort, mode, currentOfferId}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersShort, currentOfferId, activeCity]);
+  }, [map, offersForMap, currentOfferId, activeCity]);
 
   return (
     <section

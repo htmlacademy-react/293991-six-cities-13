@@ -105,3 +105,11 @@ export function getRandomCity(): City {
 export function countFavorities(offers: OfferShort[]): number {
   return offers.reduce((accumulator: number, curOffer: OfferShort) => (curOffer.isFavorite ? accumulator + 1 : accumulator), 0);
 }
+
+export function getCityDataByCityName(cityName: string): City {
+  return CITIES.find((city: City) => city.name === cityName) as City
+}
+
+export function updateOfferFavoriteStatus(offers: OfferShort[], offerId: string, newIsFavorite: boolean): OfferShort[] {
+  return offers.map((offer: OfferShort) => ((offer.id === offerId) ? {...offer, isFavorite: newIsFavorite} : offer))
+}

@@ -19,8 +19,9 @@ export const loadOffersAction = createAsyncThunk<void, undefined, {
   'LOAD_OFFERS',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<OfferShort[]>(BackendRoute.Offers);
-    dispatch(changeOffersLoadingStatus(false));
+    dispatch(changeOffersLoadingStatus(true));
     dispatch(loadOffers(data));
+    dispatch(changeOffersLoadingStatus(false));
   }
 );
 
@@ -32,8 +33,9 @@ export const loadFavoritesAction = createAsyncThunk<void, undefined, {
   'LOAD_FAVORITIES',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<OfferShort[]>(BackendRoute.Favorite);
-    dispatch(changeFavoritesLoadingStatus(false));
+    dispatch(changeFavoritesLoadingStatus(true));
     dispatch(loadFavorites(data));
+    dispatch(changeFavoritesLoadingStatus(false));
   }
 );
 
@@ -95,10 +97,12 @@ export const loadOfferDetailAction = createAsyncThunk<void, string, {
   async (offerId, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<OfferDetail>(generatePath(BackendRoute.OfferDetail, {id: offerId}));
-      dispatch(changeOfferDetailLoadingStatus(false));
+      dispatch(changeOfferDetailLoadingStatus(true));
       dispatch(loadOfferDetail(data));
+      dispatch(changeOfferDetailLoadingStatus(false));
     } catch {
       dispatch(redirectToRoute(AppRoute.NotFound));
+      dispatch(changeOfferDetailLoadingStatus(false));
     }
   }
 );
@@ -111,8 +115,9 @@ export const loadOfferCommentsAction = createAsyncThunk<void, string, {
   'LOAD_OFFER_COMMENTS',
   async (offerId, {dispatch, extra: api}) => {
     const {data} = await api.get<Comment[]>(generatePath(BackendRoute.Comments, {id: offerId}));
-    dispatch(changeOfferCommentsLoadingStatus(false));
+    dispatch(changeOfferCommentsLoadingStatus(true));
     dispatch(loadOfferComments(data));
+    dispatch(changeOfferCommentsLoadingStatus(false));
   }
 );
 
@@ -121,11 +126,12 @@ export const loadOffersNearByAction = createAsyncThunk<void, string, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'LOAD_OFFER_COMMENTS',
+  'LOAD_OFFERS_NEARBY',
   async (offerId, {dispatch, extra: api}) => {
     const {data} = await api.get<OfferShort[]>(generatePath(BackendRoute.OffersNearBy, {id: offerId}));
-    dispatch(changeOffersNearByLoadingStatus(false));
+    dispatch(changeOffersNearByLoadingStatus(true));
     dispatch(loadOffersNearBy(data));
+    dispatch(changeOffersNearByLoadingStatus(false));
   }
 );
 

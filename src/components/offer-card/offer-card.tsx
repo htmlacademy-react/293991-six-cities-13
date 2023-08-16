@@ -8,6 +8,8 @@ import { useAppDispatch } from '../../hooks';
 import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { memo } from 'react';
+import { changeOfferFavoriteStatus } from '../../store/action';
 
 type OfferCardProps = {
   offerShort: OfferShort;
@@ -22,6 +24,7 @@ function OfferCard({offerShort, onMouseEnterHandler, onMouseLeaveHandler, mode}:
   function onClickHandler() {
     const offerFavoriteStatus = offerShort.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
     dispatch(changeOfferFavoriteStatusAction({offerId: offerShort.id, offerFavoriteStatus}));
+    // dispatch(changeOfferFavoriteStatus({offerShort}))
   }
 
   return (

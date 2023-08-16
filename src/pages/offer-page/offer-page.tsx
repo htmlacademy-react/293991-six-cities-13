@@ -82,7 +82,7 @@ function OfferPage(): JSX.Element {
                 {
                   areOffersNearByLoading ?
                     <LoadingSpinner/> :
-                    <Map offersShort={offersForMap} mode={OfferCardMode.NearPlaces} currentOfferId={offerDetail?.id}/>
+                    <Map mode={OfferCardMode.NearPlaces} currentOfferId={offerDetail?.id}/>
                 }
               </section>
               {

@@ -1,6 +1,6 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
 import { AppRoute, BACKEND_URL, HTTP_CODES_TO_DISPLAY, REQUEST_TIMEOUT } from '../const';
-import { getToken } from './token';
+import { deleteToken, getToken } from './token';
 import { ErrorResponse } from '../types/error-response';
 import { redirectToRoute, setError } from '../store/action';
 import { store } from '../store';
@@ -32,7 +32,8 @@ export const createAPI = ():AxiosInstance => {
         store.dispatch(setError(error.response.data));
       }
       if(error.response && error.response.status === StatusCodes.UNAUTHORIZED) {
-        store.dispatch(redirectToRoute(AppRoute.Login));
+        // store.dispatch(redirectToRoute(AppRoute.Login));
+        deleteToken();
       } else {
         toast.error(error !== null && error.response?.data.message);
       }

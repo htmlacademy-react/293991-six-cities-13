@@ -4,8 +4,12 @@ import App from './components/app/app';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import { checkAuthAction, loadOffersAction } from './services/api-actions';
+import { changeCity } from './store/action';
+import { DEFAULT_CITY_NAME } from './const';
+import { getCityDataByCityName } from './utils/utils';
 
 store.dispatch(loadOffersAction());
+store.dispatch(changeCity(getCityDataByCityName(DEFAULT_CITY_NAME)));
 store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(

@@ -87,3 +87,5 @@ export const deleteFavorites = createAction('DELETE_FAVORITES');
 export const deleteFavorite = createAction('DELETE_FAVORITE', (offerId: string) => ({
   payload: offerId
 }));
+
+// export const 
