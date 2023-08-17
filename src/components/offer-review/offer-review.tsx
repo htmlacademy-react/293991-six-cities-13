@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { AuthorizationStatus, MAX_COMMENTS_IN_REVIEW } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { Comment } from '../../types/offer-review';
@@ -27,4 +28,4 @@ function OfferReview({comments}: OfferReviewProps): JSX.Element {
   );
 }
 
-export default OfferReview;
+export default memo(OfferReview);

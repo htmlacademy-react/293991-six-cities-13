@@ -1,34 +1,23 @@
-import { Link, generatePath, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, OfferCardMode, OfferFavoriteStatus } from '../../const';
-import { OfferShort } from '../../types/offer';
+import { Link, generatePath } from 'react-router-dom';
+import { AppRoute, OfferCardMode } from '../../const';
 import offerCardPremium from '../offer-card-premium/offer-card-premium';
 import cn from 'classnames';
 import { convertRatingToWidthPerc } from '../../utils/utils';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
 import 'react-toastify/dist/ReactToastify.css';
 import { memo } from 'react';
+import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
+import { useAppDispatch } from '../../hooks';
+import { setHoveredOffer } from '../../store/action';
+import { OfferShort } from '../../types/offer';
 
 type OfferCardProps = {
-  offerShort: OfferShort;
-  onMouseHoverHandler?: (offerId: string) => void;
+  offer: OfferShort;
   mode: OfferCardMode;
 }
 
-function OfferCard({offerShort, onMouseHoverHandler, mode}: OfferCardProps): JSX.Element {
+function OfferCard({offer, mode}: OfferCardProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const navigate = useNavigate();
-
-  function onClickHandler() {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate(AppRoute.Login);
-    }
-    
-    const offerFavoriteStatus = offerShort.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
-    dispatch(changeOfferFavoriteStatusAction({offerId: offerShort.id, offerFavoriteStatus}));
-  }
-
+  
   return (
     <article
       className={cn(
@@ -36,20 +25,20 @@ function OfferCard({offerShort, onMouseHoverHandler, mode}: OfferCardProps): JSX
         {'cities__card': mode === OfferCardMode.MainPage},
         {'near-places__card': mode === OfferCardMode.NearPlaces}
       )}
-      onMouseEnter={() => onMouseHoverHandler && onMouseHoverHandler(offerShort.id)}
-      onMouseLeave={() => onMouseHoverHandler && onMouseHoverHandler('')}
+      onMouseEnter={() => mode === OfferCardMode.MainPage && dispatch(setHoveredOffer(offer))}
+      onMouseLeave={() => mode === OfferCardMode.MainPage && dispatch(setHoveredOffer(null))}
     >
-      {offerShort.isPremium && offerCardPremium()}
+      {offer.isPremium && offerCardPremium()}
       <div className={cn(
         'place-card__image-wrapper',
         {'cities__image-wrapper': mode === OfferCardMode.MainPage},
         {'near-places__image-wrapper': mode === OfferCardMode.NearPlaces}
       )}
       >
-        <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>
+        <Link to={generatePath(AppRoute.Offer, {id: offer.id})}>
           <img
             className="place-card__image"
-            src={offerShort.previewImage}
+            src={offer.previewImage}
             width={260}
             height={200}
             alt="Place image"
@@ -59,32 +48,21 @@ function OfferCard({offerShort, onMouseHoverHandler, mode}: OfferCardProps): JSX
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€{offerShort.price}</b>
+            <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className={cn(
-            'place-card__bookmark-button button',
-            {'place-card__bookmark-button--active': offerShort.isFavorite}
-          )}
-          type="button"
-          onClick={onClickHandler}
-          >
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">{offerShort.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-          </button>
+          <OfferFavoriteButton offerId={offer.id} mode={mode} isFavorite={offer.isFavorite}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: convertRatingToWidthPerc(offerShort.rating) }} />
+            <span style={{ width: convertRatingToWidthPerc(offer.rating) }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={generatePath(AppRoute.Offer, {id: offerShort.id})}>{offerShort.title}</Link>
+          <Link to={generatePath(AppRoute.Offer, {id: offer.id})}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offerShort.type}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );

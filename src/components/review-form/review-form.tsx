@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, MouseEvent } from 'react';
+import { ChangeEvent, useState, MouseEvent, memo, useCallback } from 'react';
 import { FormControlToDisplayError, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS } from '../../const';
 import { Rating } from '../../types/rating';
 import ReviewRatingStar from '../review-star/review-star';
@@ -17,7 +17,7 @@ function ReviewForm():JSX.Element {
 
   const reviewIsValid = comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > 0;
 
-  const onChangeRatingHandler = (newRating: number) => () => setRating(newRating);
+  const onChangeRatingHandler = (newRating: number) => setRating(newRating);
 
   function onChangeCommentHandler(evt: ChangeEvent<HTMLTextAreaElement>) {
     setComment(evt.target.value);
@@ -45,7 +45,7 @@ function ReviewForm():JSX.Element {
         errorResponse !== null && errorForRating && <p className={styles.error}>{errorForRating}</p>
       }
       <div className="reviews__rating-form form__rating">
-        {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onChangeRatingHandler={onChangeRatingHandler(rt.score)}/>)}
+        {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onChangeRatingHandler={useCallback(() => onChangeRatingHandler(rt.score), [rt.score])}/>)}
       </div>
       {
         errorResponse !== null && errorForComment && <p className={styles.error}>{errorForComment}</p>
@@ -69,7 +69,7 @@ function ReviewForm():JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          // disabled={!reviewIsValid || isOfferCommentSending}
+          disabled={!reviewIsValid || isOfferCommentSending}
           onClick={onSubmitHandler}
         >
           Submit
@@ -79,4 +79,4 @@ function ReviewForm():JSX.Element {
   );
 }
 
-export default ReviewForm;
+export default memo(ReviewForm);

@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { convertRatingToWidthPerc } from '../../utils/utils';
 
 type OfferRatingProps = {
-  rating: number | undefined;
+  rating: number;
 }
 
 function OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
@@ -16,4 +17,4 @@ function OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
   );
 }
 
-export default OfferRating;
+export default memo(OfferRating);

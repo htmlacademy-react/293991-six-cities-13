@@ -89,3 +89,7 @@ export const deleteFavorite = createAction('DELETE_FAVORITE', (offerId: string) 
 }));
 
 export const eraseFavorites = createAction('ERASE_FAVORITES');
+
+export const setHoveredOffer = createAction('SET_HOVERED_OFFER', (offer: OfferShort | null) => ({
+  payload: offer
+}));

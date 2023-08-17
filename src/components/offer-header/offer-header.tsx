@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, OfferFavoriteStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, OfferCardMode, OfferFavoriteStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
 import { OfferDetail } from '../../types/offer';
 import cn from 'classnames';
+import { memo } from 'react';
+import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
 
 type OfferHeaderProps = {
-  offerDetail: OfferDetail | null;
+  offerDetail: OfferDetail;
 }
 
 function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
@@ -14,16 +16,16 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  function onClickHandler() {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate(AppRoute.Login);
-    }
+  // function onClickHandler() {
+  //   if (authorizationStatus !== AuthorizationStatus.Auth) {
+  //     navigate(AppRoute.Login);
+  //   }
 
-    if (offerDetail) {
-      const offerFavoriteStatus = offerDetail.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
-      dispatch(changeOfferFavoriteStatusAction({offerId: offerDetail.id, offerFavoriteStatus}));
-    }
-  }
+  //   if (offerDetail) {
+  //     const offerFavoriteStatus = offerDetail.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
+  //     dispatch(changeOfferFavoriteStatusAction({offerId: offerDetail.id, offerFavoriteStatus}));
+  //   }
+  // }
 
   return (
     <>
@@ -35,9 +37,9 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
       }
       <div className="offer__name-wrapper">
         <h1 className="offer__name">
-          {offerDetail?.title}
+          {offerDetail.title}
         </h1>
-        <button className={cn(
+        {/* <button className={cn(
           'offer__bookmark-button button',
           {'offer__bookmark-button--active': offerDetail?.isFavorite}
         )}
@@ -48,10 +50,11 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
             <use xlinkHref="#icon-bookmark" />
           </svg>
           <span className="visually-hidden">{offerDetail?.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-        </button>
+        </button> */}
+        <OfferFavoriteButton offerId={offerDetail.id} mode={OfferCardMode.DetailPage} isFavorite={offerDetail.isFavorite}/>
       </div>
     </>
   );
 }
 
-export default OfferHeader;
+export default memo(OfferHeader);

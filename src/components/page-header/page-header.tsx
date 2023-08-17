@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import LoggedUser from '../logged-user/logged-user';
@@ -33,4 +34,4 @@ function PageHeader(): JSX.Element {
   );
 }
 
-export default PageHeader;
+export default memo(PageHeader);

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { Rating } from '../../types/rating';
 
@@ -35,4 +36,4 @@ function ReviewRatingStar({rating, currentRating, onChangeRatingHandler}: Review
   );
 }
 
-export default ReviewRatingStar;
+export default memo(ReviewRatingStar);

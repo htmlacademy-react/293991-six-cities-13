@@ -11,7 +11,7 @@ function CityTab({city}: CityTabProps):JSX.Element {
   const activeCity = useAppSelector((state) => state.activeCity);
   const dispatch = useAppDispatch();
 
-  const onClickHandler = (clickedCity: City) => () => (dispatch(changeCity(clickedCity)));
+  const onClickHandler = (clickedCity: City) => () => (clickedCity !== activeCity ? dispatch(changeCity(clickedCity)) : null);
 
   return (
     <li className="locations__item">

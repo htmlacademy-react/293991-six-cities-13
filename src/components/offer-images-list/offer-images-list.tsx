@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { MAX_IMAGES_IN_OFFER_CARD } from '../../const';
 import OfferImage from '../offer-image/offer-image';
 
@@ -15,4 +16,4 @@ function ImagesList({images = []}: ImageListProps):JSX.Element {
   );
 }
 
-export default ImagesList;
+export default memo(ImagesList);

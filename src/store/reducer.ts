@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeFavoritesLoadingStatus, changeOfferCommentSendingStatus, changeOfferDetailLoadingStatus, changeOfferFavoriteStatus, changeOffersLoadingStatus, changeSortType, changeUserEmail, deleteFavorite, deleteFavorites, deleteOfferComments, deleteOfferDetail, deleteOffersNearBy, eraseFavorites, loadFavorites, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError } from './action';
+import { changeCity, changeFavoritesLoadingStatus, changeOfferCommentSendingStatus, changeOfferDetailLoadingStatus, changeOfferFavoriteStatus, changeOffersLoadingStatus, changeSortType, changeUserEmail, deleteFavorite, deleteFavorites, deleteOfferDetail, eraseFavorites, loadFavorites, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError, setHoveredOffer } from './action';
 import { City } from '../types/city';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
 import { Comment } from '../types/offer-review';
 import { ErrorResponse } from '../types/error-response';
 import { addCommentAction, loadOfferDetailAction, loginAction } from '../services/api-actions';
-import { countFavorities, eraseOfferFavoriteStatus, filterNearByOffers, getOffersByCity, getRandomCity, updateOfferFavoriteStatus } from '../utils/utils';
+import { getFavoritiesCount, eraseOfferFavoriteStatus, filterNearByOffers, getOffersByCity, updateOfferFavoriteStatus } from '../utils/utils';
 
 
 type InitialCity = {
@@ -26,7 +26,7 @@ type InitialCity = {
   isOfferCommentSending: boolean;
   offersNearBy: OfferShort[];
   errorResponse: ErrorResponse | null;
-  loginPageRandomCity: City;
+  hoveredOffer: OfferShort | null | undefined;
 }
 
 const initialState: InitialCity = {
@@ -46,7 +46,7 @@ const initialState: InitialCity = {
   isOfferCommentSending: false,
   offersNearBy: [],
   errorResponse: null,
-  loginPageRandomCity: getRandomCity()
+  hoveredOffer: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -57,7 +57,7 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
-      state.favoritesCount = countFavorities(state.offers);
+      state.favoritesCount = getFavoritiesCount(state.offers);
       state.offersByCity = getOffersByCity<OfferShort>(state.offers, state.activeCity.name);
     })
     .addCase(changeSortType, (state, action) => {
@@ -92,9 +92,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.isOfferCommentSending = action.payload;
     })
     .addCase(loadOffersNearBy, (state, action) => {
-      const filteredOffersNearBy = filterNearByOffers(action.payload);
-      const currentOfferShort = state.offers.find((offer: OfferShort) => offer.id === state.offerDetail?.id);
-      state.offersNearBy = (currentOfferShort !== undefined) ? [...filteredOffersNearBy, currentOfferShort] : filteredOffersNearBy;
+      state.offersNearBy = filterNearByOffers(action.payload);
     })
     .addCase(setError, (state, action) => {
       state.errorResponse = action.payload;
@@ -109,7 +107,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.offers = updateOfferFavoriteStatus(state.offers, action.payload.id, action.payload.isFavorite);
       state.offersByCity = updateOfferFavoriteStatus(state.offersByCity, action.payload.id, action.payload.isFavorite);
       state.offersNearBy = updateOfferFavoriteStatus(state.offersNearBy, action.payload.id, action.payload.isFavorite);
-      state.favoritesCount = countFavorities(state.offers);
+      state.favoritesCount = getFavoritiesCount(state.offers);
       if (state.offerDetail !== null && state.offerDetail.id === action.payload.id) {
         state.offerDetail.isFavorite = action.payload.isFavorite;
       }
@@ -140,7 +138,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOfferDetailAction.rejected, (state) => {
       state.isOfferDetailLoading = false;
     })
-    ;
+    .addCase(setHoveredOffer, (state, action) => {
+      state.hoveredOffer = action.payload;
+    });
 });
 
 export {reducer};

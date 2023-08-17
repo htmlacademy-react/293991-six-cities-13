@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 type OfferPriceProps = {
   price: number | undefined;
 }
@@ -11,4 +13,4 @@ function OfferPrice({price = 0}: OfferPriceProps):JSX.Element {
   );
 }
 
-export default OfferPrice;
+export default memo(OfferPrice);

@@ -1,12 +1,13 @@
+import { memo } from 'react';
 import { Person } from '../../types/person';
 import { getRandomKey, splitLongTextIntoParagraphs } from '../../utils/utils';
 
 type OfferHostProps = {
-  description: string | undefined;
-  host: Person | undefined;
+  description: string;
+  host: Person;
 }
 
-function OfferHost({description = '', host = undefined}: OfferHostProps):JSX.Element {
+function OfferHost({description, host}: OfferHostProps):JSX.Element {
   const paragraphs = splitLongTextIntoParagraphs(description);
 
   return (
@@ -31,4 +32,4 @@ function OfferHost({description = '', host = undefined}: OfferHostProps):JSX.Ele
     </div>
   );
 }
-export default OfferHost;
+export default memo(OfferHost);

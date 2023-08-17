@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { OfferShort } from '../../types/offer';
+import { OfferDetail, OfferShort } from '../../types/offer';
 import { useParams } from 'react-router-dom';
 import { OfferCardMode } from '../../const';
 import ImagesList from '../../components/offer-images-list/offer-images-list';
@@ -43,6 +43,8 @@ function OfferPage(): JSX.Element {
     return <NotFoundPage/>
   }
 
+  const offerDetailNotNull = offerDetail as OfferDetail
+
   return (
     <div className="page">
       <Helmet>
@@ -55,19 +57,19 @@ function OfferPage(): JSX.Element {
             <LoadingSpinner/> :
             <>
               <section className="offer">
-                <ImagesList images={offerDetail?.images}/>
+                <ImagesList images={offerDetailNotNull.images}/>
                 <div className="offer__container container">
                   <div className="offer__wrapper">
-                    <OfferHeader offerDetail={offerDetail}/>
-                    <OfferRating rating={offerDetail?.rating}/>
-                    <OfferFeatures type={offerDetail?.type} bedrooms={offerDetail?.bedrooms} maxAdults={offerDetail?.maxAdults}/>
-                    <OfferPrice price={offerDetail?.price}/>
-                    <OfferGoodsList goods={offerDetail?.goods}/>
-                    <OfferHost description={offerDetail?.description} host={offerDetail?.host}/>
+                    <OfferHeader offerDetail={offerDetailNotNull}/>
+                    <OfferRating rating={offerDetailNotNull.rating}/>
+                    <OfferFeatures type={offerDetailNotNull.type} bedrooms={offerDetailNotNull.bedrooms} maxAdults={offerDetailNotNull.maxAdults}/>
+                    <OfferPrice price={offerDetailNotNull.price}/>
+                    <OfferGoodsList goods={offerDetailNotNull.goods}/>
+                    <OfferHost description={offerDetailNotNull.description} host={offerDetailNotNull.host}/>
                     <OfferReview comments={offerComments}/>
                   </div>
                 </div>
-                <Map mode={OfferCardMode.NearPlaces} currentOfferId={offerDetail?.id}/>
+                <Map mode={OfferCardMode.NearPlaces}/>
               </section>
               <div className="container">
                 <section className="near-places places">
@@ -75,7 +77,7 @@ function OfferPage(): JSX.Element {
                     Other places in the neighbourhood
                   </h2>
                   <div className="near-places__list places__list">
-                    {filteredOffersNearBy.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offerShort={offerShort} mode={OfferCardMode.NearPlaces}/>))}
+                    {filteredOffersNearBy.map((offerShort: OfferShort) => (<OfferCard key={offerShort.id} offer={offerShort} mode={OfferCardMode.NearPlaces}/>))}
                   </div>
                 </section>
               </div>

@@ -6,7 +6,7 @@ import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
 import { useAppSelector } from '../../hooks';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { useCallback, useState } from 'react';
+import { memo } from 'react';
 import PageHeader from '../../components/page-header/page-header';
 import cn from 'classnames';
 
@@ -15,9 +15,6 @@ function MainPage (): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersByCity = useAppSelector((state) => state.offersByCity);
-  const [currentOfferId, setCurrentOfferId] = useState<string>('');
-
-  const onMouseHoverHandler = useCallback((offerId: string) => {setCurrentOfferId(offerId)}, []);
 
   function getElement() {
     // Решение замечания линтера: no-nested-ternary
@@ -34,10 +31,10 @@ function MainPage (): JSX.Element {
         </> :
         <>
           <section className="cities__places places">
-            <OffersList onMouseHoverHandler={onMouseHoverHandler} />
+            <OffersList/>
           </section>
           <div className="cities__right-section">
-            <Map mode={OfferCardMode.MainPage} currentOfferId={currentOfferId}/>
+            <Map mode={OfferCardMode.MainPage}/>
           </div>
         </>
     );
@@ -72,4 +69,4 @@ function MainPage (): JSX.Element {
     </div>
   );
 }
-export default MainPage;
+export default memo(MainPage);

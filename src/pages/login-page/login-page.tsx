@@ -1,20 +1,25 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { AppRoute, FormControlToDisplayError } from '../../const';
-import { ChangeEvent, useState, FormEvent} from 'react';
+import { AppRoute, DEFAULT_CITY, FormControlToDisplayError } from '../../const';
+import { ChangeEvent, useState, FormEvent, useEffect} from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
 import { AuthRequestData } from '../../types/auth-data';
 import { extractErrorMessageForControl, getRandomCity } from '../../utils/utils';
 import styles from './login-page.module.css';
 import { changeCity } from '../../store/action';
+import { City } from '../../types/city';
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
   const errorResponse = useAppSelector((state) => state.errorResponse);
-  const loginPageRandomCity = useAppSelector((state) => state.loginPageRandomCity);
+  const [randomCity, SetRandomCity] = useState<City | undefined>();
+
+  useEffect(() => {
+    SetRandomCity(getRandomCity())
+  }, [])
 
   function onChangeEmailHandler(evt: ChangeEvent<HTMLInputElement>) {
     setEmail(evt.target.value);
@@ -36,7 +41,7 @@ function LoginPage(): JSX.Element {
   const errorForPassword = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.PasswordControl);
 
   function onClickHandler() {
-    dispatch(changeCity(loginPageRandomCity));
+    dispatch(changeCity(randomCity as City));
   }
 
   return (
@@ -107,7 +112,7 @@ function LoginPage(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <Link to={AppRoute.Root} className="locations__item-link" onClick={onClickHandler}>
-                <span>{loginPageRandomCity.name}</span>
+                <span>{randomCity?.name}</span>
               </Link>
             </div>
           </section>

@@ -102,7 +102,7 @@ export function getRandomCity(): City {
   return CITIES[(Math.floor(Math.random() * CITIES.length))];
 }
 
-export function countFavorities(offers: OfferShort[]): number {
+export function getFavoritiesCount(offers: OfferShort[]): number {
   return offers.reduce((accumulator: number, curOffer: OfferShort) => (curOffer.isFavorite ? accumulator + 1 : accumulator), 0);
 }
 
@@ -116,4 +116,8 @@ export function updateOfferFavoriteStatus(offers: OfferShort[], offerId: string,
 
 export function eraseOfferFavoriteStatus(offers: OfferShort[]): OfferShort[] {
   return offers.map((offer: OfferShort) => ({...offer, isFavorite: false}));
+}
+
+export function getOfferById(offers: OfferShort[], offerId: string | null): OfferShort | undefined | null {
+  return offerId === null ? null: offers.find((offer: OfferShort) => offer.id === offerId)
 }

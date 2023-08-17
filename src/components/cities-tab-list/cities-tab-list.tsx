@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { City } from '../../types/city';
 import CityTab from '../city-tab/city-tab';
 
@@ -22,4 +23,4 @@ function CitiesTabList({cities}: CitiesListProps):JSX.Element {
   );
 }
 
-export default CitiesTabList;
+export default memo(CitiesTabList);

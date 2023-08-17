@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { store } from './store';
 import { Provider } from 'react-redux';
-import { checkAuthAction, loadOffersAction } from './services/api-actions';
+import { checkAuthAction, loadFavoritesAction, loadOffersAction } from './services/api-actions';
 import { changeCity } from './store/action';
 import { DEFAULT_CITY_NAME } from './const';
 import { getCityDataByCityName } from './utils/utils';
@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 store.dispatch(loadOffersAction());
 store.dispatch(changeCity(getCityDataByCityName(DEFAULT_CITY_NAME)));
 store.dispatch(checkAuthAction());
+store.dispatch(loadFavoritesAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

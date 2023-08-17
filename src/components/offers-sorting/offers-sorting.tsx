@@ -1,4 +1,4 @@
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, memo, useState } from 'react';
 import { SORT_TYPES, SortType } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeSortType } from '../../store/action';
@@ -71,4 +71,4 @@ function OffersSorting(): JSX.Element {
   );
 }
 
-export default OffersSorting;
+export default memo(OffersSorting);

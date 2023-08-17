@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { Comment } from '../../types/offer-review';
 import { convertRatingToWidthPerc, getRandomKey, splitLongTextIntoParagraphs } from '../../utils/utils';
+import { memo } from 'react';
 
 type OfferReviewCommentProps = {
   comment: Comment;
@@ -40,4 +41,4 @@ function OfferReviewComment({comment}: OfferReviewCommentProps): JSX.Element {
   );
 }
 
-export default OfferReviewComment;
+export default memo(OfferReviewComment);

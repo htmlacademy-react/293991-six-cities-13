@@ -53,7 +53,8 @@ export const URL_MARKER_CURRENT =
 
 export enum OfferCardMode {
   MainPage = 'MAIN_PAGE',
-  NearPlaces = 'NEAR_PLACES'
+  NearPlaces = 'NEAR_PLACES',
+  DetailPage = 'DETAIL_PAGE'
 }
 
 export const CITIES: City[] = [

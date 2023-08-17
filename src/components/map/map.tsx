@@ -1,15 +1,15 @@
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, memo} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, OfferCardMode} from '../../const';
 import 'leaflet/dist/leaflet.css';
 import cn from 'classnames';
-import { OfferShort } from '../../types/offer';
+import { OfferDetail, OfferShort } from '../../types/offer';
 import { useAppSelector } from '../../hooks';
+import { Location } from '../../types/location';
 
 type MapProps = {
   mode: OfferCardMode;
-  currentOfferId: string | null | undefined;
 };
 
 const defaultCustomIcon = new Icon({
@@ -24,26 +24,40 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({mode, currentOfferId}: MapProps): JSX.Element {
+function Map({mode}: MapProps): JSX.Element {
   const activeCity = useAppSelector((state) => state.activeCity);
   const offersByCity = useAppSelector((state) => state.offersByCity);
   const offersNearBy = useAppSelector((state) => state.offersNearBy);
+  const offerDetail = useAppSelector((state) => state.offerDetail);
+  const hoveredOffer = useAppSelector((state) => state.hoveredOffer);
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
-  const offersForMap = mode === OfferCardMode.MainPage ? offersByCity : offersNearBy;
+
+  const currentOffer = mode === OfferCardMode.MainPage ? hoveredOffer : offerDetail;
+
+  let locationsForMap: Location[];
+  if (mode === OfferCardMode.MainPage) {
+    locationsForMap = offersByCity.map((offer: OfferShort) => offer.location);
+  } else {
+    if (currentOffer !== null && currentOffer !== undefined) {
+      locationsForMap = [...offersNearBy.map((offer: OfferShort) => offer.location), currentOffer.location]
+    } else (
+      locationsForMap = offersNearBy.map((offer: OfferShort) => offer.location)
+    )
+  }
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
 
-      offersForMap.forEach((offer: OfferShort) => {
+      locationsForMap.forEach((location: Location) => {
         const marker = new Marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude
+          lat: location.latitude,
+          lng: location.longitude
         });
 
         marker
-          .setIcon(offer.id === currentOfferId ? currentCustomIcon : defaultCustomIcon)
+          .setIcon((location.latitude === currentOffer?.location.latitude && location.longitude === currentOffer?.location.longitude) ? currentCustomIcon : defaultCustomIcon)
           .addTo(markerLayer);
       });
 
@@ -53,7 +67,7 @@ function Map({mode, currentOfferId}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersForMap, currentOfferId, activeCity]);
+  }, [map, locationsForMap, currentOffer?.id, activeCity]);
 
   return (
     <section
