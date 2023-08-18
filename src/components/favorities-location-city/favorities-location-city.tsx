@@ -11,14 +11,14 @@ type FavoriteLocationCityProps = {
 function FavoriteLocationCity({city}: FavoriteLocationCityProps):JSX.Element {
   const dispatch = useAppDispatch();
 
-  function onClickHandler() {
+  function handleCityClick() {
     dispatch(changeCity(city));
   }
 
   return (
     <div className="favorites__locations locations locations--current">
       <div className="locations__item">
-        <Link to={AppRoute.Root} className="locations__item-link" onClick={onClickHandler}>
+        <Link to={AppRoute.Root} className="locations__item-link" onClick={handleCityClick}>
           <span>{city.name}</span>
         </Link>
       </div>

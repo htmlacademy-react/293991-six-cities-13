@@ -5,10 +5,10 @@ import { Rating } from '../../types/rating';
 type ReviewRatingStarProps = {
   rating: Rating;
   currentRating: number;
-  onChangeRatingHandler: () => void;
+  onRatingChange: () => void;
 }
 
-function ReviewRatingStar({rating, currentRating, onChangeRatingHandler}: ReviewRatingStarProps): JSX.Element {
+function ReviewRatingStar({rating, currentRating, onRatingChange}: ReviewRatingStarProps): JSX.Element {
   const isOfferCommentSending = useAppSelector((state) => state.isOfferCommentSending);
 
   return (
@@ -20,7 +20,7 @@ function ReviewRatingStar({rating, currentRating, onChangeRatingHandler}: Review
         id={`${rating.score}-stars`}
         type="radio"
         checked={rating.score === currentRating}
-        onChange={onChangeRatingHandler}
+        onChange={onRatingChange}
         disabled={isOfferCommentSending}
       />
       <label

@@ -17,13 +17,13 @@ function ReviewForm():JSX.Element {
 
   const reviewIsValid = comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > 0;
 
-  const onChangeRatingHandler = (newRating: number) => setRating(newRating);
+  const handleRatingChange = (newRating: number) => setRating(newRating);
 
-  function onChangeCommentHandler(evt: ChangeEvent<HTMLTextAreaElement>) {
+  function handleCommentChange(evt: ChangeEvent<HTMLTextAreaElement>) {
     setComment(evt.target.value);
   }
 
-  function onSubmitHandler(evt: MouseEvent<HTMLElement>) {
+  function handleFormSubmit(evt: MouseEvent<HTMLElement>) {
     evt.preventDefault();
     if (offerDetail !== undefined && offerDetail !== null) {
       const offerId = offerDetail.id;
@@ -45,7 +45,7 @@ function ReviewForm():JSX.Element {
         errorResponse !== null && errorForRating && <p className={styles.error}>{errorForRating}</p>
       }
       <div className="reviews__rating-form form__rating">
-        {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onChangeRatingHandler={useCallback(() => onChangeRatingHandler(rt.score), [rt.score])}/>)}
+        {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onRatingChange={useCallback(() => handleRatingChange(rt.score), [rt.score])}/>)}
       </div>
       {
         errorResponse !== null && errorForComment && <p className={styles.error}>{errorForComment}</p>
@@ -56,7 +56,7 @@ function ReviewForm():JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
-        onChange={onChangeCommentHandler}
+        onChange={handleCommentChange}
         disabled={isOfferCommentSending}
       />
       <div className="reviews__button-wrapper">
@@ -70,7 +70,7 @@ function ReviewForm():JSX.Element {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={!reviewIsValid || isOfferCommentSending}
-          onClick={onSubmitHandler}
+          onClick={handleFormSubmit}
         >
           Submit
         </button>

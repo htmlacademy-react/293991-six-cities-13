@@ -16,7 +16,7 @@ function OfferFavoriteButton({offerId, isFavorite, mode}: OfferFavoriteButtonTyp
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const navigate = useNavigate();
 
-  const onClickHandler = () => {
+  const handleFavoriteClick = () => {
       if (authorizationStatus !== AuthorizationStatus.Auth) {
         navigate(AppRoute.Login);
       }
@@ -35,7 +35,7 @@ function OfferFavoriteButton({offerId, isFavorite, mode}: OfferFavoriteButtonTyp
       {'place-card__bookmark-button--active': isFavorite && [OfferCardMode.MainPage, OfferCardMode.NearPlaces].includes(mode)}
     )}
     type="button"
-    onClick={onClickHandler}
+    onClick={handleFavoriteClick}
     >
       <svg className={cn(
         {'offer__bookmark-icon': mode === OfferCardMode.DetailPage},

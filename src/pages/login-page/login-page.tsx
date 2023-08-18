@@ -21,15 +21,15 @@ function LoginPage(): JSX.Element {
     SetRandomCity(getRandomCity())
   }, [])
 
-  function onChangeEmailHandler(evt: ChangeEvent<HTMLInputElement>) {
+  function handleEmailChange(evt: ChangeEvent<HTMLInputElement>) {
     setEmail(evt.target.value);
   }
 
-  function onChangePasswordHandler(evt: ChangeEvent<HTMLInputElement>) {
+  function handlePasswordChange(evt: ChangeEvent<HTMLInputElement>) {
     setPassword(evt.target.value);
   }
 
-  function onSubmitHandler(evt: FormEvent<HTMLFormElement>) {
+  function handleFormSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     const form = evt.currentTarget;
     const formData = new FormData(form);
@@ -40,7 +40,7 @@ function LoginPage(): JSX.Element {
   const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.EmailControl);
   const errorForPassword = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.PasswordControl);
 
-  function onClickHandler() {
+  function handleCityClick() {
     dispatch(changeCity(randomCity as City));
   }
 
@@ -70,7 +70,7 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" onSubmit={onSubmitHandler}>
+            <form className="login__form form" onSubmit={handleFormSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 {
@@ -83,7 +83,7 @@ function LoginPage(): JSX.Element {
                   placeholder="Email"
                   required
                   value={email}
-                  onChange={onChangeEmailHandler}
+                  onChange={handleEmailChange}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -98,7 +98,7 @@ function LoginPage(): JSX.Element {
                   placeholder="Password"
                   required
                   value={password}
-                  onChange={onChangePasswordHandler}
+                  onChange={handlePasswordChange}
                 />
               </div>
               <button
@@ -111,7 +111,7 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Root} className="locations__item-link" onClick={onClickHandler}>
+              <Link to={AppRoute.Root} className="locations__item-link" onClick={handleCityClick}>
                 <span>{randomCity?.name}</span>
               </Link>
             </div>

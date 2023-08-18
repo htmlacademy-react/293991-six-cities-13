@@ -8,7 +8,7 @@ function LoggedUser(): JSX.Element {
   const favoritesCount = useAppSelector((state) => state.favoritesCount);
   const dispatch = useAppDispatch();
 
-  function onClickHandler() {
+  function handleLogoutClick() {
     dispatch(logoutAction());
   }
 
@@ -26,7 +26,7 @@ function LoggedUser(): JSX.Element {
         </Link>
       </li>
       <li className="header__nav-item">
-        <a className="header__nav-link" onClick={onClickHandler}>
+        <a className="header__nav-link" onClick={handleLogoutClick}>
           <span className="header__signout">Sign out</span>
         </a>
       </li>

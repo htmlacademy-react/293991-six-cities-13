@@ -14,7 +14,7 @@ type FavoriteOfferCardProps = {
 function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  function onClickHandler() {
+  function handleFavoriteClick() {
     const offerFavoriteStatus = offer.isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
     dispatch(changeOfferFavoriteStatusAction({offerId: offer.id, offerFavoriteStatus}));
     dispatch(deleteFavorite(offer.id));
@@ -53,7 +53,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
             {'place-card__bookmark-button--active': offer.isFavorite}
           )}
           type="button"
-          onClick={onClickHandler}
+          onClick={handleFavoriteClick}
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />

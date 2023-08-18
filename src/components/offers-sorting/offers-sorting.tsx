@@ -9,16 +9,16 @@ function OffersSorting(): JSX.Element {
   const currentSortType = useAppSelector((state) => state.sortType);
   const dispatch = useAppDispatch();
 
-  const onClickHandler = (sortType: SortType) => () => (dispatch(changeSortType(sortType)));
+  const handleSortClick = (sortType: SortType) => () => (dispatch(changeSortType(sortType)));
 
-  function onKeydownHandler(evt: KeyboardEvent<HTMLFormElement>) {
+  function handleSortMenuKeyDown(evt: KeyboardEvent<HTMLFormElement>) {
     if (evt.key === 'Escape' && isOpened) {
       evt.preventDefault();
       setIsOpened(false);
     }
   }
 
-  function onClickHandlerMenu() {
+  function handleSortMenuClick() {
     setIsOpened((prevIsOpened) => !prevIsOpened);
   }
 
@@ -31,8 +31,8 @@ function OffersSorting(): JSX.Element {
       className="places__sorting"
       action="#"
       method="get"
-      onKeyDown={onKeydownHandler}
-      onClick={onClickHandlerMenu}
+      onKeyDown={handleSortMenuKeyDown}
+      onClick={handleSortMenuClick}
     >
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0}>
@@ -59,7 +59,7 @@ function OffersSorting(): JSX.Element {
                 {'places__option--active': sortType === currentSortType}
               )}
               tabIndex={0}
-              onClick={onClickHandler(sortType)}
+              onClick={handleSortClick(sortType)}
               key={sortType}
             >
               {sortType}
