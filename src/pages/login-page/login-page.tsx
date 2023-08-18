@@ -15,11 +15,7 @@ function LoginPage(): JSX.Element {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
   const errorResponse = useAppSelector((state) => state.errorResponse);
-  const [randomCity, SetRandomCity] = useState<City | undefined>();
-
-  useEffect(() => {
-    SetRandomCity(getRandomCity())
-  }, [])
+  const [randomCity, _] = useState<City>(getRandomCity());
 
   function handleEmailChange(evt: ChangeEvent<HTMLInputElement>) {
     setEmail(evt.target.value);
@@ -41,7 +37,7 @@ function LoginPage(): JSX.Element {
   const errorForPassword = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.PasswordControl);
 
   function handleCityClick() {
-    dispatch(changeCity(randomCity as City));
+    dispatch(changeCity(randomCity));
   }
 
   return (
@@ -112,7 +108,7 @@ function LoginPage(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <Link to={AppRoute.Root} className="locations__item-link" onClick={handleCityClick}>
-                <span>{randomCity?.name}</span>
+                <span>{randomCity.name}</span>
               </Link>
             </div>
           </section>

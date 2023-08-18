@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeFavoritesLoadingStatus, changeOfferCommentSendingStatus, changeOfferDetailLoadingStatus, changeOfferFavoriteStatus, changeOffersLoadingStatus, changeSortType, changeUserEmail, deleteFavorite, deleteFavorites, deleteOfferDetail, eraseFavorites, loadFavorites, loadOfferComments, loadOfferDetail, loadOffers, loadOffersNearBy, requireAuthorization, setError, setHoveredOffer } from './action';
+import { changeCity, changeFavoritesLoadingStatus, changeOfferCommentSendingStatus, changeOfferDetailLoadingStatus, changeOfferFavoriteStatus, changeOffersLoadingStatus, changeSortType, changeUserEmail, deleteFavorite, deleteFavorites, deleteOfferDetail, eraseFavoritesAfterLogout, saveFavorites, saveOfferComments, saveOfferDetail, loadOffers, saveOffersNearBy, saveAuthorization, setError, setHoveredOffer } from './action';
 import { City } from '../types/city';
 import { OfferDetail, OfferShort } from '../types/offer';
 import { AuthorizationStatus, DEFAULT_CITY, SortType } from '../const';
@@ -66,13 +66,13 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeOffersLoadingStatus, (state, action) => {
       state.areOffersLoading = action.payload;
     })
-    .addCase(requireAuthorization, (state, action) => {
+    .addCase(saveAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(changeUserEmail, (state, action) => {
       state.userEmail = action.payload;
     })
-    .addCase(loadOfferDetail, (state, action) => {
+    .addCase(saveOfferDetail, (state, action) => {
       state.offerDetail = action.payload;
       state.isOfferDetailLoading = true;
     })
@@ -85,13 +85,13 @@ const reducer = createReducer(initialState, (builder) => {
       state.offersNearBy = [];
       state.isOfferDetailLoading = true;
     })
-    .addCase(loadOfferComments, (state, action) => {
+    .addCase(saveOfferComments, (state, action) => {
       state.offerComments = action.payload;
     })
     .addCase(changeOfferCommentSendingStatus, (state, action) => {
       state.isOfferCommentSending = action.payload;
     })
-    .addCase(loadOffersNearBy, (state, action) => {
+    .addCase(saveOffersNearBy, (state, action) => {
       state.offersNearBy = filterNearByOffers(action.payload);
     })
     .addCase(setError, (state, action) => {
@@ -112,7 +112,7 @@ const reducer = createReducer(initialState, (builder) => {
         state.offerDetail.isFavorite = action.payload.isFavorite;
       }
     })
-    .addCase(loadFavorites, (state, action) => {
+    .addCase(saveFavorites, (state, action) => {
       state.favorites = action.payload;
     })
     .addCase(changeFavoritesLoadingStatus, (state, action) => {
@@ -124,7 +124,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(deleteFavorite, (state, action) => {
       state.favorites = [...state.favorites].reduce((accumulator: OfferShort[], curOffer: OfferShort) => (curOffer.id !== action.payload ? [...accumulator, curOffer] : [...accumulator]), []);
     })
-    .addCase(eraseFavorites, (state) => {
+    .addCase(eraseFavoritesAfterLogout, (state) => {
       state.offers = eraseOfferFavoriteStatus(state.offers);
       state.offersByCity = eraseOfferFavoriteStatus(state.offersByCity);
       state.favoritesCount = 0;
