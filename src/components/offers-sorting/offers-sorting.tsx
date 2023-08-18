@@ -1,12 +1,13 @@
 import { KeyboardEvent, memo, useState } from 'react';
 import { SORT_TYPES, SortType } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeSortType } from '../../store/action';
 import cn from 'classnames';
+import { getSortType } from '../../store/offers-process/selectors';
+import { changeSortType } from '../../store/offers-process/offers-process';
 
 function OffersSorting(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
-  const currentSortType = useAppSelector((state) => state.sortType);
+  const currentSortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
 
   const handleSortClick = (sortType: SortType) => () => (dispatch(changeSortType(sortType)));

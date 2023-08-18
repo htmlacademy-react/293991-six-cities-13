@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { changeCity } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 import { City } from '../../types/city';
+import { changeCity } from '../../store/offers-process/offers-process';
 
 type FavoriteLocationCityProps = {
   city: City;

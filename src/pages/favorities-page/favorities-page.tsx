@@ -8,12 +8,13 @@ import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import { loadFavoritesAction } from '../../services/api-actions';
-import { changeFavoritesLoadingStatus, deleteFavorites } from '../../store/action';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import { getAreFavoritesLoading, getFavorites } from '../../store/favorite-process/selectors';
+import { changeFavoritesLoadingStatus, deleteFavorites } from '../../store/favorite-process/favorite-process';
 
 function FavoritiesPage(): JSX.Element {
-  const favorites = useAppSelector((state) => state.favorites);
-  const areFavoritesLoading = useAppSelector((state) => state.areFavoritesLoading);
+  const favorites = useAppSelector(getFavorites);
+  const areFavoritesLoading = useAppSelector(getAreFavoritesLoading);
   const dispatch = useAppDispatch();
   const groupedOffersByCityName = groupOffersByCityName<OfferShort>(favorites);
 

@@ -7,8 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { memo } from 'react';
 import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
 import { useAppDispatch } from '../../hooks';
-import { setHoveredOffer } from '../../store/action';
 import { OfferShort } from '../../types/offer';
+import { setHoveredOffer } from '../../store/hovered-offer-process/hovered-offer-process';
 
 type OfferCardProps = {
   offer: OfferShort;

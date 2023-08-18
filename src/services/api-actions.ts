@@ -3,7 +3,6 @@ import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { OfferDetail, OfferFavoriteRequest, OfferShort } from '../types/offer';
 import { AppRoute, AuthorizationStatus, BackendRoute, DEFAULT_CITY_NAME } from '../const';
-import { changeCity, changeFavoritesLoadingStatus, changeOfferCommentSendingStatus, changeOfferFavoriteStatus, changeOffersLoadingStatus, changeOffersNearByLoadingStatus, changeUserEmail, saveFavorites, saveOfferComments, saveOfferDetail, loadOffers, saveOffersNearBy, redirectToRoute, saveAuthorization, setError, eraseFavoritesAfterLogout } from '../store/action';
 import { AuthRequestData, AuthResponseData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { deleteToken, saveToken } from './token';
@@ -11,8 +10,14 @@ import { Comment } from '../types/offer-review';
 import { generatePath } from 'react-router-dom';
 import { CommentRequestData } from '../types/comment-request-data';
 import { getCityDataByCityName } from '../utils/utils';
+import { changeCity, changeOffersLoadingStatus, saveOffers } from '../store/offers-process/offers-process';
+import { changeFavoritesLoadingStatus, eraseFavoritesAfterLogout, saveFavorites } from '../store/favorite-process/favorite-process';
+import { changeUserEmail, saveAuthorization } from '../store/user-process/user-process';
+import { setError } from '../store/response-error-process/response-error-process';
+import { changeOfferCommentSendingStatus, changeOfferFavoriteStatus, saveOfferComments, saveOfferDetail, saveOffersNearBy } from '../store/offer-detail-process/offer-detail-process';
+import { redirectToRoute } from '../store/action';
 
-export const loadOffersAction = createAsyncThunk<void, undefined, {
+export const loadOffersAction = createAsyncThunk<OfferShort[], undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -20,9 +25,10 @@ export const loadOffersAction = createAsyncThunk<void, undefined, {
   'offers/fetch',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<OfferShort[]>(BackendRoute.Offers);
-    dispatch(changeOffersLoadingStatus(true));
-    dispatch(loadOffers(data));
-    dispatch(changeOffersLoadingStatus(false));
+    return data
+    // dispatch(changeOffersLoadingStatus(true));
+    // dispatch(saveOffers(data));
+    // dispatch(changeOffersLoadingStatus(false));
   }
 );
 
@@ -66,11 +72,16 @@ export const loginAction = createAsyncThunk<void, AuthRequestData, {
   async ({email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<UserData>(BackendRoute.Login, {email, password});
     saveToken(data.token);
-    dispatch(loadOffersAction());
-    dispatch(changeCity(getCityDataByCityName(DEFAULT_CITY_NAME)));
-    dispatch(saveAuthorization(AuthorizationStatus.Auth));
-    dispatch(changeUserEmail(data.email));
-    dispatch(setError(null));
+    // dispatch(loadOffersAction());
+    // console.log('1')
+    // dispatch(changeCity(getCityDataByCityName(DEFAULT_CITY_NAME)));
+    // console.log('2')
+    // dispatch(saveAuthorization(AuthorizationStatus.Auth));
+    // console.log('3')
+    // dispatch(changeUserEmail(data.email));
+    // console.log('4')
+    // dispatch(setError(null));
+    // console.log('5')
     dispatch(redirectToRoute(AppRoute.Root));
   }
 );
@@ -114,7 +125,7 @@ export const addCommentAction = createAsyncThunk<void, CommentRequestData, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'ADD_COMMENT',
+  'offer/addComment',
   async ({offerId, comment, rating}, {dispatch, extra: api}) => {
     dispatch(changeOfferCommentSendingStatus(true));
     await api.post(generatePath(BackendRoute.Comments, {id: offerId}), {comment, rating});

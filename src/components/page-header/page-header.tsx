@@ -4,9 +4,10 @@ import { useAppSelector } from '../../hooks';
 import LoggedUser from '../logged-user/logged-user';
 import LogginButton from '../loggin-button/loggin-button';
 import { Link } from 'react-router-dom';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function PageHeader(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <header className="header">

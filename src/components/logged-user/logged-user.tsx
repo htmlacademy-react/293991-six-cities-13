@@ -2,10 +2,12 @@ import { Link, generatePath } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../services/api-actions';
+import { getUserEmail } from '../../store/user-process/selectors';
+import { getFavoritesCount } from '../../store/favorite-process/selectors';
 
 function LoggedUser(): JSX.Element {
-  const userEmail = useAppSelector((state) => state.userEmail);
-  const favoritesCount = useAppSelector((state) => state.favoritesCount);
+  const userEmail = useAppSelector(getUserEmail);
+  const favoritesCount = useAppSelector(getFavoritesCount);
   const dispatch = useAppDispatch();
 
   function handleLogoutClick() {

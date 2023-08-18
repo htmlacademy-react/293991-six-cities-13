@@ -3,9 +3,10 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '../page-header/page-header';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function RequireAuth(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   function getElement() {
     // Решение замечания линтера: no-nested-ternary
     return (authorizationStatus === AuthorizationStatus.Auth) ? <Outlet/> : <Navigate to={AppRoute.Login}/>;

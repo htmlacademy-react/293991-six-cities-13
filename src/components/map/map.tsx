@@ -4,9 +4,12 @@ import useMap from '../../hooks/use-map';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, OfferCardMode} from '../../const';
 import 'leaflet/dist/leaflet.css';
 import cn from 'classnames';
-import { OfferDetail, OfferShort } from '../../types/offer';
+import { OfferShort } from '../../types/offer';
 import { useAppSelector } from '../../hooks';
 import { Location } from '../../types/location';
+import { getActiveCity, getOffersByCity } from '../../store/offers-process/selectors';
+import { getOfferDetail, getOffersNearBy } from '../../store/offer-detail-process/selectors';
+import { getHoveredOffer } from '../../store/hovered-offer-process/selectors';
 
 type MapProps = {
   mode: OfferCardMode;
@@ -25,11 +28,11 @@ const currentCustomIcon = new Icon({
 });
 
 function Map({mode}: MapProps): JSX.Element {
-  const activeCity = useAppSelector((state) => state.activeCity);
-  const offersByCity = useAppSelector((state) => state.offersByCity);
-  const offersNearBy = useAppSelector((state) => state.offersNearBy);
-  const offerDetail = useAppSelector((state) => state.offerDetail);
-  const hoveredOffer = useAppSelector((state) => state.hoveredOffer);
+  const activeCity = useAppSelector(getActiveCity);
+  const offersByCity = useAppSelector(getOffersByCity);
+  const offersNearBy = useAppSelector(getOffersNearBy);
+  const offerDetail = useAppSelector(getOfferDetail);
+  const hoveredOffer = useAppSelector(getHoveredOffer);
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
 

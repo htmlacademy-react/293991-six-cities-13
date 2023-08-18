@@ -6,14 +6,16 @@ import { addCommentAction } from '../../services/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import styles from './review-form.module.css';
 import { extractErrorMessageForControl } from '../../utils/utils';
+import { getIsOfferCommentSending, getOfferDetail } from '../../store/offer-detail-process/selectors';
+import { getErrorResponse } from '../../store/response-error-process/selectors';
 
 function ReviewForm():JSX.Element {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  const offerDetail = useAppSelector((state) => state.offerDetail);
-  const errorResponse = useAppSelector((state) => state.errorResponse);
-  const isOfferCommentSending = useAppSelector((state) => state.isOfferCommentSending);
+  const offerDetail = useAppSelector(getOfferDetail);
+  const errorResponse = useAppSelector(getErrorResponse);
+  const isOfferCommentSending = useAppSelector(getIsOfferCommentSending);
 
   const reviewIsValid = comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > 0;
 

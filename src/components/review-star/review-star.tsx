@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { Rating } from '../../types/rating';
+import { getIsOfferCommentSending } from '../../store/offer-detail-process/selectors';
 
 type ReviewRatingStarProps = {
   rating: Rating;
@@ -9,7 +10,7 @@ type ReviewRatingStarProps = {
 }
 
 function ReviewRatingStar({rating, currentRating, onRatingChange}: ReviewRatingStarProps): JSX.Element {
-  const isOfferCommentSending = useAppSelector((state) => state.isOfferCommentSending);
+  const isOfferCommentSending = useAppSelector(getIsOfferCommentSending);
 
   return (
     <>

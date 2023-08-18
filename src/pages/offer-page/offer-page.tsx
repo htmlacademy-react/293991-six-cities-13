@@ -13,20 +13,21 @@ import PageHeader from '../../components/page-header/page-header';
 import OfferReview from '../../components/offer-review/offer-review';
 import OfferCard from '../../components/offer-card/offer-card';
 import Map from '../../components/map/map';
-import { deleteOfferDetail } from '../../store/action';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { loadOfferDetailAction } from '../../services/api-actions';
 import { useEffect } from 'react';
 import { filterNearByOffers } from '../../utils/utils';
 import NotFoundPage from '../not-found-page/not-found-page';
+import { getIsOfferDetailLoading, getOfferComments, getOfferDetail, getOffersNearBy } from '../../store/offer-detail-process/selectors';
+import { deleteOfferDetail } from '../../store/offer-detail-process/offer-detail-process';
 
 function OfferPage(): JSX.Element {
-  const isOfferDetailLoading = useAppSelector((state) => state.isOfferDetailLoading);
-  const offersNearBy = useAppSelector((state) => state.offersNearBy);
+  const isOfferDetailLoading = useAppSelector(getIsOfferDetailLoading);
+  const offersNearBy = useAppSelector(getOffersNearBy);
   const filteredOffersNearBy = filterNearByOffers(offersNearBy);
-  const offerComments = useAppSelector((state) => state.offerComments);
-  const offerDetail = useAppSelector((state) => state.offerDetail);
+  const offerComments = useAppSelector(getOfferComments);
+  const offerDetail = useAppSelector(getOfferDetail);
   const { id } = useParams();
   const dispatch = useAppDispatch();
 

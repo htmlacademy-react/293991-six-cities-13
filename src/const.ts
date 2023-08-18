@@ -149,3 +149,13 @@ export enum OfferFavoriteStatus {
   Unset = 0,
   Set = 1
 }
+
+export enum NameSpace {
+  User = 'USER',
+  Offers = 'OFFERS',
+  OfferDetail = 'OFFER_DETAIL',
+  Favorites = 'FAVORITES',
+  HoveredOffer = 'HOVERED_OFFER',
+  Route = 'ROUTE',
+  ResponseError = 'RESPONSE_ERROR'
+}

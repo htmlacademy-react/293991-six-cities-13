@@ -4,13 +4,14 @@ import { useAppSelector } from '../../hooks';
 import { Comment } from '../../types/offer-review';
 import OfferReviewComment from '../offer-review-comment/offer-review-comment';
 import ReviewForm from '../review-form/review-form';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type OfferReviewProps = {
   comments: Comment[];
 }
 
 function OfferReview({comments}: OfferReviewProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <section className="offer__reviews reviews">

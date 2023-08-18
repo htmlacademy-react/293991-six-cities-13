@@ -2,10 +2,10 @@ import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
 import { BACKEND_URL, COMMON_ERROR_TYPE, HTTP_CODES_TO_DISPLAY, REQUEST_TIMEOUT } from '../const';
 import { getToken } from './token';
 import { ErrorResponse } from '../types/error-response';
-import { setError } from '../store/action';
 import { store } from '../store';
 import { toast } from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
+import { setError } from '../store/response-error-process/response-error-process';
 
 export const createAPI = ():AxiosInstance => {
   const api = axios.create({

@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/offers-process/offers-process';
+import { getActiveCity } from '../../store/offers-process/selectors';
 import { City } from '../../types/city';
 import cn from 'classnames';
 
@@ -8,7 +9,7 @@ type CityTabProps = {
 }
 
 function CityTab({city}: CityTabProps):JSX.Element {
-  const activeCity = useAppSelector((state) => state.activeCity);
+  const activeCity = useAppSelector(getActiveCity);
   const dispatch = useAppDispatch();
 
   const handleTabClick = (clickedCity: City) => () => (clickedCity !== activeCity ? dispatch(changeCity(clickedCity)) : null);

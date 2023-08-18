@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import { AppRoute, AuthorizationStatus, OfferCardMode, OfferFavoriteStatus } from "../../const";
 import { changeOfferFavoriteStatusAction } from "../../services/api-actions";
+import { getAuthorizationStatus } from "../../store/user-process/selectors";
 
 type OfferFavoriteButtonType = {
   offerId: string;
@@ -13,7 +14,7 @@ type OfferFavoriteButtonType = {
 
 function OfferFavoriteButton({offerId, isFavorite, mode}: OfferFavoriteButtonType): JSX.Element {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
 
   const handleFavoriteClick = () => {

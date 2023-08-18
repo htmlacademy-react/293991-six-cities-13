@@ -4,8 +4,8 @@ import { capitalizeFirstLetter, convertRatingToWidthPerc } from '../../utils/uti
 import { AppRoute, OfferFavoriteStatus } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
-import { deleteFavorite } from '../../store/action';
 import cn from 'classnames';
+import { deleteFavorite } from '../../store/favorite-process/favorite-process';
 
 type FavoriteOfferCardProps = {
   offer: OfferShort;

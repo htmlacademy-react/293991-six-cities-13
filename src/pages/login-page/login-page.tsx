@@ -1,20 +1,22 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { AppRoute, DEFAULT_CITY, FormControlToDisplayError } from '../../const';
-import { ChangeEvent, useState, FormEvent, useEffect} from 'react';
+import { AppRoute, FormControlToDisplayError } from '../../const';
+import { ChangeEvent, useState, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
 import { AuthRequestData } from '../../types/auth-data';
 import { extractErrorMessageForControl, getRandomCity } from '../../utils/utils';
 import styles from './login-page.module.css';
-import { changeCity } from '../../store/action';
 import { City } from '../../types/city';
+import { getErrorResponse } from '../../store/response-error-process/selectors';
+import { changeCity } from '../../store/offers-process/offers-process';
+
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  const errorResponse = useAppSelector((state) => state.errorResponse);
+  const errorResponse = useAppSelector(getErrorResponse);
   const [randomCity, _] = useState<City>(getRandomCity());
 
   function handleEmailChange(evt: ChangeEvent<HTMLInputElement>) {

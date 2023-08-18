@@ -9,12 +9,14 @@ import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { memo } from 'react';
 import PageHeader from '../../components/page-header/page-header';
 import cn from 'classnames';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getActiveCity, getAreOffersLoading, getOffersByCity } from '../../store/offers-process/selectors';
 
 function MainPage (): JSX.Element {
-  const areOffersLoading = useAppSelector((state) => state.areOffersLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const activeCity = useAppSelector((state) => state.activeCity);
-  const offersByCity = useAppSelector((state) => state.offersByCity);
+  const areOffersLoading = useAppSelector(getAreOffersLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const activeCity = useAppSelector(getActiveCity);
+  const offersByCity = useAppSelector(getOffersByCity);
 
   function getElement() {
     // Решение замечания линтера: no-nested-ternary
