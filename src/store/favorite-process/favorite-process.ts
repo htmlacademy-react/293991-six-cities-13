@@ -3,8 +3,8 @@ import { NameSpace } from '../../const';
 import { FavoriteProcess } from '../../types/state';
 import { OfferShort } from '../../types/offer';
 import { store } from '..';
-import { eraseOfferFavoriteStatus } from '../../utils/utils';
-import { loadOffersAction } from '../../services/api-actions';
+import { eraseOfferFavoriteStatus, getFavoritiesCount } from '../../utils/utils';
+import { fetchFavoritesAction, fetchOffersAction, logoutAction } from '../../services/api-actions';
 
 
 const initialState: FavoriteProcess = {
@@ -32,7 +32,8 @@ export const favoriteProcess = createSlice({
     eraseFavoritesAfterLogout: (state) => {
       // const wholeState = store.getState();
       
-      // wholeState.OFFERS.offers = eraseOfferFavoriteStatus(wholeState.OFFERS.offers);
+      // wholeState.OFFERS
+      
       // wholeState.OFFERS.offersByCity = eraseOfferFavoriteStatus(wholeState.OFFERS.offersByCity);
       // state.favoritesCount = 0;
       // if (wholeState.OFFER_DETAIL.offerDetail !== null) {
@@ -42,9 +43,20 @@ export const favoriteProcess = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(loadOffersAction.fulfilled, (state, action) => {
-        console.log(state, action)
-        // state.isOfferCommentSending = false;
+      .addCase(fetchFavoritesAction.pending, (state) => {
+        state.areFavoritesLoading = true;
+      })
+      .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+        state.favoritesCount = action.payload.length;
+        state.favorites = action.payload
+        state.areFavoritesLoading = false;
+      })
+      .addCase(fetchFavoritesAction.rejected, (state) => {
+        state.areFavoritesLoading = false;
+      })
+      .addCase(logoutAction.pending, (state) => {
+        state.favoritesCount = 0;
+        state.favorites = [];
       })
   }
 });

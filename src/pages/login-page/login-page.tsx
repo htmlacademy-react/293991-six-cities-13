@@ -1,15 +1,16 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, FormControlToDisplayError } from '../../const';
 import { ChangeEvent, useState, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { loginAction } from '../../services/api-actions';
+import { checkAuthAction, fetchFavoritesAction, fetchOffersAction, loginAction } from '../../services/api-actions';
 import { AuthRequestData } from '../../types/auth-data';
 import { extractErrorMessageForControl, getRandomCity } from '../../utils/utils';
 import styles from './login-page.module.css';
 import { City } from '../../types/city';
 import { getErrorResponse } from '../../store/response-error-process/selectors';
-import { changeCity } from '../../store/offers-process/offers-process';
+import { changeCity, changeOffersLoadingStatus } from '../../store/offers-process/offers-process';
+import { setError } from '../../store/response-error-process/response-error-process';
 
 
 function LoginPage(): JSX.Element {
@@ -18,6 +19,7 @@ function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const errorResponse = useAppSelector(getErrorResponse);
   const [randomCity, _] = useState<City>(getRandomCity());
+  const navigate = useNavigate();
 
   function handleEmailChange(evt: ChangeEvent<HTMLInputElement>) {
     setEmail(evt.target.value);
@@ -33,6 +35,8 @@ function LoginPage(): JSX.Element {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData) as AuthRequestData;
     dispatch(loginAction(data));
+    dispatch(setError(null))
+    navigate(AppRoute.Root);
   }
 
   const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.EmailControl);

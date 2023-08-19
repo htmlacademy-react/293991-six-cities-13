@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { DEFAULT_CITY, NameSpace, SortType } from '../../const';
 import { OffersProcess } from '../../types/state';
-import { getFavoritiesCount, getOffersByCity } from '../../utils/utils';
+import { eraseOfferFavoriteStatus, getFavoritiesCount, getOffersByCity } from '../../utils/utils';
 import { OfferShort } from '../../types/offer';
 import { store } from '..';
-import { loadOffersAction, loginAction } from '../../services/api-actions';
+import { fetchOffersAction, loginAction, logoutAction } from '../../services/api-actions';
 
 const initialState: OffersProcess = {
   activeCity: DEFAULT_CITY,
@@ -25,9 +25,6 @@ export const offersProcess = createSlice({
     saveOffers: (state, action) => {
       state.offers = action.payload;
       state.offersByCity = getOffersByCity<OfferShort>(state.offers, state.activeCity.name);
-
-      // const wholeState = store.getState();
-      // wholeState.FAVORITES.favoritesCount = getFavoritiesCount(state.offers);
     },
     changeSortType: (state, action) => {
       state.sortType = action.payload;
@@ -38,8 +35,21 @@ export const offersProcess = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(loadOffersAction.fulfilled, (state, action) => {
-        console.log(action)
+      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+        state.areOffersLoading = false;
+        state.offers = action.payload;
+
+        state.offersByCity = getOffersByCity<OfferShort>(state.offers, state.activeCity.name);
+      })
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.areOffersLoading = false;
+      })
+      .addCase(loginAction.pending, (state) => {
+        state.areOffersLoading = true;
+      })
+      .addCase(logoutAction.pending, (state) => {
+        state.offers = eraseOfferFavoriteStatus(state.offers);
+        state.offersByCity = eraseOfferFavoriteStatus(state.offersByCity);
       })
   }
 });

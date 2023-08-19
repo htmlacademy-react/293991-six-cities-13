@@ -15,7 +15,7 @@ import OfferCard from '../../components/offer-card/offer-card';
 import Map from '../../components/map/map';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { loadOfferDetailAction } from '../../services/api-actions';
+import { fetchOffersAction } from '../../services/api-actions';
 import { useEffect } from 'react';
 import { filterNearByOffers } from '../../utils/utils';
 import NotFoundPage from '../not-found-page/not-found-page';
@@ -33,7 +33,7 @@ function OfferPage(): JSX.Element {
 
   useEffect(() => {
     if (id) {
-      dispatch(loadOfferDetailAction(id));
+      dispatch(fetchOffersAction());
     }
     return () => {
       dispatch(deleteOfferDetail());

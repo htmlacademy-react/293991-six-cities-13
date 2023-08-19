@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
-import { loadFavoritesAction } from '../../services/api-actions';
+import { fetchFavoritesAction } from '../../services/api-actions';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { getAreFavoritesLoading, getFavorites } from '../../store/favorite-process/selectors';
 import { changeFavoritesLoadingStatus, deleteFavorites } from '../../store/favorite-process/favorite-process';
@@ -19,7 +19,7 @@ function FavoritiesPage(): JSX.Element {
   const groupedOffersByCityName = groupOffersByCityName<OfferShort>(favorites);
 
   useEffect(() => {
-    dispatch(loadFavoritesAction());
+    dispatch(fetchFavoritesAction());
     dispatch(changeFavoritesLoadingStatus(true));
 
     return () => {

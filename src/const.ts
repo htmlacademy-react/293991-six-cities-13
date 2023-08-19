@@ -159,3 +159,5 @@ export enum NameSpace {
   Route = 'ROUTE',
   ResponseError = 'RESPONSE_ERROR'
 }
+
+export const ROUTE_REDIRECT = 'route/redirect';

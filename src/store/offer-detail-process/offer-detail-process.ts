@@ -2,8 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { OfferDetailProcess } from '../../types/state';
 import { filterNearByOffers, getFavoritiesCount, updateOfferFavoriteStatus } from '../../utils/utils';
-import { store } from '..';
-import { addCommentAction, loadOfferDetailAction } from '../../services/api-actions';
+import { addCommentAction, fetchOfferDetailAction } from '../../services/api-actions';
 
 const initialState: OfferDetailProcess = {
   offerDetail: null,
@@ -56,10 +55,10 @@ export const offerDetailProcess = createSlice({
       .addCase(addCommentAction.rejected, (state) => {
         state.isOfferCommentSending = false;
       })
-      .addCase(loadOfferDetailAction.fulfilled, (state) => {
+      .addCase(fetchOfferDetailAction.fulfilled, (state) => {
         state.isOfferDetailLoading = false;
       })
-      .addCase(loadOfferDetailAction.rejected, (state) => {
+      .addCase(fetchOfferDetailAction.rejected, (state) => {
         state.isOfferDetailLoading = false;
       })
   }
