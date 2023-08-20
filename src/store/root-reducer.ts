@@ -4,7 +4,7 @@ import {userProcess} from './user-process/user-process';
 import { offersProcess } from './offers-process/offers-process';
 import { favoriteProcess } from './favorite-process/favorite-process';
 import { offerDetailProcess } from './offer-detail-process/offer-detail-process';
-import { responseErrorProcess } from './response-error-process/response-error-process';
+import { errorResponseProcess } from './response-error-process/response-error-process';
 import { hoveredOfferProcess } from './hovered-offer-process/hovered-offer-process';
 
 
@@ -13,6 +13,6 @@ export const rootReducer = combineReducers({
   [NameSpace.Offers]: offersProcess.reducer,
   [NameSpace.Favorites]: favoriteProcess.reducer,
   [NameSpace.OfferDetail]: offerDetailProcess.reducer,
-  [NameSpace.ResponseError]: responseErrorProcess.reducer,
+  [NameSpace.ResponseError]: errorResponseProcess.reducer,
   [NameSpace.HoveredOffer]: hoveredOfferProcess.reducer
 });

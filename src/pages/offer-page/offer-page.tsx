@@ -15,32 +15,35 @@ import OfferCard from '../../components/offer-card/offer-card';
 import Map from '../../components/map/map';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { fetchOffersAction } from '../../services/api-actions';
+import { fetchOfferCommentsAction, fetchOfferDetailDataAction, fetchOfferNearByAction, fetchOffersAction } from '../../services/api-actions';
 import { useEffect } from 'react';
 import { filterNearByOffers } from '../../utils/utils';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { getIsOfferDetailLoading, getOfferComments, getOfferDetail, getOffersNearBy } from '../../store/offer-detail-process/selectors';
+import { getAreNearByLoading, getAreOfferCommentsLoading, getIsOfferDetailLoading, getOfferComments, getOfferDetail, getOffersNearBy } from '../../store/offer-detail-process/selectors';
 import { deleteOfferDetail } from '../../store/offer-detail-process/offer-detail-process';
 
 function OfferPage(): JSX.Element {
   const isOfferDetailLoading = useAppSelector(getIsOfferDetailLoading);
   const offersNearBy = useAppSelector(getOffersNearBy);
   const filteredOffersNearBy = filterNearByOffers(offersNearBy);
-  const offerComments = useAppSelector(getOfferComments);
   const offerDetail = useAppSelector(getOfferDetail);
-  const { id } = useParams();
+  const areOfferCommentsLoading = useAppSelector(getAreOfferCommentsLoading);
+  const areNearByLoading = useAppSelector(getAreNearByLoading);
+  const { id: offerId } = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchOffersAction());
+    if (offerId) {
+      dispatch(fetchOfferDetailDataAction(offerId));
+      dispatch(fetchOfferCommentsAction(offerId));
+      dispatch(fetchOfferNearByAction(offerId));
     }
     return () => {
       dispatch(deleteOfferDetail());
     };
-  }, [id, dispatch]);
+  }, [offerId, dispatch]);
 
-  if ((offerDetail === undefined || offerDetail === null) && !isOfferDetailLoading) {
+  if ((offerDetail === undefined || offerDetail === null) && !isOfferDetailLoading && !areOfferCommentsLoading && !areNearByLoading) {
     return <NotFoundPage/>
   }
 
@@ -54,20 +57,20 @@ function OfferPage(): JSX.Element {
       <PageHeader/>
       <main className="page__main page__main--offer">
         {
-          isOfferDetailLoading ?
+          (isOfferDetailLoading || areOfferCommentsLoading || areNearByLoading) ?
             <LoadingSpinner/> :
             <>
               <section className="offer">
-                <ImagesList images={offerDetailNotNull.images}/>
+                <ImagesList images={offerDetailNotNull?.images}/>
                 <div className="offer__container container">
                   <div className="offer__wrapper">
                     <OfferHeader offerDetail={offerDetailNotNull}/>
-                    <OfferRating rating={offerDetailNotNull.rating}/>
-                    <OfferFeatures type={offerDetailNotNull.type} bedrooms={offerDetailNotNull.bedrooms} maxAdults={offerDetailNotNull.maxAdults}/>
-                    <OfferPrice price={offerDetailNotNull.price}/>
-                    <OfferGoodsList goods={offerDetailNotNull.goods}/>
-                    <OfferHost description={offerDetailNotNull.description} host={offerDetailNotNull.host}/>
-                    <OfferReview comments={offerComments}/>
+                    <OfferRating rating={offerDetailNotNull?.rating}/>
+                    <OfferFeatures type={offerDetailNotNull?.type} bedrooms={offerDetailNotNull?.bedrooms} maxAdults={offerDetailNotNull?.maxAdults}/>
+                    <OfferPrice price={offerDetailNotNull?.price}/>
+                    <OfferGoodsList goods={offerDetailNotNull?.goods}/>
+                    <OfferHost description={offerDetailNotNull?.description} host={offerDetailNotNull?.host}/>
+                    <OfferReview/>
                   </div>
                 </div>
                 <Map mode={OfferCardMode.NearPlaces}/>

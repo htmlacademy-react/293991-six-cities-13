@@ -156,7 +156,6 @@ export enum NameSpace {
   OfferDetail = 'OFFER_DETAIL',
   Favorites = 'FAVORITES',
   HoveredOffer = 'HOVERED_OFFER',
-  Route = 'ROUTE',
   ResponseError = 'RESPONSE_ERROR'
 }
 

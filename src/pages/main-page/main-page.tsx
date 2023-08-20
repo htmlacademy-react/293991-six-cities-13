@@ -3,20 +3,35 @@ import Map from '../../components/map/map';
 import { AuthorizationStatus, OfferCardMode } from '../../const';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import PageHeader from '../../components/page-header/page-header';
 import cn from 'classnames';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getActiveCity, getAreOffersLoading, getOffersByCity } from '../../store/offers-process/selectors';
+import { fetchFavoritesAction, fetchOffersAction } from '../../services/api-actions';
+import { getToken } from '../../services/token';
+import { deleteOffers } from '../../store/offers-process/offers-process';
 
 function MainPage (): JSX.Element {
   const areOffersLoading = useAppSelector(getAreOffersLoading);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const activeCity = useAppSelector(getActiveCity);
   const offersByCity = useAppSelector(getOffersByCity);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+    if (getToken()) {
+      dispatch(fetchFavoritesAction());
+    }
+    return () => {
+      dispatch(deleteOffers());
+    };
+  }, [dispatch])
+
 
   function getElement() {
     // Решение замечания линтера: no-nested-ternary

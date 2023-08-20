@@ -9,9 +9,7 @@ import { getCityDataByCityName } from './utils/utils';
 import { ToastContainer } from 'react-toastify';
 import { changeCity } from './store/offers-process/offers-process';
 
-store.dispatch(fetchOffersAction());
 store.dispatch(checkAuthAction());
-store.dispatch(fetchFavoritesAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

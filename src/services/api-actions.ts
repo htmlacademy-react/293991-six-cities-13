@@ -4,13 +4,11 @@ import { AxiosInstance } from 'axios';
 import { OfferDetail, OfferFavoriteRequest, OfferShort } from '../types/offer';
 import { BackendRoute } from '../const';
 import { AuthRequestData, AuthResponseData } from '../types/auth-data';
-import { UserData } from '../types/user-data';
-import { deleteToken, saveToken } from './token';
 import { Comment } from '../types/offer-review';
 import { generatePath } from 'react-router-dom';
 import { CommentRequestData } from '../types/comment-request-data';
 import { setError } from '../store/response-error-process/response-error-process';
-import { changeOfferCommentSendingStatus, changeOfferFavoriteStatus, saveOfferComments, saveOfferDetail, saveOffersNearBy } from '../store/offer-detail-process/offer-detail-process';
+import { changeOfferCommentSendingStatus, changeOfferFavoriteStatus, saveOfferComments } from '../store/offer-detail-process/offer-detail-process';
 
 export const fetchOffersAction = createAsyncThunk<OfferShort[], undefined, {
   dispatch: AppDispatch;
@@ -48,17 +46,14 @@ export const checkAuthAction = createAsyncThunk<AuthResponseData, undefined, {
   },
 );
 
-export const loginAction = createAsyncThunk<UserData, AuthRequestData, {
+export const loginAction = createAsyncThunk<AuthResponseData, AuthRequestData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'auth/login',
-  async ({email, password}, {dispatch, extra: api}) => {
-    const {data} = await api.post<UserData>(BackendRoute.Login, {email, password});
-    saveToken(data.token);
-    dispatch(fetchOffersAction());
-    dispatch(fetchFavoritesAction());
+  async ({email, password}, {extra: api}) => {
+    const {data} = await api.post<AuthResponseData>(BackendRoute.Login, {email, password});
     return data;
   }
 );
@@ -69,49 +64,62 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'auth/logout',
-  async (_arg, {dispatch, extra: api}) => {
-    await api.delete<UserData>(BackendRoute.Logout);
-    deleteToken();
-    // dispatch(saveAuthorization(AuthorizationStatus.NoAuth));
-    // dispatch(changeUserEmail(''));
-    dispatch(setError(null));
-    // dispatch(eraseFavoritesAfterLogout());
+  async (_arg, {extra: api}) => {
+    await api.delete<AuthResponseData>(BackendRoute.Logout);
   }
 );
 
-export const fetchOfferDetailAction = createAsyncThunk<void, string, {
+export const fetchOfferDetailDataAction = createAsyncThunk<OfferDetail, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'offer/fetch',
-  async (offerId, {dispatch, extra: api}) => {
-      const {data: offerDetailData} = await api.get<OfferDetail>(generatePath(BackendRoute.OfferDetail, {id: offerId}));
-      dispatch(saveOfferDetail(offerDetailData));
-
-      const {data: offerComemnts} = await api.get<Comment[]>(generatePath(BackendRoute.Comments, {id: offerId}));
-      dispatch(saveOfferComments(offerComemnts));
-
-      const {data: offersNearBy} = await api.get<OfferShort[]>(generatePath(BackendRoute.OffersNearBy, {id: offerId}));
-      dispatch(saveOffersNearBy(offersNearBy));
+  'offerDetail/fetchDetailData',
+  async (offerId, {extra: api}) => {
+      const {data} = await api.get<OfferDetail>(generatePath(BackendRoute.OfferDetail, {id: offerId}));
+      return data
   }
 );
 
-export const addCommentAction = createAsyncThunk<void, CommentRequestData, {
+export const fetchOfferCommentsAction = createAsyncThunk<Comment[], string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'offer/addComment',
+  'offerDetail/fetchComments',
+  async (offerId, {extra: api}) => {
+      const {data} = await api.get<Comment[]>(generatePath(BackendRoute.Comments, {id: offerId}));
+      return data
+  }
+);
+
+export const fetchOfferNearByAction = createAsyncThunk<OfferShort[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offerDetail/fetchNearBy',
+  async (offerId, {extra: api}) => {
+      const {data} = await api.get<OfferShort[]>(generatePath(BackendRoute.OffersNearBy, {id: offerId}));
+      return data
+  }
+);
+
+export const addCommentAction = createAsyncThunk<Comment, CommentRequestData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offerDetail/addComment',
   async ({offerId, comment, rating}, {dispatch, extra: api}) => {
     dispatch(changeOfferCommentSendingStatus(true));
-    await api.post(generatePath(BackendRoute.Comments, {id: offerId}), {comment, rating});
+    const {data} = await api.post<Comment>(generatePath(BackendRoute.Comments, {id: offerId}), {comment, rating});
+    return data;
+    // const {data} = await api.get<Comment[]>(generatePath(BackendRoute.Comments, {id: offerId}));
+    // dispatch(saveOfferComments(data));
     
-    const {data} = await api.get<Comment[]>(generatePath(BackendRoute.Comments, {id: offerId}));
-    dispatch(saveOfferComments(data));
-    
-    dispatch(setError(null));
-    dispatch(changeOfferCommentSendingStatus(false));
+    // dispatch(setError(null));
+    // dispatch(changeOfferCommentSendingStatus(false));
   }
 );
 
@@ -120,7 +128,7 @@ export const changeOfferFavoriteStatusAction = createAsyncThunk<void, OfferFavor
   state: State;
   extra: AxiosInstance;
 }>(
-  'offer/sendStatus',
+  'offerDetail/sendStatus',
   async ({offerId, offerFavoriteStatus}, {dispatch, extra: api}) => {
     const {data} = await api.post<OfferDetail>(generatePath(BackendRoute.FavoriteStatus, {id: offerId, status: `${offerFavoriteStatus}`}));
     dispatch(changeOfferFavoriteStatus(data));

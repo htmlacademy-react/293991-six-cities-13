@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { MAX_COMMENTS_IN_REVIEW, NameSpace } from '../../const';
 import { OfferDetailProcess } from '../../types/state';
 import { filterNearByOffers, getFavoritiesCount, updateOfferFavoriteStatus } from '../../utils/utils';
-import { addCommentAction, fetchOfferDetailAction } from '../../services/api-actions';
+import { addCommentAction, fetchOfferCommentsAction, fetchOfferDetailDataAction, fetchOfferNearByAction } from '../../services/api-actions';
+import { differenceInSeconds } from 'date-fns';
 
 const initialState: OfferDetailProcess = {
   offerDetail: null,
   isOfferDetailLoading: true,
   offerComments: [],
+  areOfferCommentsLoading: true,
   isOfferCommentSending: false,
   offersNearBy: [],
+  areNearByLoading: true,
 };
 
 export const offerDetailProcess = createSlice({
@@ -52,16 +55,53 @@ export const offerDetailProcess = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchOfferDetailDataAction.pending, (state) => {
+        state.isOfferDetailLoading = true;
+      })
+      .addCase(fetchOfferDetailDataAction.fulfilled, (state, action) => {
+        state.offerDetail = action.payload;
+        state.isOfferDetailLoading = false;
+      })
+      .addCase(fetchOfferDetailDataAction.rejected, (state) => {
+        state.offerDetail = null;
+        state.isOfferDetailLoading = false;
+      })
+
+      .addCase(fetchOfferCommentsAction.pending, (state) => {
+        state.areOfferCommentsLoading = true;
+      })
+      .addCase(fetchOfferCommentsAction.fulfilled, (state, action) => {
+        state.offerComments = action.payload;
+        state.areOfferCommentsLoading = false;
+      })
+      .addCase(fetchOfferCommentsAction.rejected, (state) => {
+        state.offerComments = [];
+        state.areOfferCommentsLoading = false;
+      })
+
+      .addCase(fetchOfferNearByAction.pending, (state) => {
+        state.areNearByLoading = true;
+      })
+      .addCase(fetchOfferNearByAction.fulfilled, (state, action) => {
+        state.offersNearBy = action.payload;
+        state.areNearByLoading = false;
+      })
+      .addCase(fetchOfferNearByAction.rejected, (state) => {
+        state.offersNearBy = [];
+        state.areNearByLoading = false;
+      })
+
+      .addCase(addCommentAction.pending, (state) => {
+        state.isOfferCommentSending = true;
+      })
+      .addCase(addCommentAction.fulfilled, (state, action) => {
+        state.offerComments = [...state.offerComments, action.payload];
+        state.isOfferCommentSending = false;
+      })
       .addCase(addCommentAction.rejected, (state) => {
         state.isOfferCommentSending = false;
       })
-      .addCase(fetchOfferDetailAction.fulfilled, (state) => {
-        state.isOfferDetailLoading = false;
-      })
-      .addCase(fetchOfferDetailAction.rejected, (state) => {
-        state.isOfferDetailLoading = false;
-      })
-  }
+    }
 });
 
 export const {saveOfferDetail, changeOfferDetailLoadingStatus, deleteOfferDetail, saveOfferComments, changeOfferCommentSendingStatus, saveOffersNearBy, changeOfferFavoriteStatus } = offerDetailProcess.actions;

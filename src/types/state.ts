@@ -32,8 +32,10 @@ export type OfferDetailProcess = {
   offerDetail: OfferDetail | null;
   isOfferDetailLoading: boolean;
   offerComments: Comment[];
+  areOfferCommentsLoading: boolean,
   isOfferCommentSending: boolean;
   offersNearBy: OfferShort[];
+  areNearByLoading: boolean,
 };
 
 export type ResponseError = {
