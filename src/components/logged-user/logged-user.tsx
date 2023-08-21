@@ -1,17 +1,29 @@
 import { Link, generatePath } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logoutAction } from '../../services/api-actions';
+import { fetchFavoritesCountAction, logoutAction } from '../../services/api-actions';
 import { getUserEmail } from '../../store/user-process/selectors';
 import { getFavoritesCount } from '../../store/favorite-process/selectors';
+import { useEffect } from 'react';
+import { getToken } from '../../services/token';
 
 function LoggedUser(): JSX.Element {
   const userEmail = useAppSelector(getUserEmail);
   const favoritesCount = useAppSelector(getFavoritesCount);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    if (getToken()) {
+      dispatch(fetchFavoritesCountAction());
+    }
+  }, [dispatch, getToken()]);
+
   function handleLogoutClick() {
     dispatch(logoutAction());
+  }
+
+  if (favoritesCount === null) {
+    return <></>
   }
 
   return (

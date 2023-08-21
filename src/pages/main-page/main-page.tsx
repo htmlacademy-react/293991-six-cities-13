@@ -11,9 +11,10 @@ import PageHeader from '../../components/page-header/page-header';
 import cn from 'classnames';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getActiveCity, getAreOffersLoading, getOffersByCity } from '../../store/offers-process/selectors';
-import { fetchFavoritesAction, fetchOffersAction } from '../../services/api-actions';
+import { fetchFavoritesAction, fetchFavoritesCountAction, fetchOffersAction } from '../../services/api-actions';
 import { getToken } from '../../services/token';
 import { deleteOffers } from '../../store/offers-process/offers-process';
+import { OfferShort } from '../../types/offer';
 
 function MainPage (): JSX.Element {
   const areOffersLoading = useAppSelector(getAreOffersLoading);
@@ -22,15 +23,12 @@ function MainPage (): JSX.Element {
   const offersByCity = useAppSelector(getOffersByCity);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchOffersAction());
-    if (getToken()) {
-      dispatch(fetchFavoritesAction());
-    }
-    return () => {
-      dispatch(deleteOffers());
-    };
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(fetchOffersAction());
+  //   return () => {
+  //     dispatch(deleteOffers());
+  //   };
+  // }, [dispatch])
 
 
   function getElement() {
@@ -51,7 +49,7 @@ function MainPage (): JSX.Element {
             <OffersList/>
           </section>
           <div className="cities__right-section">
-            <Map mode={OfferCardMode.MainPage}/>
+            <Map mode={OfferCardMode.MainPage} locations={offersByCity.map((offer: OfferShort) => offer.location)}/>
           </div>
         </>
     );

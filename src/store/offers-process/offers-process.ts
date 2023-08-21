@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { DEFAULT_CITY, NameSpace, SortType } from '../../const';
 import { OffersProcess } from '../../types/state';
-import { eraseOfferFavoriteStatus, getFavoritiesCount, getOffersByCity } from '../../utils/utils';
+import { eraseOfferFavoriteStatus, getOffersByCity, updateOfferFavoriteStatus } from '../../utils/utils';
 import { OfferShort } from '../../types/offer';
-import { store } from '..';
-import { fetchOfferDetailDataAction, fetchOffersAction, loginAction, logoutAction } from '../../services/api-actions';
+import { changeOfferFavoriteStatusAction, fetchOffersAction, loginAction, logoutAction } from '../../services/api-actions';
 
 const initialState: OffersProcess = {
   activeCity: DEFAULT_CITY,
@@ -43,7 +42,7 @@ export const offersProcess = createSlice({
         state.areOffersLoading = true;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
-        state.offers = action.payload;
+        state.offers = action.payload.offers;
         state.offersByCity = getOffersByCity<OfferShort>(state.offers, state.activeCity.name);
         state.areOffersLoading = false;
       })
@@ -54,15 +53,24 @@ export const offersProcess = createSlice({
       .addCase(loginAction.pending, (state) => {
         state.areOffersLoading = true;
       })
+      .addCase(loginAction.fulfilled, (state, action) => {
+        state.offers = action.payload.offers;
+        state.offersByCity = getOffersByCity<OfferShort>(state.offers, state.activeCity.name);
+        state.areOffersLoading = false;
+      })
+      .addCase(loginAction.rejected, (state) => {
+        state.areOffersLoading = false;
+      })
 
-      .addCase(logoutAction.pending, (state) => {
+      .addCase(logoutAction.fulfilled, (state) => {
         state.offers = eraseOfferFavoriteStatus(state.offers);
         state.offersByCity = eraseOfferFavoriteStatus(state.offersByCity);
       })
 
-      // .addCase(fetchOfferDetailDataAction.fulfilled, (state, action) => {
-      //   state.offers = updateOfferFavoriteStatus(state.offers, action.payload.id, action.payload.isFavorite);
-      // })
+      .addCase(changeOfferFavoriteStatusAction.fulfilled, (state, action) => {
+        state.offers = updateOfferFavoriteStatus(state.offers, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
+        state.offersByCity = updateOfferFavoriteStatus(state.offersByCity, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
+      })
   }
 });
 

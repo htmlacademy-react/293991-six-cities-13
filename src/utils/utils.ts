@@ -1,5 +1,5 @@
 import { CITIES, FormControlToDisplayError, NEARBY_OFFFERS_COUNT, PARAGRAPH_MAX_LEN, SortType } from '../const';
-import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
+import { GroupedOffersByCity, OfferBase, OfferDetail, OfferShort } from '../types/offer';
 import { City, CityName } from '../types/city';
 import { ErrorResponse } from '../types/error-response';
 
@@ -58,10 +58,29 @@ export function groupOffersByCityName<T extends OfferBase>(offers: T[]): Grouped
   }, {});
 }
 
-export function filterNearByOffers(offers: OfferShort[]): OfferShort[] {
-  if (offers !== undefined && offers !== null) {
+export function getRandomNearByOffers(offers: OfferShort[], offerDetail: OfferDetail): OfferShort[] {
+  if (offers !== undefined && offers !== null && offers.length > 0) {
+  //   const offerIds = new Set<string>();
+  //   if (offerDetail !== undefined && offerDetail !== null) {
+  //     offerIds.add(offerDetail.id);
+  //   }
+  //   while(offerIds.size !== NEARBY_OFFFERS_COUNT + 1) {
+  //     console.log(offers)
+  //     offerIds.add(offers[Math.floor(Math.random() * offers.length)].id);
+  //   }
+  //   return Array.from(offerIds)
     if (offers.length > NEARBY_OFFFERS_COUNT) {
-      return offers.slice(0, NEARBY_OFFFERS_COUNT);
+
+      let newOffers: OfferShort[] = [];
+      while (newOffers.length < NEARBY_OFFFERS_COUNT) {
+        const randomOffer = offers[Math.floor(Math.random() * offers.length)];
+        const newOfferExists = newOffers.find((existsOfferShort: OfferShort) => existsOfferShort.id === randomOffer.id || existsOfferShort.id === offerDetail.id)
+        if (newOfferExists === undefined || newOfferExists === null) {
+          newOffers.push(randomOffer)
+        }
+      }
+      return newOffers;
+
     } else {
       return offers;
     }

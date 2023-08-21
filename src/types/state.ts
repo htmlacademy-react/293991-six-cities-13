@@ -23,7 +23,7 @@ export type OffersProcess = {
 };
 
 export type FavoriteProcess = {
-  favoritesCount: number;
+  favoritesCount: number | null;
   favorites: OfferShort[];
   areFavoritesLoading: boolean;
 };
@@ -32,10 +32,8 @@ export type OfferDetailProcess = {
   offerDetail: OfferDetail | null;
   isOfferDetailLoading: boolean;
   offerComments: Comment[];
-  areOfferCommentsLoading: boolean,
   isOfferCommentSending: boolean;
   offersNearBy: OfferShort[];
-  areNearByLoading: boolean,
 };
 
 export type ResponseError = {

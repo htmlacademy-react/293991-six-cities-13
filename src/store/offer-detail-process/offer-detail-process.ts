@@ -1,18 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { MAX_COMMENTS_IN_REVIEW, NameSpace } from '../../const';
 import { OfferDetailProcess } from '../../types/state';
-import { filterNearByOffers, getFavoritiesCount, updateOfferFavoriteStatus } from '../../utils/utils';
-import { addCommentAction, fetchOfferCommentsAction, fetchOfferDetailDataAction, fetchOfferNearByAction } from '../../services/api-actions';
-import { differenceInSeconds } from 'date-fns';
+import { eraseOfferFavoriteStatus, getRandomNearByOffers, updateOfferFavoriteStatus } from '../../utils/utils';
+import { addCommentAction, changeOfferFavoriteStatusAction, fetchOfferDetailDataAction, logoutAction } from '../../services/api-actions';
+import { NameSpace } from '../../const';
+
 
 const initialState: OfferDetailProcess = {
   offerDetail: null,
   isOfferDetailLoading: true,
   offerComments: [],
-  areOfferCommentsLoading: true,
   isOfferCommentSending: false,
   offersNearBy: [],
-  areNearByLoading: true,
 };
 
 export const offerDetailProcess = createSlice({
@@ -38,20 +36,6 @@ export const offerDetailProcess = createSlice({
     changeOfferCommentSendingStatus: (state, action) => {
       state.isOfferCommentSending = action.payload;
     },
-    saveOffersNearBy: (state, action) => {
-      state.offersNearBy = filterNearByOffers(action.payload);
-    },
-    changeOfferFavoriteStatus: (state, action) => {
-      state.offersNearBy = updateOfferFavoriteStatus(state.offersNearBy, action.payload.id, action.payload.isFavorite);
-
-      // const wholeState = store.getState();
-      // wholeState.OFFERS.offers = updateOfferFavoriteStatus(wholeState.OFFERS.offers, action.payload.id, action.payload.isFavorite);
-      // wholeState.OFFERS.offersByCity = updateOfferFavoriteStatus(wholeState.OFFERS.offersByCity, action.payload.id, action.payload.isFavorite);
-      // wholeState.FAVORITES.favoritesCount = getFavoritiesCount(wholeState.OFFERS.offers);
-      // if (state.offerDetail !== null && state.offerDetail.id === action.payload.id) {
-      //   state.offerDetail.isFavorite = action.payload.isFavorite;
-      // }
-    }
   },
   extraReducers(builder) {
     builder
@@ -59,36 +43,16 @@ export const offerDetailProcess = createSlice({
         state.isOfferDetailLoading = true;
       })
       .addCase(fetchOfferDetailDataAction.fulfilled, (state, action) => {
-        state.offerDetail = action.payload;
+        state.offerDetail = action.payload.offerDetail;
+        state.offerComments = action.payload.offerComments;
+        state.offersNearBy = getRandomNearByOffers(action.payload.offersNearBy, action.payload.offerDetail);
         state.isOfferDetailLoading = false;
       })
       .addCase(fetchOfferDetailDataAction.rejected, (state) => {
         state.offerDetail = null;
-        state.isOfferDetailLoading = false;
-      })
-
-      .addCase(fetchOfferCommentsAction.pending, (state) => {
-        state.areOfferCommentsLoading = true;
-      })
-      .addCase(fetchOfferCommentsAction.fulfilled, (state, action) => {
-        state.offerComments = action.payload;
-        state.areOfferCommentsLoading = false;
-      })
-      .addCase(fetchOfferCommentsAction.rejected, (state) => {
         state.offerComments = [];
-        state.areOfferCommentsLoading = false;
-      })
-
-      .addCase(fetchOfferNearByAction.pending, (state) => {
-        state.areNearByLoading = true;
-      })
-      .addCase(fetchOfferNearByAction.fulfilled, (state, action) => {
-        state.offersNearBy = action.payload;
-        state.areNearByLoading = false;
-      })
-      .addCase(fetchOfferNearByAction.rejected, (state) => {
         state.offersNearBy = [];
-        state.areNearByLoading = false;
+        state.isOfferDetailLoading = false;
       })
 
       .addCase(addCommentAction.pending, (state) => {
@@ -101,7 +65,21 @@ export const offerDetailProcess = createSlice({
       .addCase(addCommentAction.rejected, (state) => {
         state.isOfferCommentSending = false;
       })
+
+      .addCase(changeOfferFavoriteStatusAction.fulfilled, (state, action) => {
+        if (state.offerDetail?.id === action.payload.currentOffer.id) {
+          state.offerDetail.isFavorite = action.payload.currentOffer.isFavorite;
+        }
+        state.offersNearBy = updateOfferFavoriteStatus(state.offersNearBy, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
+      })
+
+      .addCase(logoutAction.fulfilled, (state) => {
+        if (state.offerDetail !== undefined && state.offerDetail !== null) {
+          state.offerDetail.isFavorite = false;
+        }
+        state.offersNearBy = eraseOfferFavoriteStatus(state.offersNearBy);
+      })
     }
 });
 
-export const {saveOfferDetail, changeOfferDetailLoadingStatus, deleteOfferDetail, saveOfferComments, changeOfferCommentSendingStatus, saveOffersNearBy, changeOfferFavoriteStatus } = offerDetailProcess.actions;
+export const {saveOfferDetail, changeOfferDetailLoadingStatus, deleteOfferDetail, saveOfferComments, changeOfferCommentSendingStatus } = offerDetailProcess.actions;

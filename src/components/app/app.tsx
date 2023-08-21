@@ -9,6 +9,10 @@ import RequireAuth from '../require-auth/require-auth';
 import { HelmetProvider } from 'react-helmet-async';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { store } from '../../store';
+import { fetchOffersAction } from '../../services/api-actions';
+
+store.dispatch(fetchOffersAction())
 
 function App(): JSX.Element {
   return (

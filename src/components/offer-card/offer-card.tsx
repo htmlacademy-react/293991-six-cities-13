@@ -9,6 +9,7 @@ import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button'
 import { useAppDispatch } from '../../hooks';
 import { OfferShort } from '../../types/offer';
 import { setHoveredOffer } from '../../store/hovered-offer-process/hovered-offer-process';
+import { changeCity } from '../../store/offers-process/offers-process';
 
 type OfferCardProps = {
   offer: OfferShort;
@@ -17,7 +18,8 @@ type OfferCardProps = {
 
 function OfferCard({offer, mode}: OfferCardProps): JSX.Element {
   const dispatch = useAppDispatch();
-  
+  const handleCardClick = () => dispatch(changeCity(offer.city));
+
   return (
     <article
       className={cn(
@@ -35,7 +37,7 @@ function OfferCard({offer, mode}: OfferCardProps): JSX.Element {
         {'near-places__image-wrapper': mode === OfferCardMode.NearPlaces}
       )}
       >
-        <Link to={generatePath(AppRoute.Offer, {id: offer.id})}>
+        <Link to={generatePath(AppRoute.Offer, {id: offer.id})} onClick={handleCardClick}>
           <img
             className="place-card__image"
             src={offer.previewImage}
@@ -60,7 +62,7 @@ function OfferCard({offer, mode}: OfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={generatePath(AppRoute.Offer, {id: offer.id})}>{offer.title}</Link>
+          <Link to={generatePath(AppRoute.Offer, {id: offer.id})} onClick={handleCardClick}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

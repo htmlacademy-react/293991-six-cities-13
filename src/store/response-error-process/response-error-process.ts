@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { ResponseError } from '../../types/state';
-import { loginAction, logoutAction } from '../../services/api-actions';
+import { addCommentAction, loginAction, logoutAction } from '../../services/api-actions';
 
 const initialState: ResponseError = {
   errorResponse: null
@@ -21,6 +21,9 @@ export const errorResponseProcess = createSlice({
       state.errorResponse = null;
     })
     .addCase(logoutAction.fulfilled, (state) => {
+      state.errorResponse = null;
+    })
+    .addCase(addCommentAction.fulfilled, (state) => {
       state.errorResponse = null;
     })
   }

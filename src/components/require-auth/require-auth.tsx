@@ -8,7 +8,7 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 function RequireAuth(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   function getElement() {
-    // Решение замечания линтера: no-nested-ternary
+    // Исправление замечания линтера: no-nested-ternary
     return (authorizationStatus === AuthorizationStatus.Auth) ? <Outlet/> : <Navigate to={AppRoute.Login}/>;
   }
 

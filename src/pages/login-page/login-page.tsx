@@ -3,14 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, FormControlToDisplayError } from '../../const';
 import { ChangeEvent, useState, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { checkAuthAction, fetchFavoritesAction, fetchOffersAction, loginAction } from '../../services/api-actions';
+import { loginAction } from '../../services/api-actions';
 import { AuthRequestData } from '../../types/auth-data';
 import { extractErrorMessageForControl, getRandomCity } from '../../utils/utils';
 import styles from './login-page.module.css';
 import { City } from '../../types/city';
 import { getErrorResponse } from '../../store/response-error-process/selectors';
-import { changeCity, changeOffersLoadingStatus } from '../../store/offers-process/offers-process';
-import { setError } from '../../store/response-error-process/response-error-process';
+import { changeCity } from '../../store/offers-process/offers-process';
 
 
 function LoginPage(): JSX.Element {
@@ -35,7 +34,7 @@ function LoginPage(): JSX.Element {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData) as AuthRequestData;
     dispatch(loginAction(data));
-    dispatch(setError(null))
+
     navigate(AppRoute.Root);
   }
 

@@ -18,7 +18,7 @@ function OfferReview(): JSX.Element {
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">
-        Reviews · <span className="reviews__amount">{comments.length}</span>
+        Reviews · <span className="reviews__amount">{allComments.length}</span>
       </h2>
       {
         comments.length > 0 &&

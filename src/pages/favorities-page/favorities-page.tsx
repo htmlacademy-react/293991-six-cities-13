@@ -28,7 +28,7 @@ function FavoritiesPage(): JSX.Element {
   }, [dispatch]);
 
   function getElement() {
-    // Решение замечания линтера: no-nested-ternary
+    // Исправление замечания линтера: no-nested-ternary
     return (
       favorites.length > 0 ?
         <main className="page__main page__main--favorites">
