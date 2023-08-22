@@ -8,7 +8,7 @@ import OffersSorting from '../offers-sorting/offers-sorting';
 import { getActiveCity, getOffersByCity, getSortType } from '../../store/offers-process/selectors';
 import { getFavoritesCount } from '../../store/favorite-process/selectors';
 
-function OffersList(): JSX.Element {
+function _OffersList(): JSX.Element {
   const activeCity = useAppSelector(getActiveCity);
   const offersByCity = useAppSelector(getOffersByCity);
   const sortType = useAppSelector(getSortType);
@@ -27,4 +27,5 @@ function OffersList(): JSX.Element {
   );
 }
 
-export default memo(OffersList);
+const OffersList = memo(_OffersList);
+export default OffersList;

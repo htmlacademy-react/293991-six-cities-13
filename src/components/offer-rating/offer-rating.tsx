@@ -5,7 +5,7 @@ type OfferRatingProps = {
   rating: number;
 }
 
-function OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
+function _OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
   return (
     <div className="offer__rating rating">
       <div className="offer__stars rating__stars">
@@ -17,4 +17,5 @@ function OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
   );
 }
 
-export default memo(OfferRating);
+const OfferRating = memo(_OfferRating);
+export default OfferRating;

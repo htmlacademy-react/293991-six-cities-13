@@ -17,7 +17,7 @@ function LoginPage(): JSX.Element {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
   const errorResponse = useAppSelector(getErrorResponse);
-  const [randomCity, _] = useState<City>(getRandomCity());
+  const [randomCity, ] = useState<City>(getRandomCity());
   const navigate = useNavigate();
 
   function handleEmailChange(evt: ChangeEvent<HTMLInputElement>) {

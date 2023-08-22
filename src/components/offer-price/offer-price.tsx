@@ -1,10 +1,10 @@
-import { memo } from "react";
+import { memo } from 'react';
 
 type OfferPriceProps = {
   price: number | undefined;
 }
 
-function OfferPrice({price = 0}: OfferPriceProps):JSX.Element {
+function _OfferPrice({price = 0}: OfferPriceProps):JSX.Element {
   return (
     <div className="offer__price">
       <b className="offer__price-value">€{price}</b>
@@ -13,4 +13,5 @@ function OfferPrice({price = 0}: OfferPriceProps):JSX.Element {
   );
 }
 
-export default memo(OfferPrice);
+const OfferPrice = memo(_OfferPrice);
+export default OfferPrice;

@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { getSortType } from '../../store/offers-process/selectors';
 import { changeSortType } from '../../store/offers-process/offers-process';
 
-function OffersSorting(): JSX.Element {
+function _OffersSorting(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
   const currentSortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
@@ -72,4 +72,5 @@ function OffersSorting(): JSX.Element {
   );
 }
 
-export default memo(OffersSorting);
+const OffersSorting = memo(_OffersSorting);
+export default OffersSorting;

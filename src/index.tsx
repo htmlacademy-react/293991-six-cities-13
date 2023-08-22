@@ -3,11 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { store } from './store';
 import { Provider } from 'react-redux';
-import { checkAuthAction, fetchFavoritesAction, fetchOffersAction } from './services/api-actions';
-import { DEFAULT_CITY_NAME } from './const';
-import { getCityDataByCityName } from './utils/utils';
+import { checkAuthAction } from './services/api-actions';
 import { ToastContainer } from 'react-toastify';
-import { changeCity } from './store/offers-process/offers-process';
 
 store.dispatch(checkAuthAction());
 

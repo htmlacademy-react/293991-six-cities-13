@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { FavoriteProcess } from '../../types/state';
 import { OfferShort } from '../../types/offer';
@@ -15,10 +15,10 @@ export const favoriteProcess = createSlice({
   name: NameSpace.Favorites,
   initialState,
   reducers: {
-    saveFavorites: (state, action) => {
-      state.favorites = action.payload;
+    eraseFavoritesCount: (state) => {
+      state.favoritesCount = null;
     },
-    changeFavoritesLoadingStatus: (state, action) => {
+    changeFavoritesLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.areFavoritesLoading = action.payload;
     },
     deleteFavorites: (state) => {
@@ -35,7 +35,7 @@ export const favoriteProcess = createSlice({
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
         state.favoritesCount = action.payload.length;
-        state.favorites = action.payload
+        state.favorites = action.payload;
         state.areFavoritesLoading = false;
       })
       .addCase(fetchFavoritesAction.rejected, (state) => {
@@ -48,14 +48,14 @@ export const favoriteProcess = createSlice({
       })
 
       .addCase(fetchFavoritesCountAction.fulfilled, (state, action) => {
-          state.favoritesCount = action.payload;
+        state.favoritesCount = action.payload;
       })
 
       .addCase(changeOfferFavoriteStatusAction.fulfilled, (state, action) => {
         state.favorites = action.payload.favorites;
         state.favoritesCount = action.payload.favorites.length;
-      })
+      });
   }
 });
 
-export const { saveFavorites, changeFavoritesLoadingStatus, deleteFavorites, deleteFavorite } = favoriteProcess.actions;
+export const { eraseFavoritesCount, changeFavoritesLoadingStatus, deleteFavorites, deleteFavorite } = favoriteProcess.actions;

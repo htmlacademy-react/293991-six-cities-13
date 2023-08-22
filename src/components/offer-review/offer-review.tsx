@@ -9,11 +9,11 @@ import { getOfferComments, getOfferDetail } from '../../store/offer-detail-proce
 import { differenceInSeconds } from 'date-fns';
 import { OfferDetail } from '../../types/offer';
 
-function OfferReview(): JSX.Element {
+function _OfferReview(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const allComments = useAppSelector(getOfferComments);
   const offerDetail = useAppSelector(getOfferDetail) as OfferDetail;
-  const comments = useMemo(() => [...allComments].sort((a: Comment, b: Comment) => differenceInSeconds(new Date(b.date), new Date(a.date))).slice(0, MAX_COMMENTS_IN_REVIEW), [offerDetail.id, allComments.length])
+  const comments = useMemo(() => [...allComments].sort((a: Comment, b: Comment) => differenceInSeconds(new Date(b.date), new Date(a.date))).slice(0, MAX_COMMENTS_IN_REVIEW), [offerDetail.id, allComments.length]);
 
   return (
     <section className="offer__reviews reviews">
@@ -31,4 +31,5 @@ function OfferReview(): JSX.Element {
   );
 }
 
-export default memo(OfferReview);
+const OfferReview = memo(_OfferReview);
+export default OfferReview;

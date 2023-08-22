@@ -9,7 +9,7 @@ type ReviewRatingStarProps = {
   onRatingChange: () => void;
 }
 
-function ReviewRatingStar({rating, currentRating, onRatingChange}: ReviewRatingStarProps): JSX.Element {
+function _ReviewRatingStar({rating, currentRating, onRatingChange}: ReviewRatingStarProps): JSX.Element {
   const isOfferCommentSending = useAppSelector(getIsOfferCommentSending);
 
   return (
@@ -37,4 +37,5 @@ function ReviewRatingStar({rating, currentRating, onRatingChange}: ReviewRatingS
   );
 }
 
-export default memo(ReviewRatingStar);
+const ReviewRatingStar = memo(_ReviewRatingStar);
+export default ReviewRatingStar;

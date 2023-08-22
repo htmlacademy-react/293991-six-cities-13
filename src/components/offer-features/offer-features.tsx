@@ -7,7 +7,7 @@ type OfferFeaturesProps = {
   maxAdults: number;
 }
 
-function OfferFeatures({type = '', bedrooms = 0, maxAdults = 0}: OfferFeaturesProps): JSX.Element {
+function _OfferFeatures({type = '', bedrooms = 0, maxAdults = 0}: OfferFeaturesProps): JSX.Element {
   return (
     <ul className="offer__features">
       <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(type)}</li>
@@ -21,4 +21,5 @@ function OfferFeatures({type = '', bedrooms = 0, maxAdults = 0}: OfferFeaturesPr
   );
 }
 
-export default memo(OfferFeatures);
+const OfferFeatures = memo(_OfferFeatures);
+export default OfferFeatures;

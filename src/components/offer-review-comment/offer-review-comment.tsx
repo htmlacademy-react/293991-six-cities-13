@@ -7,7 +7,7 @@ type OfferReviewCommentProps = {
   comment: Comment;
 }
 
-function OfferReviewComment({comment}: OfferReviewCommentProps): JSX.Element {
+function _OfferReviewComment({comment}: OfferReviewCommentProps): JSX.Element {
   const paragraphs = splitLongTextIntoParagraphs(comment.comment);
   const newDT = new Date(comment.date);
 
@@ -41,4 +41,5 @@ function OfferReviewComment({comment}: OfferReviewCommentProps): JSX.Element {
   );
 }
 
-export default memo(OfferReviewComment);
+const OfferReviewComment = memo(_OfferReviewComment);
+export default OfferReviewComment;

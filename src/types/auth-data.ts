@@ -1,4 +1,4 @@
-import { OfferShort } from "./offer";
+import { OfferShort } from './offer';
 
 export type AuthRequestData = {
   email: string;

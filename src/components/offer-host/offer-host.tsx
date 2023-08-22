@@ -7,7 +7,7 @@ type OfferHostProps = {
   host: Person;
 }
 
-function OfferHost({description, host}: OfferHostProps):JSX.Element {
+function _OfferHost({description, host}: OfferHostProps):JSX.Element {
   const paragraphs = splitLongTextIntoParagraphs(description);
 
   return (
@@ -32,4 +32,6 @@ function OfferHost({description, host}: OfferHostProps):JSX.Element {
     </div>
   );
 }
-export default memo(OfferHost);
+
+const OfferHeader = memo(_OfferHost);
+export default OfferHeader;

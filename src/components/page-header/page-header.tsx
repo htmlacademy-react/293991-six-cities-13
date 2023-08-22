@@ -6,7 +6,7 @@ import LogginButton from '../loggin-button/loggin-button';
 import { Link } from 'react-router-dom';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
-function PageHeader(): JSX.Element {
+function _PageHeader(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
@@ -35,4 +35,5 @@ function PageHeader(): JSX.Element {
   );
 }
 
-export default memo(PageHeader);
+const PageHeader = memo(_PageHeader);
+export default PageHeader;

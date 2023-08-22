@@ -1,10 +1,10 @@
-import { memo } from "react";
+import { memo } from 'react';
 import cn from 'classnames';
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { useNavigate } from "react-router-dom";
-import { AppRoute, AuthorizationStatus, OfferCardMode, OfferFavoriteStatus } from "../../const";
-import { changeOfferFavoriteStatusAction } from "../../services/api-actions";
-import { getAuthorizationStatus } from "../../store/user-process/selectors";
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, OfferCardMode, OfferFavoriteStatus } from '../../const';
+import { changeOfferFavoriteStatusAction } from '../../services/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type OfferFavoriteButtonType = {
   offerId: string;
@@ -12,19 +12,18 @@ type OfferFavoriteButtonType = {
   mode: OfferCardMode;
 }
 
-function OfferFavoriteButton({offerId, isFavorite, mode}: OfferFavoriteButtonType): JSX.Element {
+function _OfferFavoriteButton({offerId, isFavorite, mode}: OfferFavoriteButtonType): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
 
   const handleFavoriteClick = () => {
-      if (authorizationStatus !== AuthorizationStatus.Auth) {
-        navigate(AppRoute.Login);
-      }
-      
-      const offerFavoriteStatus = isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
-      dispatch(changeOfferFavoriteStatusAction({offerId, offerFavoriteStatus}));
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
     }
+    const offerFavoriteStatus = isFavorite ? OfferFavoriteStatus.Unset : OfferFavoriteStatus.Set;
+    dispatch(changeOfferFavoriteStatusAction({offerId, offerFavoriteStatus}));
+  };
 
 
   return (
@@ -42,8 +41,8 @@ function OfferFavoriteButton({offerId, isFavorite, mode}: OfferFavoriteButtonTyp
         {'offer__bookmark-icon': mode === OfferCardMode.DetailPage},
         {'place-card__bookmark-icon': [OfferCardMode.MainPage, OfferCardMode.NearPlaces].includes(mode)}
       )}
-        width={mode === OfferCardMode.DetailPage ? 31 : 18}
-        height={mode === OfferCardMode.DetailPage ? 33 : 19}
+      width={mode === OfferCardMode.DetailPage ? 31 : 18}
+      height={mode === OfferCardMode.DetailPage ? 33 : 19}
       >
         <use xlinkHref="#icon-bookmark" />
       </svg>
@@ -52,4 +51,5 @@ function OfferFavoriteButton({offerId, isFavorite, mode}: OfferFavoriteButtonTyp
   );
 }
 
-export default memo(OfferFavoriteButton);
+const OfferFavoriteButton = memo(_OfferFavoriteButton);
+export default OfferFavoriteButton;

@@ -16,7 +16,7 @@ type OfferCardProps = {
   mode: OfferCardMode;
 }
 
-function OfferCard({offer, mode}: OfferCardProps): JSX.Element {
+function _OfferCard({offer, mode}: OfferCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const handleCardClick = () => dispatch(changeCity(offer.city));
 
@@ -70,4 +70,5 @@ function OfferCard({offer, mode}: OfferCardProps): JSX.Element {
   );
 }
 
-export default memo(OfferCard);
+const OfferCard = memo(_OfferCard);
+export default OfferCard;

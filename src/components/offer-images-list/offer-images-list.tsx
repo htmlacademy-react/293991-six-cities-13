@@ -6,7 +6,7 @@ type ImageListProps = {
   images: string[] | undefined;
 }
 
-function ImagesList({images = []}: ImageListProps):JSX.Element {
+function _ImagesList({images = []}: ImageListProps):JSX.Element {
   return (
     <div className="offer__gallery-container container">
       <div className="offer__gallery">
@@ -16,4 +16,5 @@ function ImagesList({images = []}: ImageListProps):JSX.Element {
   );
 }
 
-export default memo(ImagesList);
+const ImagesList = memo(_ImagesList);
+export default ImagesList;

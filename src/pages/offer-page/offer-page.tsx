@@ -36,14 +36,14 @@ function OfferPage(): JSX.Element {
     return () => {
       dispatch(deleteOfferDetail());
     };
-  }, [offerId]);
+  }, [dispatch, offerId]);
 
 
-  if ((offerDetail === undefined || offerDetail === null) && !isOfferDetailLoading ) {
-    return <NotFoundPage/>
+  if ((offerDetail === undefined || offerDetail === null) && !isOfferDetailLoading) {
+    return <NotFoundPage/>;
   }
 
-  const offerDetailNotNull = offerDetail as OfferDetail
+  const offerDetailNotNull = offerDetail as OfferDetail;
 
   return (
     <div className="page">

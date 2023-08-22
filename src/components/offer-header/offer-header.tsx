@@ -7,7 +7,7 @@ type OfferHeaderProps = {
   offerDetail: OfferDetail;
 }
 
-function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
+function _OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
   return (
     <>
       {
@@ -26,4 +26,5 @@ function OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
   );
 }
 
-export default memo(OfferHeader);
+const OfferHeader = memo(_OfferHeader);
+export default OfferHeader;

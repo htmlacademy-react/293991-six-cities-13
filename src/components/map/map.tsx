@@ -8,7 +8,6 @@ import { useAppSelector } from '../../hooks';
 import { Location } from '../../types/location';
 import { getOfferDetail } from '../../store/offer-detail-process/selectors';
 import { getHoveredOffer } from '../../store/hovered-offer-process/selectors';
-import { City } from '../../types/city';
 import { getActiveCity } from '../../store/offers-process/selectors';
 
 type MapProps = {
@@ -60,7 +59,7 @@ function Map({mode, locations}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, locations, currentOffer?.id, activeCity]);
+  }, [map, locations, currentOffer?.id, currentOffer?.location.latitude, currentOffer?.location.longitude, activeCity]);
 
   return (
     <section

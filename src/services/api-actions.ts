@@ -21,7 +21,7 @@ export const fetchOffersAction = createAsyncThunk<OffersResponseData, undefined,
   async (_arg, {extra: api}) => {
     const {data: offers} = await api.get<OfferShort[]>(BackendRoute.Offers);
     const {data: favorites} = await api.get<OfferShort[]>(BackendRoute.Favorite);
-    return {offers, favorites}
+    return {offers, favorites};
   }
 );
 
@@ -33,7 +33,7 @@ export const fetchFavoritesAction = createAsyncThunk<OfferShort[], undefined, {
   'favorites/fetch',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<OfferShort[]>(BackendRoute.Favorite);
-    return data
+    return data;
   }
 );
 
@@ -45,7 +45,7 @@ export const fetchFavoritesCountAction = createAsyncThunk<number, undefined, {
   'favorites/fetchCount',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<OfferShort[]>(BackendRoute.Favorite);
-    return data.length
+    return data.length;
   }
 );
 
@@ -57,7 +57,7 @@ export const checkAuthAction = createAsyncThunk<AuthResponseData, undefined, {
   'auth/check',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<AuthResponseData>(BackendRoute.Login);
-    saveToken(data.token)
+    saveToken(data.token);
     return data;
   },
 );
@@ -70,7 +70,7 @@ export const loginAction = createAsyncThunk<AuthResponseData, AuthRequestData, {
   'auth/login',
   async ({email, password}, {extra: api}) => {
     const {data: authData} = await api.post<AuthResponseData>(BackendRoute.Login, {email, password});
-    saveToken(authData.token)
+    saveToken(authData.token);
     const {data: offers} = await api.get<OfferShort[]>(BackendRoute.Offers);
     return {...authData, offers};
   }
@@ -97,7 +97,7 @@ export const fetchOfferDetailDataAction = createAsyncThunk<OfferDetailResponseDa
     const {data: offerDetail} = await api.get<OfferDetail>(generatePath(BackendRoute.OfferDetail, {id: offerId}));
     const {data: offerComments} = await api.get<Comment[]>(generatePath(BackendRoute.Comments, {id: offerId}));
     const {data: offersNearBy} = await api.get<OfferShort[]>(generatePath(BackendRoute.OffersNearBy, {id: offerId}));
-    return {offerDetail, offerComments, offersNearBy}
+    return {offerDetail, offerComments, offersNearBy};
   }
 );
 

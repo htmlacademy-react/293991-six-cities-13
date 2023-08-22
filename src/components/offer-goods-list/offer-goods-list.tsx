@@ -4,7 +4,7 @@ type OfferGoodsListProps = {
   goods: string[];
 }
 
-function OfferGoodsList({goods = []}: OfferGoodsListProps):JSX.Element {
+function _OfferGoodsList({goods = []}: OfferGoodsListProps):JSX.Element {
   return (
     <div className="offer__inside">
       <h2 className="offer__inside-title">What&apos;s inside</h2>
@@ -14,4 +14,6 @@ function OfferGoodsList({goods = []}: OfferGoodsListProps):JSX.Element {
     </div>
   );
 }
-export default memo(OfferGoodsList);
+
+const OfferGoodsList = memo(_OfferGoodsList);
+export default OfferGoodsList;

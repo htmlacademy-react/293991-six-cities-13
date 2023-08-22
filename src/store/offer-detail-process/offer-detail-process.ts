@@ -4,7 +4,6 @@ import { eraseOfferFavoriteStatus, getRandomNearByOffers, updateOfferFavoriteSta
 import { addCommentAction, changeOfferFavoriteStatusAction, fetchOfferDetailDataAction, logoutAction } from '../../services/api-actions';
 import { NameSpace } from '../../const';
 
-
 const initialState: OfferDetailProcess = {
   offerDetail: null,
   isOfferDetailLoading: true,
@@ -17,25 +16,12 @@ export const offerDetailProcess = createSlice({
   name: NameSpace.OfferDetail,
   initialState,
   reducers: {
-    saveOfferDetail: (state, action) => {
-      state.offerDetail = action.payload;
-      state.isOfferDetailLoading = true;
-    },
-    changeOfferDetailLoadingStatus: (state, action) => {
-      state.isOfferDetailLoading = action.payload;
-    },
     deleteOfferDetail: (state) => {
       state.offerDetail = null;
       state.offerComments = [];
       state.offersNearBy = [];
       state.isOfferDetailLoading = true;
-    },
-    saveOfferComments: (state, action) => {
-      state.offerComments = action.payload;
-    },
-    changeOfferCommentSendingStatus: (state, action) => {
-      state.isOfferCommentSending = action.payload;
-    },
+    }
   },
   extraReducers(builder) {
     builder
@@ -78,8 +64,8 @@ export const offerDetailProcess = createSlice({
           state.offerDetail.isFavorite = false;
         }
         state.offersNearBy = eraseOfferFavoriteStatus(state.offersNearBy);
-      })
-    }
+      });
+  }
 });
 
-export const {saveOfferDetail, changeOfferDetailLoadingStatus, deleteOfferDetail, saveOfferComments, changeOfferCommentSendingStatus } = offerDetailProcess.actions;
+export const { deleteOfferDetail } = offerDetailProcess.actions;

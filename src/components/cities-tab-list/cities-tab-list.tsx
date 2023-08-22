@@ -6,7 +6,7 @@ type CitiesListProps = {
   cities: City[];
 }
 
-function CitiesTabList({cities}: CitiesListProps):JSX.Element {
+function _CitiesTabList({cities}: CitiesListProps):JSX.Element {
   return (
     <>
       <h1 className="visually-hidden">Cities</h1>
@@ -23,4 +23,5 @@ function CitiesTabList({cities}: CitiesListProps):JSX.Element {
   );
 }
 
-export default memo(CitiesTabList);
+const CitiesTabList = memo(_CitiesTabList);
+export default CitiesTabList;

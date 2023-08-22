@@ -3,33 +3,21 @@ import Map from '../../components/map/map';
 import { AuthorizationStatus, OfferCardMode } from '../../const';
 import { CITIES } from '../../const';
 import CitiesTabList from '../../components/cities-tab-list/cities-tab-list';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import OffersList from '../../components/offers-list/offers-list';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import PageHeader from '../../components/page-header/page-header';
 import cn from 'classnames';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getActiveCity, getAreOffersLoading, getOffersByCity } from '../../store/offers-process/selectors';
-import { fetchFavoritesAction, fetchFavoritesCountAction, fetchOffersAction } from '../../services/api-actions';
-import { getToken } from '../../services/token';
-import { deleteOffers } from '../../store/offers-process/offers-process';
 import { OfferShort } from '../../types/offer';
 
-function MainPage (): JSX.Element {
+function _MainPage (): JSX.Element {
   const areOffersLoading = useAppSelector(getAreOffersLoading);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const activeCity = useAppSelector(getActiveCity);
   const offersByCity = useAppSelector(getOffersByCity);
-  const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchOffersAction());
-  //   return () => {
-  //     dispatch(deleteOffers());
-  //   };
-  // }, [dispatch])
-
 
   function getElement() {
     // Решение замечания линтера: no-nested-ternary
@@ -84,4 +72,6 @@ function MainPage (): JSX.Element {
     </div>
   );
 }
-export default memo(MainPage);
+
+const MainPage = memo(_MainPage);
+export default MainPage;

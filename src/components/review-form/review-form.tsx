@@ -9,7 +9,7 @@ import { extractErrorMessageForControl } from '../../utils/utils';
 import { getIsOfferCommentSending, getOfferDetail } from '../../store/offer-detail-process/selectors';
 import { getErrorResponse } from '../../store/response-error-process/selectors';
 
-function ReviewForm():JSX.Element {
+function _ReviewForm():JSX.Element {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
@@ -19,7 +19,7 @@ function ReviewForm():JSX.Element {
 
   const reviewIsValid = comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > 0;
 
-  const handleRatingChange = (newRating: number) => setRating(newRating);
+  const HandleRatingChange = (newRating: number) => useCallback(() => setRating(newRating), [newRating]);
 
   function handleCommentChange(evt: ChangeEvent<HTMLTextAreaElement>) {
     setComment(evt.target.value);
@@ -47,7 +47,7 @@ function ReviewForm():JSX.Element {
         errorResponse !== null && errorForRating && <p className={styles.error}>{errorForRating}</p>
       }
       <div className="reviews__rating-form form__rating">
-        {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onRatingChange={useCallback(() => handleRatingChange(rt.score), [rt.score])}/>)}
+        {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onRatingChange={HandleRatingChange(rt.score)}/>)}
       </div>
       {
         errorResponse !== null && errorForComment && <p className={styles.error}>{errorForComment}</p>
@@ -81,4 +81,5 @@ function ReviewForm():JSX.Element {
   );
 }
 
-export default memo(ReviewForm);
+const ReviewForm = memo(_ReviewForm);
+export default ReviewForm;

@@ -60,27 +60,17 @@ export function groupOffersByCityName<T extends OfferBase>(offers: T[]): Grouped
 
 export function getRandomNearByOffers(offers: OfferShort[], offerDetail: OfferDetail): OfferShort[] {
   if (offers !== undefined && offers !== null && offers.length > 0) {
-  //   const offerIds = new Set<string>();
-  //   if (offerDetail !== undefined && offerDetail !== null) {
-  //     offerIds.add(offerDetail.id);
-  //   }
-  //   while(offerIds.size !== NEARBY_OFFFERS_COUNT + 1) {
-  //     console.log(offers)
-  //     offerIds.add(offers[Math.floor(Math.random() * offers.length)].id);
-  //   }
-  //   return Array.from(offerIds)
     if (offers.length > NEARBY_OFFFERS_COUNT) {
 
-      let newOffers: OfferShort[] = [];
+      const newOffers: OfferShort[] = [];
       while (newOffers.length < NEARBY_OFFFERS_COUNT) {
         const randomOffer = offers[Math.floor(Math.random() * offers.length)];
-        const newOfferExists = newOffers.find((existsOfferShort: OfferShort) => existsOfferShort.id === randomOffer.id || existsOfferShort.id === offerDetail.id)
+        const newOfferExists = newOffers.find((existsOfferShort: OfferShort) => existsOfferShort.id === randomOffer.id || existsOfferShort.id === offerDetail.id);
         if (newOfferExists === undefined || newOfferExists === null) {
-          newOffers.push(randomOffer)
+          newOffers.push(randomOffer);
         }
       }
       return newOffers;
-
     } else {
       return offers;
     }
@@ -138,5 +128,5 @@ export function eraseOfferFavoriteStatus(offers: OfferShort[]): OfferShort[] {
 }
 
 export function getOfferById(offers: OfferShort[], offerId: string | null): OfferShort | undefined | null {
-  return offerId === null ? null: offers.find((offer: OfferShort) => offer.id === offerId)
+  return offerId === null ? null : offers.find((offer: OfferShort) => offer.id === offerId);
 }

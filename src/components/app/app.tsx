@@ -9,12 +9,23 @@ import RequireAuth from '../require-auth/require-auth';
 import { HelmetProvider } from 'react-helmet-async';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
-import { store } from '../../store';
 import { fetchOffersAction } from '../../services/api-actions';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { deleteOffers } from '../../store/offers-process/offers-process';
 
-store.dispatch(fetchOffersAction())
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+
+    return () => {
+      dispatch(deleteOffers());
+    };
+  }, [dispatch]);
+
   return (
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
