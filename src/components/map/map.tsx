@@ -4,13 +4,15 @@ import useMap from '../../hooks/use-map';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, OfferCardMode} from '../../const';
 import 'leaflet/dist/leaflet.css';
 import cn from 'classnames';
-import { OfferShort } from '../../types/offer';
 import { useAppSelector } from '../../hooks';
+import { Location } from '../../types/location';
+import { getOfferDetail } from '../../store/offer-detail-process/selectors';
+import { getHoveredOffer } from '../../store/hovered-offer-process/selectors';
+import { getActiveCity } from '../../store/offers-process/selectors';
 
 type MapProps = {
-  offersShort: OfferShort[];
   mode: OfferCardMode;
-  currentOfferId: string | undefined;
+  locations: Location[];
 };
 
 const defaultCustomIcon = new Icon({
@@ -25,23 +27,29 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({offersShort, mode, currentOfferId}: MapProps): JSX.Element {
-  const activeCity = useAppSelector((state) => state.activeCity);
+function Map({mode, locations}: MapProps): JSX.Element {
+  const activeCity = useAppSelector(getActiveCity);
+  // const offersByCity = useAppSelector(getOffersByCity);
+  // const offersNearBy = useAppSelector(getOffersNearBy);
+  const offerDetail = useAppSelector(getOfferDetail);
+  const hoveredOffer = useAppSelector(getHoveredOffer);
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
+
+  const currentOffer = mode === OfferCardMode.MainPage ? hoveredOffer : offerDetail;
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
 
-      offersShort.forEach((offer: OfferShort) => {
+      locations.forEach((location: Location) => {
         const marker = new Marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude
+          lat: location.latitude,
+          lng: location.longitude
         });
 
         marker
-          .setIcon(offer.id === currentOfferId ? currentCustomIcon : defaultCustomIcon)
+          .setIcon((location.latitude === currentOffer?.location.latitude && location.longitude === currentOffer?.location.longitude) ? currentCustomIcon : defaultCustomIcon)
           .addTo(markerLayer);
       });
 
@@ -51,7 +59,7 @@ function Map({offersShort, mode, currentOfferId}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersShort, currentOfferId, activeCity]);
+  }, [map, locations, currentOffer?.id, currentOffer?.location.latitude, currentOffer?.location.longitude, activeCity]);
 
   return (
     <section

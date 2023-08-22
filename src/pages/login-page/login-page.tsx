@@ -1,41 +1,47 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, FormControlToDisplayError } from '../../const';
-import { ChangeEvent, useState, FormEvent} from 'react';
+import { ChangeEvent, useState, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
 import { AuthRequestData } from '../../types/auth-data';
 import { extractErrorMessageForControl, getRandomCity } from '../../utils/utils';
 import styles from './login-page.module.css';
-import { changeCity } from '../../store/action';
+import { City } from '../../types/city';
+import { getErrorResponse } from '../../store/response-error-process/selectors';
+import { changeCity } from '../../store/offers-process/offers-process';
+
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  const errorResponse = useAppSelector((state) => state.errorResponse);
+  const errorResponse = useAppSelector(getErrorResponse);
+  const [randomCity, ] = useState<City>(getRandomCity());
+  const navigate = useNavigate();
 
-  function onChangeEmailHandler(evt: ChangeEvent<HTMLInputElement>) {
+  function handleEmailChange(evt: ChangeEvent<HTMLInputElement>) {
     setEmail(evt.target.value);
   }
 
-  function onChangePasswordHandler(evt: ChangeEvent<HTMLInputElement>) {
+  function handlePasswordChange(evt: ChangeEvent<HTMLInputElement>) {
     setPassword(evt.target.value);
   }
 
-  function onSubmitHandler(evt: FormEvent<HTMLFormElement>) {
+  function handleFormSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     const form = evt.currentTarget;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData) as AuthRequestData;
     dispatch(loginAction(data));
+
+    navigate(AppRoute.Root);
   }
 
   const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.EmailControl);
   const errorForPassword = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.PasswordControl);
 
-  const randomCity = getRandomCity();
-  function onClickHandler() {
+  function handleCityClick() {
     dispatch(changeCity(randomCity));
   }
 
@@ -65,7 +71,7 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" onSubmit={onSubmitHandler}>
+            <form className="login__form form" onSubmit={handleFormSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 {
@@ -78,7 +84,7 @@ function LoginPage(): JSX.Element {
                   placeholder="Email"
                   required
                   value={email}
-                  onChange={onChangeEmailHandler}
+                  onChange={handleEmailChange}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -93,7 +99,7 @@ function LoginPage(): JSX.Element {
                   placeholder="Password"
                   required
                   value={password}
-                  onChange={onChangePasswordHandler}
+                  onChange={handlePasswordChange}
                 />
               </div>
               <button
@@ -106,7 +112,7 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Root} className="locations__item-link" onClick={onClickHandler}>
+              <Link to={AppRoute.Root} className="locations__item-link" onClick={handleCityClick}>
                 <span>{randomCity.name}</span>
               </Link>
             </div>

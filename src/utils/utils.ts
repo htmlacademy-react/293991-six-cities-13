@@ -1,5 +1,5 @@
 import { CITIES, FormControlToDisplayError, NEARBY_OFFFERS_COUNT, PARAGRAPH_MAX_LEN, SortType } from '../const';
-import { GroupedOffersByCity, OfferBase, OfferShort } from '../types/offer';
+import { GroupedOffersByCity, OfferBase, OfferDetail, OfferShort } from '../types/offer';
 import { City, CityName } from '../types/city';
 import { ErrorResponse } from '../types/error-response';
 
@@ -50,7 +50,7 @@ export function getRandomKey(): number {
   return Math.round(Math.random() * 1e8);
 }
 
-export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffersByCity<T> {
+export function groupOffersByCityName<T extends OfferBase>(offers: T[]): GroupedOffersByCity<T> {
   return offers.reduce((accumulator: GroupedOffersByCity<T>, curOffer: T) => {
     const cityExists = curOffer.city.name in accumulator;
     const _offers = cityExists ? [...accumulator[curOffer.city.name], curOffer] : [curOffer];
@@ -58,10 +58,19 @@ export function groupOffersByCity<T extends OfferBase>(offers: T[]): GroupedOffe
   }, {});
 }
 
-export function filterNearByOffers(offers: OfferShort[]): OfferShort[] {
-  if (offers !== undefined && offers !== null) {
+export function getRandomNearByOffers(offers: OfferShort[], offerDetail: OfferDetail): OfferShort[] {
+  if (offers !== undefined && offers !== null && offers.length > 0) {
     if (offers.length > NEARBY_OFFFERS_COUNT) {
-      return offers.slice(0, NEARBY_OFFFERS_COUNT);
+
+      const newOffers: OfferShort[] = [];
+      while (newOffers.length < NEARBY_OFFFERS_COUNT) {
+        const randomOffer = offers[Math.floor(Math.random() * offers.length)];
+        const newOfferExists = newOffers.find((existsOfferShort: OfferShort) => existsOfferShort.id === randomOffer.id || existsOfferShort.id === offerDetail.id);
+        if (newOfferExists === undefined || newOfferExists === null) {
+          newOffers.push(randomOffer);
+        }
+      }
+      return newOffers;
     } else {
       return offers;
     }
@@ -71,7 +80,7 @@ export function filterNearByOffers(offers: OfferShort[]): OfferShort[] {
 }
 
 export function getOffersByCity<T extends OfferBase>(offers: T[], cityName: CityName): T[] {
-  return groupOffersByCity<T>(offers)[cityName] || [];
+  return groupOffersByCityName<T>(offers)[cityName] || [];
 }
 
 export function sortOffers<T extends OfferBase>(offers: T[], sortType: SortType): T[] {
@@ -100,4 +109,24 @@ export function extractErrorMessageForControl(errorResponse: ErrorResponse | nul
 
 export function getRandomCity(): City {
   return CITIES[(Math.floor(Math.random() * CITIES.length))];
+}
+
+export function getFavoritiesCount(offers: OfferShort[]): number {
+  return offers.reduce((accumulator: number, curOffer: OfferShort) => (curOffer.isFavorite ? accumulator + 1 : accumulator), 0);
+}
+
+export function getCityDataByCityName(cityName: string): City {
+  return CITIES.find((city: City) => city.name === cityName) as City;
+}
+
+export function updateOfferFavoriteStatus(offers: OfferShort[], offerId: string, newIsFavorite: boolean): OfferShort[] {
+  return offers.map((offer: OfferShort) => ((offer.id === offerId) ? {...offer, isFavorite: newIsFavorite} : offer));
+}
+
+export function eraseOfferFavoriteStatus(offers: OfferShort[]): OfferShort[] {
+  return offers.map((offer: OfferShort) => ({...offer, isFavorite: false}));
+}
+
+export function getOfferById(offers: OfferShort[], offerId: string | null): OfferShort | undefined | null {
+  return offerId === null ? null : offers.find((offer: OfferShort) => offer.id === offerId);
 }

@@ -1,6 +1,7 @@
 import { City } from './city';
 import { Person } from './person';
 import { Location } from './location';
+import { OfferFavoriteStatus } from '../const';
 
 export type OfferBase = {
   id: string;
@@ -29,4 +30,9 @@ export type OfferDetail = OfferBase & {
 
 export type GroupedOffersByCity<T> = {
   [cityName: string]: T[];
+}
+
+export type OfferFavoriteRequest = {
+  offerId: string;
+  offerFavoriteStatus: OfferFavoriteStatus;
 }

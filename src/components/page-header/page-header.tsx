@@ -1,11 +1,13 @@
+import { memo } from 'react';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import LoggedUser from '../logged-user/logged-user';
 import LogginButton from '../loggin-button/loggin-button';
 import { Link } from 'react-router-dom';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
-function PageHeader(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+function _PageHeader(): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <header className="header">
@@ -24,7 +26,7 @@ function PageHeader(): JSX.Element {
           </div>
           <nav className="header__nav">
             {
-              authorizationStatus === AuthorizationStatus.Auth ? <LoggedUser/> : <LogginButton/>
+              (authorizationStatus !== AuthorizationStatus.Unknown) && (authorizationStatus === AuthorizationStatus.Auth ? <LoggedUser/> : <LogginButton/>)
             }
           </nav>
         </div>
@@ -33,4 +35,5 @@ function PageHeader(): JSX.Element {
   );
 }
 
+const PageHeader = memo(_PageHeader);
 export default PageHeader;

@@ -1,30 +1,30 @@
+import { OfferCardMode } from '../../const';
+import { OfferDetail } from '../../types/offer';
+import { memo } from 'react';
+import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
+
 type OfferHeaderProps = {
-  isPremium: boolean | undefined;
-  title: string | undefined;
+  offerDetail: OfferDetail;
 }
 
-function OfferHeader({isPremium = false, title = ''}: OfferHeaderProps):JSX.Element {
+function _OfferHeader({offerDetail}: OfferHeaderProps):JSX.Element {
   return (
     <>
       {
-        isPremium &&
+        offerDetail.isPremium &&
         <div className="offer__mark">
           <span>Premium</span>
         </div>
       }
       <div className="offer__name-wrapper">
         <h1 className="offer__name">
-          {title}
+          {offerDetail.title}
         </h1>
-        <button className="offer__bookmark-button button" type="button">
-          <svg className="offer__bookmark-icon" width={31} height={33}>
-            <use xlinkHref="#icon-bookmark" />
-          </svg>
-          <span className="visually-hidden">To bookmarks</span>
-        </button>
+        <OfferFavoriteButton offerId={offerDetail.id} mode={OfferCardMode.DetailPage} isFavorite={offerDetail.isFavorite}/>
       </div>
     </>
   );
 }
 
+const OfferHeader = memo(_OfferHeader);
 export default OfferHeader;

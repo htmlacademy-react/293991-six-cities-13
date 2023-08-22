@@ -1,33 +1,35 @@
-import { ChangeEvent, useState, MouseEvent } from 'react';
+import { ChangeEvent, useState, MouseEvent, memo, useCallback } from 'react';
 import { FormControlToDisplayError, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATINGS } from '../../const';
 import { Rating } from '../../types/rating';
 import ReviewRatingStar from '../review-star/review-star';
-import { addComment } from '../../services/api-actions';
+import { addCommentAction } from '../../services/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import styles from './review-form.module.css';
 import { extractErrorMessageForControl } from '../../utils/utils';
+import { getIsOfferCommentSending, getOfferDetail } from '../../store/offer-detail-process/selectors';
+import { getErrorResponse } from '../../store/response-error-process/selectors';
 
-function ReviewForm():JSX.Element {
+function _ReviewForm():JSX.Element {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  const offerDetail = useAppSelector((state) => state.offerDetail);
-  const errorResponse = useAppSelector((state) => state.errorResponse);
-  const isOfferCommentSending = useAppSelector((state) => state.isOfferCommentSending);
+  const offerDetail = useAppSelector(getOfferDetail);
+  const errorResponse = useAppSelector(getErrorResponse);
+  const isOfferCommentSending = useAppSelector(getIsOfferCommentSending);
 
   const reviewIsValid = comment.length >= MIN_COMMENT_LENGTH && comment.length <= MAX_COMMENT_LENGTH && rating > 0;
 
-  const onChangeRatingHandler = (newRating: number) => () => setRating(newRating);
+  const HandleRatingChange = (newRating: number) => useCallback(() => setRating(newRating), [newRating]);
 
-  function onChangeCommentHandler(evt: ChangeEvent<HTMLTextAreaElement>) {
+  function handleCommentChange(evt: ChangeEvent<HTMLTextAreaElement>) {
     setComment(evt.target.value);
   }
 
-  function onSubmitHandler(evt: MouseEvent<HTMLElement>) {
+  function handleFormSubmit(evt: MouseEvent<HTMLElement>) {
     evt.preventDefault();
     if (offerDetail !== undefined && offerDetail !== null) {
       const offerId = offerDetail.id;
-      dispatch(addComment({offerId, comment, rating}));
+      dispatch(addCommentAction({offerId, comment, rating}));
       setComment('');
       setRating(0);
     }
@@ -45,7 +47,7 @@ function ReviewForm():JSX.Element {
         errorResponse !== null && errorForRating && <p className={styles.error}>{errorForRating}</p>
       }
       <div className="reviews__rating-form form__rating">
-        {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onChangeRatingHandler={onChangeRatingHandler(rt.score)}/>)}
+        {RATINGS.map((rt: Rating) => <ReviewRatingStar key={rt.score} rating={rt} currentRating={rating} onRatingChange={HandleRatingChange(rt.score)}/>)}
       </div>
       {
         errorResponse !== null && errorForComment && <p className={styles.error}>{errorForComment}</p>
@@ -56,7 +58,7 @@ function ReviewForm():JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
-        onChange={onChangeCommentHandler}
+        onChange={handleCommentChange}
         disabled={isOfferCommentSending}
       />
       <div className="reviews__button-wrapper">
@@ -70,7 +72,7 @@ function ReviewForm():JSX.Element {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={!reviewIsValid || isOfferCommentSending}
-          onClick={onSubmitHandler}
+          onClick={handleFormSubmit}
         >
           Submit
         </button>
@@ -79,4 +81,5 @@ function ReviewForm():JSX.Element {
   );
 }
 
+const ReviewForm = memo(_ReviewForm);
 export default ReviewForm;

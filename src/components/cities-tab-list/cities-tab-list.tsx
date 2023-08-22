@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { City } from '../../types/city';
 import CityTab from '../city-tab/city-tab';
 
@@ -5,7 +6,7 @@ type CitiesListProps = {
   cities: City[];
 }
 
-function CitiesTabList({cities}: CitiesListProps):JSX.Element {
+function _CitiesTabList({cities}: CitiesListProps):JSX.Element {
   return (
     <>
       <h1 className="visually-hidden">Cities</h1>
@@ -22,4 +23,5 @@ function CitiesTabList({cities}: CitiesListProps):JSX.Element {
   );
 }
 
+const CitiesTabList = memo(_CitiesTabList);
 export default CitiesTabList;

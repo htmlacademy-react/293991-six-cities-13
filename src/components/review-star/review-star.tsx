@@ -1,14 +1,16 @@
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { Rating } from '../../types/rating';
+import { getIsOfferCommentSending } from '../../store/offer-detail-process/selectors';
 
 type ReviewRatingStarProps = {
   rating: Rating;
   currentRating: number;
-  onChangeRatingHandler: () => void;
+  onRatingChange: () => void;
 }
 
-function ReviewRatingStar({rating, currentRating, onChangeRatingHandler}: ReviewRatingStarProps): JSX.Element {
-  const isOfferCommentSending = useAppSelector((state) => state.isOfferCommentSending);
+function _ReviewRatingStar({rating, currentRating, onRatingChange}: ReviewRatingStarProps): JSX.Element {
+  const isOfferCommentSending = useAppSelector(getIsOfferCommentSending);
 
   return (
     <>
@@ -19,7 +21,7 @@ function ReviewRatingStar({rating, currentRating, onChangeRatingHandler}: Review
         id={`${rating.score}-stars`}
         type="radio"
         checked={rating.score === currentRating}
-        onChange={onChangeRatingHandler}
+        onChange={onRatingChange}
         disabled={isOfferCommentSending}
       />
       <label
@@ -35,4 +37,5 @@ function ReviewRatingStar({rating, currentRating, onChangeRatingHandler}: Review
   );
 }
 
+const ReviewRatingStar = memo(_ReviewRatingStar);
 export default ReviewRatingStar;

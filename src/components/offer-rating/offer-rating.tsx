@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { convertRatingToWidthPerc } from '../../utils/utils';
 
 type OfferRatingProps = {
-  rating: number | undefined;
+  rating: number;
 }
 
-function OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
+function _OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
   return (
     <div className="offer__rating rating">
       <div className="offer__stars rating__stars">
@@ -16,4 +17,5 @@ function OfferRating({rating = 0}: OfferRatingProps): JSX.Element {
   );
 }
 
+const OfferRating = memo(_OfferRating);
 export default OfferRating;

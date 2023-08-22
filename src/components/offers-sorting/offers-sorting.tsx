@@ -1,24 +1,25 @@
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, memo, useState } from 'react';
 import { SORT_TYPES, SortType } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeSortType } from '../../store/action';
 import cn from 'classnames';
+import { getSortType } from '../../store/offers-process/selectors';
+import { changeSortType } from '../../store/offers-process/offers-process';
 
-function OffersSorting(): JSX.Element {
+function _OffersSorting(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
-  const currentSortType = useAppSelector((state) => state.sortType);
+  const currentSortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
 
-  const onClickHandler = (sortType: SortType) => () => (dispatch(changeSortType(sortType)));
+  const handleSortClick = (sortType: SortType) => () => (dispatch(changeSortType(sortType)));
 
-  function onKeydownHandler(evt: KeyboardEvent<HTMLFormElement>) {
+  function handleSortMenuKeyDown(evt: KeyboardEvent<HTMLFormElement>) {
     if (evt.key === 'Escape' && isOpened) {
       evt.preventDefault();
       setIsOpened(false);
     }
   }
 
-  function onClickHandlerMenu() {
+  function handleSortMenuClick() {
     setIsOpened((prevIsOpened) => !prevIsOpened);
   }
 
@@ -31,8 +32,8 @@ function OffersSorting(): JSX.Element {
       className="places__sorting"
       action="#"
       method="get"
-      onKeyDown={onKeydownHandler}
-      onClick={onClickHandlerMenu}
+      onKeyDown={handleSortMenuKeyDown}
+      onClick={handleSortMenuClick}
     >
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0}>
@@ -59,7 +60,7 @@ function OffersSorting(): JSX.Element {
                 {'places__option--active': sortType === currentSortType}
               )}
               tabIndex={0}
-              onClick={onClickHandler(sortType)}
+              onClick={handleSortClick(sortType)}
               key={sortType}
             >
               {sortType}
@@ -71,4 +72,5 @@ function OffersSorting(): JSX.Element {
   );
 }
 
+const OffersSorting = memo(_OffersSorting);
 export default OffersSorting;
