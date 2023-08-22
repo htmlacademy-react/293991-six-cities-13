@@ -2,7 +2,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { FavoriteProcess } from '../../types/state';
 import { OfferShort } from '../../types/offer';
-import { changeOfferFavoriteStatusAction, fetchFavoritesAction, fetchFavoritesCountAction, logoutAction } from '../../services/api-actions';
+import { changeOfferFavoriteStatusAction, fetchFavoritesAction, fetchOffersAction, loginAction, logoutAction } from '../../services/api-actions';
+import { getFavoritiesCount } from '../../utils/utils';
 
 
 const initialState: FavoriteProcess = {
@@ -47,13 +48,17 @@ export const favoriteProcess = createSlice({
         state.favorites = [];
       })
 
-      .addCase(fetchFavoritesCountAction.fulfilled, (state, action) => {
-        state.favoritesCount = action.payload;
-      })
-
       .addCase(changeOfferFavoriteStatusAction.fulfilled, (state, action) => {
         state.favorites = action.payload.favorites;
         state.favoritesCount = action.payload.favorites.length;
+      })
+      
+      .addCase(loginAction.fulfilled, (state, action) => {
+        state.favoritesCount = getFavoritiesCount(action.payload.offers);
+      })
+      
+      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+        state.favoritesCount = getFavoritiesCount(action.payload);
       });
   }
 });

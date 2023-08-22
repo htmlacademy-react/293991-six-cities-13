@@ -18,8 +18,12 @@ export const fetchOffersAction = createAsyncThunk<OfferShort[], undefined, {
 }>(
   'offers/fetch',
   async (_arg, {extra: api}) => {
-    const {data} = await api.get<OfferShort[]>(BackendRoute.Offers);
-    return data;
+    // try {
+      const {data} = await api.get<OfferShort[]>(BackendRoute.Offers);
+      return data;
+    // } catch {
+    //   return []
+    // }
   }
 );
 
@@ -30,20 +34,12 @@ export const fetchFavoritesAction = createAsyncThunk<OfferShort[], undefined, {
 }>(
   'favorites/fetch',
   async (_arg, {extra: api}) => {
-    const {data} = await api.get<OfferShort[]>(BackendRoute.Favorite);
-    return data;
-  }
-);
-
-export const fetchFavoritesCountAction = createAsyncThunk<number, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'favorites/fetchCount',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get<OfferShort[]>(BackendRoute.Favorite);
-    return data.length;
+    // try {
+      const {data} = await api.get<OfferShort[]>(BackendRoute.Favorite);
+      return data;
+    // } catch {
+    //   return []
+    // }
   }
 );
 
@@ -54,6 +50,7 @@ export const checkAuthAction = createAsyncThunk<AuthResponseData, undefined, {
 }>(
   'auth/check',
   async (_arg, {extra: api}) => {
+    
     const {data} = await api.get<AuthResponseData>(BackendRoute.Login);
     saveToken(data.token);
     return data;
