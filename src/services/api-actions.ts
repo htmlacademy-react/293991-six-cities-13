@@ -10,18 +10,16 @@ import { CommentRequestData } from '../types/comment-request-data';
 import { OfferFavoriteStatusResponseData } from '../types/offer-favorite-status-response-data';
 import { saveToken } from './token';
 import { OfferDetailResponseData } from '../types/offer-detail-response-data';
-import { OffersResponseData } from '../types/offers-response-data';
 
-export const fetchOffersAction = createAsyncThunk<OffersResponseData, undefined, {
+export const fetchOffersAction = createAsyncThunk<OfferShort[], undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/fetch',
   async (_arg, {extra: api}) => {
-    const {data: offers} = await api.get<OfferShort[]>(BackendRoute.Offers);
-    const {data: favorites} = await api.get<OfferShort[]>(BackendRoute.Favorite);
-    return {offers, favorites};
+    const {data} = await api.get<OfferShort[]>(BackendRoute.Offers);
+    return data;
   }
 );
 
