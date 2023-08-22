@@ -29,8 +29,6 @@ const currentCustomIcon = new Icon({
 
 function Map({mode, locations}: MapProps): JSX.Element {
   const activeCity = useAppSelector(getActiveCity);
-  // const offersByCity = useAppSelector(getOffersByCity);
-  // const offersNearBy = useAppSelector(getOffersNearBy);
   const offerDetail = useAppSelector(getOfferDetail);
   const hoveredOffer = useAppSelector(getHoveredOffer);
   const mapRef = useRef(null);
