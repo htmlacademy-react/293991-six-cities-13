@@ -26,7 +26,7 @@ export const fetchOffersAction = createAsyncThunk<OfferShort[], undefined, {
       const {data} = await api.get<OfferShort[]>(BackendRoute.Offers);
       return data;
     } catch {
-      return EMPTY_OFFERS_RESPONSE
+      return EMPTY_OFFERS_RESPONSE;
     }
   }
 );
@@ -42,7 +42,7 @@ export const fetchFavoritesAction = createAsyncThunk<OfferShort[], undefined, {
       const {data} = await api.get<OfferShort[]>(BackendRoute.Favorite);
       return data;
     } catch {
-      return EMPTY_FAVORITES_RESPONSE
+      return EMPTY_FAVORITES_RESPONSE;
     }
   }
 );
@@ -59,7 +59,7 @@ export const checkAuthAction = createAsyncThunk<AuthUser & {authorizationStatus:
       saveToken(authUser.token);
       return {...authUser, authorizationStatus: AuthorizationStatus.Auth};
     } catch {
-      return {...EMPTY_AUTH_USER_RESPONSE, authorizationStatus: AuthorizationStatus.NoAuth}
+      return {...EMPTY_AUTH_USER_RESPONSE, authorizationStatus: AuthorizationStatus.NoAuth};
     }
   },
 );
@@ -71,27 +71,19 @@ export const loginAction = createAsyncThunk<void, AuthRequestData, {
 }>(
   'auth/login',
   async ({email, password}, {dispatch, extra: api}) => {
-    // try {
-      dispatch(setOffersLoadingStatus(true))
-      const {data: authData} = await api.post<AuthUser>(BackendRoute.Login, {email, password});
-      saveToken(authData.token);
+    dispatch(setOffersLoadingStatus(true));
+    const {data: authData} = await api.post<AuthUser>(BackendRoute.Login, {email, password});
+    saveToken(authData.token);
 
-      const {data: offersData} = await api.get<OfferShort[]>(BackendRoute.Offers);
-      dispatch(setAuthData({...authData, authorizationStatus: AuthorizationStatus.Auth}))
-      dispatch(setOffers(offersData))
-      dispatch(setOffersLoadingStatus(true))
+    const {data: offersData} = await api.get<OfferShort[]>(BackendRoute.Offers);
+    dispatch(setAuthData({...authData, authorizationStatus: AuthorizationStatus.Auth}));
+    dispatch(setOffers(offersData));
+    dispatch(setOffersLoadingStatus(true));
 
-      const {data: favorites} = await api.get<OfferShort[]>(BackendRoute.Favorite);
-      dispatch(setFavorites(favorites))
+    const {data: favorites} = await api.get<OfferShort[]>(BackendRoute.Favorite);
+    dispatch(setFavorites(favorites));
 
-      dispatch(redirectToRoute(AppRoute.Root));
-    // } catch {
-    //   dispatch(setAuthData({...EMPTY_AUTH_USER_RESPONSE, authorizationStatus: AuthorizationStatus.Auth}))
-    //   dispatch(setOffers(EMPTY_OFFERS_RESPONSE))
-    //   dispatch(setOffersLoadingStatus(true))
-    //   dispatch(setFavorites(EMPTY_FAVORITES_RESPONSE))
-    //   dispatch(redirectToRoute(AppRoute.Root));
-    // }
+    dispatch(redirectToRoute(AppRoute.Root));
   }
 );
 
@@ -119,7 +111,7 @@ export const fetchOfferDetailDataAction = createAsyncThunk<OfferDetailResponseDa
       const {data: offersNearBy} = await api.get<OfferShort[]>(generatePath(BackendRoute.OffersNearBy, {id: offerId}));
       return {offerDetail, offerComments, offersNearBy};
     } catch {
-      return EMPTY_OFFER_DETAIL_RESPONSE
+      return EMPTY_OFFER_DETAIL_RESPONSE;
     }
   }
 );
@@ -135,7 +127,7 @@ export const addCommentAction = createAsyncThunk<Comment, CommentRequestData, {
       const {data} = await api.post<Comment>(generatePath(BackendRoute.Comments, {id: offerId}), {comment, rating});
       return data;
     } catch {
-      return EMPTY_COMMENT_RESPONSE
+      return EMPTY_COMMENT_RESPONSE;
     }
   }
 );
@@ -152,7 +144,7 @@ export const changeOfferFavoriteStatusAction = createAsyncThunk<OfferFavoriteSta
       const {data: favorites} = await api.get<OfferShort[]>(BackendRoute.Favorite);
       return {currentOffer, favorites};
     } catch {
-      return EMPTY_OFFER_FAVORITE_STATUS_RESPONSE
+      return EMPTY_OFFER_FAVORITE_STATUS_RESPONSE;
     }
   }
 );

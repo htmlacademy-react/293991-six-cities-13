@@ -16,7 +16,7 @@ function _PageHeader({isFavoritesEmptyPage = false}: PageHeaderProps): JSX.Eleme
 
   return (
     <header className={cn(
-      "header",
+      'header',
       {'page--favorites-empty': isFavoritesEmptyPage}
     )}
     >

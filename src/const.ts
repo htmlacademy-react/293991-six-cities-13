@@ -74,7 +74,7 @@ export const CITIES: City[] = [
     }
   },
   {
-    name: "Brussels",
+    name: 'Brussels',
     location: {
       latitude: 50.846557,
       longitude: 4.351697,
@@ -176,12 +176,12 @@ export const EMPTY_AUTH_USER_RESPONSE: AuthUser = {
   isPro: '',
   email: '',
   token: '',
-}
+};
 export const EMPTY_OFFER_DETAIL_RESPONSE: OfferDetailResponseData = {
   offerDetail: null,
   offerComments: [],
   offersNearBy: []
-}
+};
 export const EMPTY_COMMENT_RESPONSE: Comment = {
   id: '',
   comment: '',
@@ -192,38 +192,38 @@ export const EMPTY_COMMENT_RESPONSE: Comment = {
     name: '',
     avatarUrl: ''
   }
-}
+};
 
 export const EMPTY_OFFER_FAVORITE_STATUS_RESPONSE: OfferFavoriteStatusResponseData = {
   currentOffer: null,
   favorites: EMPTY_FAVORITES_RESPONSE
-}
+};
 
 export const PASSWORD_NO_HAVE_LETTER_OR_NUMBER: ErrorResponse = {
-  errorType: "VALIDATION_ERROR",
-  message: "Validation error: '/six-cities/login'",
+  errorType: 'VALIDATION_ERROR',
+  message: 'Validation error: \'/six-cities/login\'',
   details: [
-      {
-          property: "password",
-          value: "1",
-          messages: [
-              "Password no have letter or number!"
-          ]
-      }
+    {
+      property: 'password',
+      value: '1',
+      messages: [
+        'Password no have letter or number!'
+      ]
+    }
   ]
-}
+};
 
 export const PASSWORD_MIN_LENGTH = 2;
 export const PASSWORD_MUST_BE_LONGER_THEN: ErrorResponse = {
-  errorType: "VALIDATION_ERROR",
-  message: "Validation error: '/six-cities/login'",
+  errorType: 'VALIDATION_ERROR',
+  message: 'Validation error: \'/six-cities/login\'',
   details: [
-      {
-          property: "password",
-          value: "1",
-          messages: [
-              "Password must be longer than or equal to 2 characters"
-          ]
-      }
+    {
+      property: 'password',
+      value: '1',
+      messages: [
+        'Password must be longer than or equal to 2 characters'
+      ]
+    }
   ]
-}
+};

@@ -57,9 +57,7 @@ export const offersProcess = createSlice({
       .addCase(loginAction.pending, (state) => {
         state.areOffersLoading = true;
       })
-      .addCase(loginAction.fulfilled, (state, action) => {
-        // state.offers = action.payload.offers;
-        // state.offersByCity = getOffersByCity<OfferShort>(state.offers, state.activeCity.name);
+      .addCase(loginAction.fulfilled, (state) => {
         state.areOffersLoading = false;
       })
       .addCase(loginAction.rejected, (state) => {

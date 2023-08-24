@@ -15,9 +15,6 @@ export const userProcess = createSlice({
   initialState,
   reducers: {
     setAuthData: (state, action: PayloadAction<AuthUser & {authorizationStatus: AuthorizationStatus}>) => {
-
-      console.log(action.payload)
-
       state.authorizationStatus = action.payload.authorizationStatus;
       state.userEmail = action.payload.email;
     }

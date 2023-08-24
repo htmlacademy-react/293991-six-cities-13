@@ -13,7 +13,6 @@ import { changeCity } from '../../store/offers-process/offers-process';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import { setError } from '../../store/response-error-process/response-error-process';
-import { ErrorResponse } from '../../types/error-response';
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
@@ -37,11 +36,11 @@ function LoginPage(): JSX.Element {
     const form = evt.currentTarget;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData) as AuthRequestData;
-    
+
     if (data.password.length < PASSWORD_MIN_LENGTH) {
-      dispatch(setError(PASSWORD_MUST_BE_LONGER_THEN))
+      dispatch(setError(PASSWORD_MUST_BE_LONGER_THEN));
     } else if (/^\d+$/.test(data.password) || /^[a-zA-Z]+$/.test(data.password)) {
-      dispatch(setError(PASSWORD_NO_HAVE_LETTER_OR_NUMBER))
+      dispatch(setError(PASSWORD_NO_HAVE_LETTER_OR_NUMBER));
     } else {
       dispatch(loginAction(data));
     }
@@ -79,12 +78,12 @@ function LoginPage(): JSX.Element {
         </header>
         <LoadingSpinner/>
       </div>
-    )
+    );
   }
 
   function getRealElement() {
     if (authorizationStatus === AuthorizationStatus.Auth) {
-      return <Navigate to={AppRoute.Root}/>
+      return <Navigate to={AppRoute.Root}/>;
     }
     return (
       <div className="page page--gray page--login">
@@ -161,10 +160,10 @@ function LoginPage(): JSX.Element {
           </div>
         </main>
       </div>
-    )
+    );
   }
 
-  return  authorizationStatus === AuthorizationStatus.Unknown ? getSpinnerElement() : getRealElement();
+  return authorizationStatus === AuthorizationStatus.Unknown ? getSpinnerElement() : getRealElement();
 }
 
 export default LoginPage;

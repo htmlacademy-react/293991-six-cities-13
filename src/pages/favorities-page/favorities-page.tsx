@@ -62,7 +62,7 @@ function FavoritiesPage(): JSX.Element {
       <Helmet>
         <title>6 cities. Favorites</title>
       </Helmet>
-      <PageHeader isFavoritesEmptyPage={true}/>
+      <PageHeader isFavoritesEmptyPage/>
       {
         areFavoritesLoading ?
           <LoadingSpinner/> :
