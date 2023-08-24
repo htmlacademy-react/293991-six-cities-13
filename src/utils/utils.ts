@@ -100,7 +100,7 @@ export function sortOffers<T extends OfferBase>(offers: T[], sortType: SortType)
 
 export function extractErrorMessageForControl(errorResponse: ErrorResponse | null, control: FormControlToDisplayError): string {
   let errorMessage = '';
-  if (errorResponse !== null) {
+  if (errorResponse !== null && errorResponse.details !== undefined) {
     const errorMessages = errorResponse.details.find((item) => item.property === control);
     errorMessage = (errorMessages !== null && errorMessages !== undefined && errorMessages.messages.length > 0) ? errorMessages.messages[0] : '';
   }

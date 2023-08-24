@@ -7,7 +7,7 @@ function LogginButton():JSX.Element {
     <ul className="header__nav-list">
       <li className="header__nav-item">
         <Link to={AppRoute.Login} className="header__nav-link">
-          <span className="header__signout">Sign in</span>
+          <span className="header__login">Sign in</span>
         </Link>
       </li>
     </ul>

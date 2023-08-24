@@ -31,7 +31,9 @@ export const offerDetailProcess = createSlice({
       .addCase(fetchOfferDetailDataAction.fulfilled, (state, action) => {
         state.offerDetail = action.payload.offerDetail;
         state.offerComments = action.payload.offerComments;
-        state.offersNearBy = getRandomNearByOffers(action.payload.offersNearBy, action.payload.offerDetail);
+        if (action.payload.offerDetail !== null) {
+          state.offersNearBy = getRandomNearByOffers(action.payload.offersNearBy, action.payload.offerDetail);
+        }
         state.isOfferDetailLoading = false;
       })
       .addCase(fetchOfferDetailDataAction.rejected, (state) => {
@@ -53,10 +55,12 @@ export const offerDetailProcess = createSlice({
       })
 
       .addCase(changeOfferFavoriteStatusAction.fulfilled, (state, action) => {
-        if (state.offerDetail?.id === action.payload.currentOffer.id) {
-          state.offerDetail.isFavorite = action.payload.currentOffer.isFavorite;
+        if (action.payload.currentOffer !== null) {
+          if (state.offerDetail?.id === action.payload.currentOffer.id) {
+            state.offerDetail.isFavorite = action.payload.currentOffer.isFavorite;
+          }
+          state.offersNearBy = updateOfferFavoriteStatus(state.offersNearBy, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
         }
-        state.offersNearBy = updateOfferFavoriteStatus(state.offersNearBy, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
       })
 
       .addCase(logoutAction.fulfilled, (state) => {

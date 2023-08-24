@@ -25,9 +25,13 @@ export const favoriteProcess = createSlice({
     deleteFavorites: (state) => {
       state.favorites = [];
     },
-    deleteFavorite: (state, action) => {
+    deleteFavorite: (state, action: PayloadAction<string>) => {
       state.favorites = [...state.favorites].reduce((accumulator: OfferShort[], curOffer: OfferShort) => (curOffer.id !== action.payload ? [...accumulator, curOffer] : [...accumulator]), []);
-    }
+    },
+    setFavorites: (state, action: PayloadAction<OfferShort[]>) => {
+      state.favorites = action.payload;
+      state.favoritesCount = getFavoritiesCount(action.payload);
+    },
   },
   extraReducers(builder) {
     builder
@@ -53,9 +57,9 @@ export const favoriteProcess = createSlice({
         state.favoritesCount = action.payload.favorites.length;
       })
       
-      .addCase(loginAction.fulfilled, (state, action) => {
-        state.favoritesCount = getFavoritiesCount(action.payload.offers);
-      })
+      // .addCase(loginAction.fulfilled, (state, action) => {
+      //   state.favoritesCount = getFavoritiesCount(action.payload.offers);
+      // })
       
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.favoritesCount = getFavoritiesCount(action.payload);
@@ -63,4 +67,4 @@ export const favoriteProcess = createSlice({
   }
 });
 
-export const { eraseFavoritesCount, changeFavoritesLoadingStatus, deleteFavorites, deleteFavorite } = favoriteProcess.actions;
+export const { eraseFavoritesCount, changeFavoritesLoadingStatus, deleteFavorites, deleteFavorite, setFavorites } = favoriteProcess.actions;

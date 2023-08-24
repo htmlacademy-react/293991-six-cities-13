@@ -1,6 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 import { City } from './types/city';
 import { Rating } from './types/rating';
+import { OfferShort } from './types/offer';
+import { AuthUser } from './types/auth-data';
+import { OfferDetailResponseData } from './types/offer-detail-response-data';
+import { Comment } from './types/offer-review';
+import { OfferFavoriteStatusResponseData } from './types/offer-favorite-status-response-data';
 
 export enum AppRoute {
   Root = '/',
@@ -71,6 +76,14 @@ export const CITIES: City[] = [
     location: {
       latitude: 50.938361,
       longitude: 6.959974,
+      zoom: 13
+    }
+  },
+  {
+    name: "Brussels",
+    location: {
+      latitude: 50.846557,
+      longitude: 4.351697,
       zoom: 13
     }
   },
@@ -160,3 +173,34 @@ export enum NameSpace {
 }
 
 export const ROUTE_REDIRECT = 'route/redirect';
+
+export const EMPTY_OFFERS_RESPONSE: OfferShort[] = [];
+export const EMPTY_FAVORITES_RESPONSE: OfferShort[] = [];
+export const EMPTY_AUTH_USER_RESPONSE: AuthUser = {
+  name: '',
+  avatarUrl: '',
+  isPro: '',
+  email: '',
+  token: '',
+}
+export const EMPTY_OFFER_DETAIL_RESPONSE: OfferDetailResponseData = {
+  offerDetail: null,
+  offerComments: [],
+  offersNearBy: []
+}
+export const EMPTY_COMMENT_RESPONSE: Comment = {
+  id: '',
+  comment: '',
+  date: '',
+  rating: 0,
+  user: {
+    isPro: false,
+    name: '',
+    avatarUrl: ''
+  }
+}
+
+export const EMPTY_OFFER_FAVORITE_STATUS_RESPONSE: OfferFavoriteStatusResponseData = {
+  currentOffer: null,
+  favorites: EMPTY_FAVORITES_RESPONSE
+}

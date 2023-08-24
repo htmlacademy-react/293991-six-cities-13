@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, FormControlToDisplayError } from '../../const';
 import { ChangeEvent, useState, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -19,7 +19,6 @@ function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const errorResponse = useAppSelector(getErrorResponse);
   const [randomCity, ] = useState<City>(getRandomCity());
-  const navigate = useNavigate();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   function handleEmailChange(evt: ChangeEvent<HTMLInputElement>) {
@@ -36,7 +35,6 @@ function LoginPage(): JSX.Element {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData) as AuthRequestData;
     dispatch(loginAction(data));
-    navigate(AppRoute.Root);
   }
 
   const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.EmailControl);

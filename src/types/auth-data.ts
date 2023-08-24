@@ -1,15 +1,12 @@
-import { OfferShort } from './offer';
-
 export type AuthRequestData = {
   email: string;
   password: string;
 };
 
-export type AuthResponseData = {
+export type AuthUser = {
   name: string;
   avatarUrl: string;
   isPro: string;
   email: string;
   token: string;
-  offers: OfferShort[];
-};
+}

@@ -26,7 +26,8 @@ function _PageHeader(): JSX.Element {
           </div>
           <nav className="header__nav">
             {
-              (authorizationStatus !== AuthorizationStatus.Unknown) && (authorizationStatus === AuthorizationStatus.Auth ? <LoggedUser/> : <LogginButton/>)
+              // (authorizationStatus !== AuthorizationStatus.Unknown) && (authorizationStatus === AuthorizationStatus.Auth ? <LoggedUser/> : <LogginButton/>)
+              authorizationStatus === AuthorizationStatus.Auth ? <LoggedUser/> : <LogginButton/>
             }
           </nav>
         </div>
