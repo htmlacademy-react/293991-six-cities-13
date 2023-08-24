@@ -2,7 +2,7 @@ import { Link, generatePath } from 'react-router-dom';
 import { AppRoute, OfferCardMode } from '../../const';
 import offerCardPremium from '../offer-card-premium/offer-card-premium';
 import cn from 'classnames';
-import { convertRatingToWidthPerc } from '../../utils/utils';
+import { capitalizeFirstLetter, convertRatingToWidthPerc } from '../../utils/utils';
 import 'react-toastify/dist/ReactToastify.css';
 import { memo } from 'react';
 import OfferFavoriteButton from '../offer-favorite-button/offer-favorite-button';
@@ -64,7 +64,7 @@ function _OfferCard({offer, mode}: OfferCardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={generatePath(AppRoute.Offer, {id: offer.id})} onClick={handleCardClick}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
       </div>
     </article>
   );

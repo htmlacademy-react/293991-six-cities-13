@@ -27,6 +27,7 @@ export const favoriteProcess = createSlice({
     },
     deleteFavorite: (state, action: PayloadAction<string>) => {
       state.favorites = [...state.favorites].reduce((accumulator: OfferShort[], curOffer: OfferShort) => (curOffer.id !== action.payload ? [...accumulator, curOffer] : [...accumulator]), []);
+      state.favoritesCount = getFavoritiesCount(state.favorites);
     },
     setFavorites: (state, action: PayloadAction<OfferShort[]>) => {
       state.favorites = action.payload;

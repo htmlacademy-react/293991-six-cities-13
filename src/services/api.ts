@@ -29,7 +29,6 @@ export const createAPI = ():AxiosInstance => {
     (response) => response,
     (error: AxiosError<ErrorResponse>) => {
       if (error.response && HTTP_CODES_TO_DISPLAY.includes(error.response.status)) {
-        console.log(error)
         store.dispatch(setError(error.response.data));
         if (error.response?.data?.errorType === COMMON_ERROR_TYPE && error.response.status !== StatusCodes.UNAUTHORIZED) {
           toast.error(error.response.data.message);

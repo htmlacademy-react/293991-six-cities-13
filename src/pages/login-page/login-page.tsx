@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link, Navigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, FormControlToDisplayError } from '../../const';
+import { AppRoute, AuthorizationStatus, FormControlToDisplayError, PASSWORD_MIN_LENGTH, PASSWORD_MUST_BE_LONGER_THEN, PASSWORD_NO_HAVE_LETTER_OR_NUMBER } from '../../const';
 import { ChangeEvent, useState, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
@@ -12,6 +12,8 @@ import { getErrorResponse } from '../../store/response-error-process/selectors';
 import { changeCity } from '../../store/offers-process/offers-process';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import { setError } from '../../store/response-error-process/response-error-process';
+import { ErrorResponse } from '../../types/error-response';
 
 function LoginPage(): JSX.Element {
   const [email, setEmail] = useState('');
@@ -31,10 +33,18 @@ function LoginPage(): JSX.Element {
 
   function handleFormSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
+
     const form = evt.currentTarget;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData) as AuthRequestData;
-    dispatch(loginAction(data));
+    
+    if (data.password.length < PASSWORD_MIN_LENGTH) {
+      dispatch(setError(PASSWORD_MUST_BE_LONGER_THEN))
+    } else if (/^\d+$/.test(data.password) || /^[a-zA-Z]+$/.test(data.password)) {
+      dispatch(setError(PASSWORD_NO_HAVE_LETTER_OR_NUMBER))
+    } else {
+      dispatch(loginAction(data));
+    }
   }
 
   const errorForEmail = extractErrorMessageForControl(errorResponse, FormControlToDisplayError.EmailControl);

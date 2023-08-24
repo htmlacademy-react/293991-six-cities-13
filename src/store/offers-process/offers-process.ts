@@ -36,6 +36,9 @@ export const offersProcess = createSlice({
     setOffersLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.areOffersLoading = action.payload;
     },
+    // deleteFavorite: (state, action: PayloadAction<string>) => {
+    //   state.offers = //[...state.favorites].reduce((accumulator: OfferShort[], curOffer: OfferShort) => (curOffer.id !== action.payload ? [...accumulator, curOffer] : [...accumulator]), []);
+    // },
   },
   extraReducers(builder) {
     builder

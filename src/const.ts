@@ -6,6 +6,7 @@ import { AuthUser } from './types/auth-data';
 import { OfferDetailResponseData } from './types/offer-detail-response-data';
 import { Comment } from './types/offer-review';
 import { OfferFavoriteStatusResponseData } from './types/offer-favorite-status-response-data';
+import { ErrorResponse } from './types/error-response';
 
 export enum AppRoute {
   Root = '/',
@@ -203,4 +204,33 @@ export const EMPTY_COMMENT_RESPONSE: Comment = {
 export const EMPTY_OFFER_FAVORITE_STATUS_RESPONSE: OfferFavoriteStatusResponseData = {
   currentOffer: null,
   favorites: EMPTY_FAVORITES_RESPONSE
+}
+
+export const PASSWORD_NO_HAVE_LETTER_OR_NUMBER: ErrorResponse = {
+  errorType: "VALIDATION_ERROR",
+  message: "Validation error: '/six-cities/login'",
+  details: [
+      {
+          property: "password",
+          value: "1",
+          messages: [
+              "Password no have letter or number!"
+          ]
+      }
+  ]
+}
+
+export const PASSWORD_MIN_LENGTH = 2;
+export const PASSWORD_MUST_BE_LONGER_THEN: ErrorResponse = {
+  errorType: "VALIDATION_ERROR",
+  message: "Validation error: '/six-cities/login'",
+  details: [
+      {
+          property: "password",
+          value: "1",
+          messages: [
+              "Password must be longer than or equal to 2 characters"
+          ]
+      }
+  ]
 }

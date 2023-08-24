@@ -45,6 +45,10 @@ function Map({mode, locations}: MapProps): JSX.Element {
           lat: location.latitude,
           lng: location.longitude
         });
+        
+        if (location.latitude === currentOffer?.location.latitude && location.longitude === currentOffer?.location.longitude) {
+          marker.options.interactive = false;
+        }
 
         marker
           .setIcon((location.latitude === currentOffer?.location.latitude && location.longitude === currentOffer?.location.longitude) ? currentCustomIcon : defaultCustomIcon)
