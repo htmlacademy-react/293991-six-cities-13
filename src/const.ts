@@ -1,6 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 import { City } from './types/city';
 import { Rating } from './types/rating';
+import { OfferShort } from './types/offer';
+import { AuthUser } from './types/auth-data';
+import { OfferDetailResponseData } from './types/offer-detail-response-data';
+import { Comment } from './types/offer-review';
+import { OfferFavoriteStatusResponseData } from './types/offer-favorite-status-response-data';
+import { ErrorResponse } from './types/error-response';
 
 export enum AppRoute {
   Root = '/',
@@ -44,13 +50,6 @@ export const RATINGS = [
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 300;
 
-export const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
-
-export const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
-
-
 export enum OfferCardMode {
   MainPage = 'MAIN_PAGE',
   NearPlaces = 'NEAR_PLACES',
@@ -71,6 +70,14 @@ export const CITIES: City[] = [
     location: {
       latitude: 50.938361,
       longitude: 6.959974,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Brussels',
+    location: {
+      latitude: 50.846557,
+      longitude: 4.351697,
       zoom: 13
     }
   },
@@ -160,3 +167,63 @@ export enum NameSpace {
 }
 
 export const ROUTE_REDIRECT = 'route/redirect';
+
+export const EMPTY_OFFERS_RESPONSE: OfferShort[] = [];
+export const EMPTY_FAVORITES_RESPONSE: OfferShort[] = [];
+export const EMPTY_AUTH_USER_RESPONSE: AuthUser = {
+  name: '',
+  avatarUrl: '',
+  isPro: '',
+  email: '',
+  token: '',
+};
+export const EMPTY_OFFER_DETAIL_RESPONSE: OfferDetailResponseData = {
+  offerDetail: null,
+  offerComments: [],
+  offersNearBy: []
+};
+export const EMPTY_COMMENT_RESPONSE: Comment = {
+  id: '',
+  comment: '',
+  date: '',
+  rating: 0,
+  user: {
+    isPro: false,
+    name: '',
+    avatarUrl: ''
+  }
+};
+
+export const EMPTY_OFFER_FAVORITE_STATUS_RESPONSE: OfferFavoriteStatusResponseData = {
+  currentOffer: null,
+  favorites: EMPTY_FAVORITES_RESPONSE
+};
+
+export const PASSWORD_NO_HAVE_LETTER_OR_NUMBER: ErrorResponse = {
+  errorType: 'VALIDATION_ERROR',
+  message: 'Validation error: \'/six-cities/login\'',
+  details: [
+    {
+      property: 'password',
+      value: '1',
+      messages: [
+        'Password no have letter or number!'
+      ]
+    }
+  ]
+};
+
+export const PASSWORD_MIN_LENGTH = 2;
+export const PASSWORD_MUST_BE_LONGER_THEN: ErrorResponse = {
+  errorType: 'VALIDATION_ERROR',
+  message: 'Validation error: \'/six-cities/login\'',
+  details: [
+    {
+      property: 'password',
+      value: '1',
+      messages: [
+        'Password must be longer than or equal to 2 characters'
+      ]
+    }
+  ]
+};

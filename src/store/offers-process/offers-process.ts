@@ -28,7 +28,17 @@ export const offersProcess = createSlice({
     deleteOffers: (state) => {
       state.offers = [];
       state.offersByCity = [];
-    }
+    },
+    setOffers: (state, action: PayloadAction<OfferShort[]>) => {
+      state.offers = action.payload;
+      state.offersByCity = getOffersByCity<OfferShort>(state.offers, state.activeCity.name);
+    },
+    setOffersLoadingStatus: (state, action: PayloadAction<boolean>) => {
+      state.areOffersLoading = action.payload;
+    },
+    // deleteFavorite: (state, action: PayloadAction<string>) => {
+    //   state.offers = //[...state.favorites].reduce((accumulator: OfferShort[], curOffer: OfferShort) => (curOffer.id !== action.payload ? [...accumulator, curOffer] : [...accumulator]), []);
+    // },
   },
   extraReducers(builder) {
     builder
@@ -47,9 +57,7 @@ export const offersProcess = createSlice({
       .addCase(loginAction.pending, (state) => {
         state.areOffersLoading = true;
       })
-      .addCase(loginAction.fulfilled, (state, action) => {
-        state.offers = action.payload.offers;
-        state.offersByCity = getOffersByCity<OfferShort>(state.offers, state.activeCity.name);
+      .addCase(loginAction.fulfilled, (state) => {
         state.areOffersLoading = false;
       })
       .addCase(loginAction.rejected, (state) => {
@@ -62,10 +70,12 @@ export const offersProcess = createSlice({
       })
 
       .addCase(changeOfferFavoriteStatusAction.fulfilled, (state, action) => {
-        state.offers = updateOfferFavoriteStatus(state.offers, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
-        state.offersByCity = updateOfferFavoriteStatus(state.offersByCity, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
+        if (action.payload.currentOffer !== null) {
+          state.offers = updateOfferFavoriteStatus(state.offers, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
+          state.offersByCity = updateOfferFavoriteStatus(state.offersByCity, action.payload.currentOffer.id, action.payload.currentOffer.isFavorite);
+        }
       });
   }
 });
 
-export const {changeCity, changeSortType, deleteOffers} = offersProcess.actions;
+export const {changeCity, changeSortType, deleteOffers, setOffers, setOffersLoadingStatus} = offersProcess.actions;

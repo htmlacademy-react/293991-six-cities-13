@@ -9,23 +9,20 @@ import RequireAuth from '../require-auth/require-auth';
 import { HelmetProvider } from 'react-helmet-async';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
-import { fetchFavoritesAction, fetchOffersAction } from '../../services/api-actions';
+import { checkAuthAction, fetchOffersAction } from '../../services/api-actions';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { deleteOffers } from '../../store/offers-process/offers-process';
-import { deleteFavorites } from '../../store/favorite-process/favorite-process';
-
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(checkAuthAction());
     dispatch(fetchOffersAction());
-    dispatch(fetchFavoritesAction());
 
     return () => {
       dispatch(deleteOffers());
-      dispatch(deleteFavorites());
     };
   }, [dispatch]);
 

@@ -1,6 +1,6 @@
 import { OfferDetail, OfferShort } from './offer';
 
 export type OfferFavoriteStatusResponseData = {
-  currentOffer: OfferDetail;
+  currentOffer: OfferDetail | null;
   favorites: OfferShort[];
 }

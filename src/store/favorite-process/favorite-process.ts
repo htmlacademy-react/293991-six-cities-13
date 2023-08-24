@@ -2,7 +2,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { FavoriteProcess } from '../../types/state';
 import { OfferShort } from '../../types/offer';
-import { changeOfferFavoriteStatusAction, fetchFavoritesAction, fetchFavoritesCountAction, logoutAction } from '../../services/api-actions';
+import { changeOfferFavoriteStatusAction, fetchFavoritesAction, fetchOffersAction, logoutAction } from '../../services/api-actions';
+import { getFavoritiesCount } from '../../utils/utils';
 
 
 const initialState: FavoriteProcess = {
@@ -24,9 +25,14 @@ export const favoriteProcess = createSlice({
     deleteFavorites: (state) => {
       state.favorites = [];
     },
-    deleteFavorite: (state, action) => {
+    deleteFavorite: (state, action: PayloadAction<string>) => {
       state.favorites = [...state.favorites].reduce((accumulator: OfferShort[], curOffer: OfferShort) => (curOffer.id !== action.payload ? [...accumulator, curOffer] : [...accumulator]), []);
-    }
+      state.favoritesCount = getFavoritiesCount(state.favorites);
+    },
+    setFavorites: (state, action: PayloadAction<OfferShort[]>) => {
+      state.favorites = action.payload;
+      state.favoritesCount = getFavoritiesCount(action.payload);
+    },
   },
   extraReducers(builder) {
     builder
@@ -47,15 +53,15 @@ export const favoriteProcess = createSlice({
         state.favorites = [];
       })
 
-      .addCase(fetchFavoritesCountAction.fulfilled, (state, action) => {
-        state.favoritesCount = action.payload;
-      })
-
       .addCase(changeOfferFavoriteStatusAction.fulfilled, (state, action) => {
         state.favorites = action.payload.favorites;
         state.favoritesCount = action.payload.favorites.length;
+      })
+
+      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+        state.favoritesCount = getFavoritiesCount(action.payload);
       });
   }
 });
 
-export const { eraseFavoritesCount, changeFavoritesLoadingStatus, deleteFavorites, deleteFavorite } = favoriteProcess.actions;
+export const { eraseFavoritesCount, changeFavoritesLoadingStatus, deleteFavorites, deleteFavorite, setFavorites } = favoriteProcess.actions;
