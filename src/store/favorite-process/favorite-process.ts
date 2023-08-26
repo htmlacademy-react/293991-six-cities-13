@@ -3,7 +3,7 @@ import { NameSpace } from '../../const';
 import { FavoriteProcess } from '../../types/state';
 import { OfferShort } from '../../types/offer';
 import { changeOfferFavoriteStatusAction, fetchFavoritesAction, fetchOffersAction, logoutAction } from '../../services/api-actions';
-import { getFavoritiesCount } from '../../utils/utils';
+import { getFavoritesCount } from '../../utils/utils';
 
 
 const initialState: FavoriteProcess = {
@@ -27,11 +27,11 @@ export const favoriteProcess = createSlice({
     },
     deleteFavorite: (state, action: PayloadAction<string>) => {
       state.favorites = [...state.favorites].reduce((accumulator: OfferShort[], curOffer: OfferShort) => (curOffer.id !== action.payload ? [...accumulator, curOffer] : [...accumulator]), []);
-      state.favoritesCount = getFavoritiesCount(state.favorites);
+      state.favoritesCount = getFavoritesCount(state.favorites);
     },
     setFavorites: (state, action: PayloadAction<OfferShort[]>) => {
       state.favorites = action.payload;
-      state.favoritesCount = getFavoritiesCount(action.payload);
+      state.favoritesCount = getFavoritesCount(action.payload);
     },
   },
   extraReducers(builder) {
@@ -59,7 +59,7 @@ export const favoriteProcess = createSlice({
       })
 
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
-        state.favoritesCount = getFavoritiesCount(action.payload);
+        state.favoritesCount = getFavoritesCount(action.payload);
       });
   }
 });

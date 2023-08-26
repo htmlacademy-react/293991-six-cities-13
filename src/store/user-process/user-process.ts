@@ -32,10 +32,6 @@ export const userProcess = createSlice({
         deleteToken();
       })
 
-      // .addCase(loginAction.fulfilled, (state, action) => {
-      //   state.authorizationStatus = action.payload.authorizationStatus;
-      //   state.userEmail = action.payload.email;
-      // })
       .addCase(loginAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.userEmail = '';
