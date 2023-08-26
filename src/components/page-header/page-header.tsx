@@ -5,21 +5,12 @@ import LoggedUser from '../logged-user/logged-user';
 import LogginButton from '../loggin-button/loggin-button';
 import { Link } from 'react-router-dom';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import cn from 'classnames';
 
-type PageHeaderProps = {
-  isFavoritesEmptyPage?: boolean;
-}
-
-function _PageHeader({isFavoritesEmptyPage = false}: PageHeaderProps): JSX.Element {
+function _PageHeader(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
-    <header className={cn(
-      'header',
-      {'page--favorites-empty': isFavoritesEmptyPage}
-    )}
-    >
+    <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">

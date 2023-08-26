@@ -111,7 +111,7 @@ export function getRandomCity(): City {
   return CITIES[(Math.floor(Math.random() * CITIES.length))];
 }
 
-export function getFavoritiesCount(offers: OfferShort[]): number {
+export function getFavoritesCount(offers: OfferShort[]): number {
   return offers.reduce((accumulator: number, curOffer: OfferShort) => (curOffer.isFavorite ? accumulator + 1 : accumulator), 0);
 }
 

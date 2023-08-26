@@ -9,11 +9,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import { fetchFavoritesAction } from '../../services/api-actions';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
-import { getAreFavoritesLoading, getFavorites } from '../../store/favorite-process/selectors';
+import { getAreFavoritesLoading, getFavorites, getFavoritesCount } from '../../store/favorite-process/selectors';
 import { changeFavoritesLoadingStatus, deleteFavorites } from '../../store/favorite-process/favorite-process';
+import cn from 'classnames';
 
 function FavoritiesPage(): JSX.Element {
   const favorites = useAppSelector(getFavorites);
+  const favoritesCount = useAppSelector(getFavoritesCount);
   const areFavoritesLoading = useAppSelector(getAreFavoritesLoading);
   const dispatch = useAppDispatch();
   const groupedOffersByCityName = groupOffersByCityName<OfferShort>(favorites);
@@ -58,11 +60,15 @@ function FavoritiesPage(): JSX.Element {
   }
 
   return (
-    <div className="page">
+    <div className={cn(
+      'page',
+      {'page--favorites-empty': favoritesCount === 0}
+    )}
+    >
       <Helmet>
         <title>6 cities. Favorites</title>
       </Helmet>
-      <PageHeader isFavoritesEmptyPage/>
+      <PageHeader/>
       {
         areFavoritesLoading ?
           <LoadingSpinner/> :
